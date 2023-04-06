@@ -31,7 +31,7 @@ router.post('/login', async function(req, res, next) {
       }
       else
       {
-        res.redirect("/?msg=fail")
+        res.redirect("/passlogin/?msg=fail")
       }
     }
     else

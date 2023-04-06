@@ -1,6 +1,10 @@
 <style>
-  .navbar-custom {
+.navbar-custom {
     background-color: #000000 !important;
+}
+
+.nav-link:hover {
+    color:  #FEC325 !important;
 }
 
 </style>
@@ -21,6 +25,16 @@
           <li class="nav-item">
             <a class="nav-link active" href="/about">About</a>
           </li>
+          <% if (isAdmin) { %>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">National Summary</a>
+            </li>
+          <% } %>
+          <% if (isUnitLeader) { %>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Unit Summary</a>
+            </li>
+          <% } %>
         </ul>
         <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
           <li class="nav-item">

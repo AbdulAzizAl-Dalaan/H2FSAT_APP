@@ -6,10 +6,13 @@ var logger = require('morgan');
 const session = require('express-session')
 const sequelize = require('./db');
 const User = require('./models/User')
+const H2F_Q = require('./models/H2F/H2F_Q')
+const H2F_A = require('./models/H2F/H2F_A')
 
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
+var h2fRouter = require('./routes/h2f');
 
 
 var app = express();
@@ -35,6 +38,7 @@ app.use(session({
 app.use('/', indexRouter);
 app.use('/home', homeRouter);
 app.use('/about', aboutRouter);
+app.use('/h2f', h2fRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,10 +56,31 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// question: "How long should you cool down after a workout?"}
+// question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"
+
 async function setup() {
+
   const user = await User.create({firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt"})
   const unitleader = await User.create({firstname: "Jane", lastname: "Doe", unit: "1st", email: "unit", rank: "SSgt", password: '1234', isUnitLeader: true})
   const admin = await User.create({firstname: "Brian", lastname: "Harder", unit: "1st", email: "admin", rank: "Cpt", password: '1234', isAdmin: true})
+
+  const h2f_q1 = await H2F_Q.create({qid: 1, question: "How long should you cool down after a workout?"})
+  const h2f_a1 = await H2F_A.create({qid: 1, aid: 1, answer: "30 minutes", correct: false})
+  const h2f_a2 = await H2F_A.create({qid: 1, aid: 2, answer: "75 minutes", correct: false})
+  const h2f_a3 = await H2F_A.create({qid: 1, aid: 3, answer: "300 minutes", correct: false})
+  const h2f_a4 = await H2F_A.create({qid: 1, aid: 4, answer: "150 minutes", correct: true})
+
+  const h2f_q2 = await H2F_Q.create({qid: 2, question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"})
+  const h2f_a5 = await H2F_A.create({qid: 2, aid: 5, answer: "Slowly reducing heart rate", correct: false})
+  const h2f_a6 = await H2F_A.create({qid: 2, aid: 6, answer: "Preventing blood pooling in the extremities", correct: false})
+  const h2f_a7 = await H2F_A.create({qid: 2, aid: 7, answer: "Increase the body's ability to burn fat", correct: false})
+  const h2f_a8 = await H2F_A.create({qid: 2, aid: 8, answer: "Enhancing Flexibility and range of motion", correct: true})
+
+  const h2f_q3 = await H2F_Q.create({qid: 3, question: "Body composition and Body Mass Index (BMI) are the same thing."})
+  const h2f_a9 = await H2F_A.create({qid: 3, aid: 9, answer: "True", correct: false})
+  const h2f_a10 = await H2F_A.create({qid: 3, aid: 10, answer: "False", correct: true})
+
   console.log("User created")
 }
 
