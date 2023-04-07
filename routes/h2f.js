@@ -2,6 +2,7 @@ var express = require('express');
 const User = require('../models/User')
 const H2F_Q = require('../models/H2F/H2F_Q')
 const H2F_A = require('../models/H2F/H2F_A')
+const H2F_R = require('../models/H2F/H2F_R')
 var router = express.Router();
 
 
@@ -26,41 +27,43 @@ const sessionChecker = (req, res, next) => {
 router.use(sessionChecker)
 
 router.get('/', async function(req, res, next) {
-  if(req.query.msg)
-  {
-    res.locals.msg = req.query.msg
-  }
   const questions = await H2F_Q.findAll()
   const answers = await H2F_A.findAll()
-
-  // iteration through questions using foreach
-    questions.forEach((question) => {
-        // iteration through answers using foreach
-        console.log(question.question)
-        answers.forEach((answer) => {
-            // if question id is equal to answer question id
-            //console.log(typeof question.qid)
-            //console.log(typeof answer.qid)
-            if (question.qid === answer.qid) {
-                // add answer to question
-                console.log(answer.answer)
-            }
-        });
-    });
-  
   res.render('h2f', {questions, answers});
 });
 
-router.get("/:qid", async function(req, res, next) {
-    const question = await H2F_Q.findOne({ where: { qid: req.params.qid } });
-    if(question)
+router.post('/submit', async function(req, res, next) {
+  if (req.query.msg)
+  {
+    res.locals.msg = req.query.msg
+  }
+  const user = await User.findByPk(req.session.user.email);
+  if (user !== null)
+  {
+    const results = await H2F_R.findAll({where: {email: user.email}})
+    if (results !== null)
     {
-      res.render('h2f_question', { question });
+      res.redirect('/h2f/?msg=already')
     }
-    else
+    else 
     {
-      res.redirect('/h2f/?msg=course+not+found&?qid=' + req.params.courseid)
+      const answers = await H2F_A.findAll({where: {correct: true}})
+      answers.forEach((answer) => {
+        console.log(req.body[answer.qid], answer.aid)
+        if (req.body[answer.qid] === answer.aid)
+        {
+          console.log("Correct")
+        }
+    
+      });
+
     }
-  });
+  }
+  else
+  {
+    res.redirect('/?msg=raf')
+  }
+});
+
 
 module.exports = router;

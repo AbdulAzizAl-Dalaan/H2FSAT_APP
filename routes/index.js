@@ -14,6 +14,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/passlogin', async function(req, res, next) {
+  if(req.query.msg)
+  {
+    res.locals.msg = req.query.msg
+  }
   res.render('passlogin');
 });
 

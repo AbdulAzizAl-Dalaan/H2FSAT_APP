@@ -33,10 +33,6 @@ router.get('/', async function(req, res, next) {
 
 
 router.get('/h2f', async function(req, res, next) {
-  if (req.query.msg)
-  {
-    res.locals.msg = req.query.msg
-  }
   res.redirect('h2f');
 });
 

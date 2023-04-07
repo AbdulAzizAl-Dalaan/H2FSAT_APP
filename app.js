@@ -8,6 +8,7 @@ const sequelize = require('./db');
 const User = require('./models/User')
 const H2F_Q = require('./models/H2F/H2F_Q')
 const H2F_A = require('./models/H2F/H2F_A')
+const H2F_R = require('./models/H2F/H2F_R')
 
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
