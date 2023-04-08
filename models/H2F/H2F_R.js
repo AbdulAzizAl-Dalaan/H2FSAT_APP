@@ -9,9 +9,14 @@ H2F_R.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
-    reasult_dict: 
+    results: 
     {
         type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    score:
+    {
+        type: DataTypes.FLOAT,
         allowNull: false,
     }
 }, { 

@@ -41,22 +41,28 @@ router.post('/submit', async function(req, res, next) {
   if (user !== null)
   {
     const results = await H2F_R.findAll({where: {email: user.email}})
-    if (results !== null)
+    if (results.length !== 0)
     {
       res.redirect('/h2f/?msg=already')
     }
     else 
     {
       const answers = await H2F_A.findAll({where: {correct: true}})
+      let results = {}
+      let score = 0
       answers.forEach((answer) => {
-        console.log(req.body[answer.qid], answer.aid)
-        if (req.body[answer.qid] === answer.aid)
+        // console.log(req.body[answer.qid], answer.answer)
+        // console.log(req.body[answer.qid] === answer.answer)
+        if (req.body[answer.qid] === answer.answer)
         {
-          console.log("Correct")
+          score += 1
         }
-    
+        results[answer.qid] = req.body[answer.qid]
       });
-
+      console.log(results)
+      console.log(score)
+      const result = await H2F_R.create({ email: user.email, results: JSON.stringify(results), score: score })
+      res.redirect('/home/?msg=success')
     }
   }
   else

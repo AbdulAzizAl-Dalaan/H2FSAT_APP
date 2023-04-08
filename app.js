@@ -75,12 +75,14 @@ async function setup() {
   const h2f_q2 = await H2F_Q.create({qid: 2, question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"})
   const h2f_a5 = await H2F_A.create({qid: 2, aid: 5, answer: "Slowly reducing heart rate", correct: false})
   const h2f_a6 = await H2F_A.create({qid: 2, aid: 6, answer: "Preventing blood pooling in the extremities", correct: false})
-  const h2f_a7 = await H2F_A.create({qid: 2, aid: 7, answer: "Increase the body's ability to burn fat", correct: false})
-  const h2f_a8 = await H2F_A.create({qid: 2, aid: 8, answer: "Enhancing Flexibility and range of motion", correct: true})
+  const h2f_a7 = await H2F_A.create({qid: 2, aid: 7, answer: "Increase the body's ability to burn fat", correct: true})
+  const h2f_a8 = await H2F_A.create({qid: 2, aid: 8, answer: "Enhancing Flexibility and range of motion", correct: false})
 
   const h2f_q3 = await H2F_Q.create({qid: 3, question: "Body composition and Body Mass Index (BMI) are the same thing."})
   const h2f_a9 = await H2F_A.create({qid: 3, aid: 9, answer: "True", correct: false})
   const h2f_a10 = await H2F_A.create({qid: 3, aid: 10, answer: "False", correct: true})
+
+  //const h2f_r1 = await H2F_R.create({email: "user", result_dict: "{1: 4, 2: 8, 3: 10}"})
 
   console.log("User created")
 }
