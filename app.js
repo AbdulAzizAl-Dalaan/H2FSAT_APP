@@ -95,6 +95,7 @@ async function setup() {
   const user1_res = await H2F_R.create({email: "user1", unit: "1st",results: "{1: 4, 2: 5, 3: 9, 4: 11}", score: 1})
   const user2_res = await H2F_R.create({email: "user2", unit: "1st",results: "{1: 1, 2: 8, 3: 10, 4: 12}", score: 2})
   const user3_res = await H2F_R.create({email: "user3", unit: "1st",results: "{1: 4, 2: 7, 3: 10, 4: 11}", score: 3})
+  const user4 = await User.create({firstname: "John", lastname: "Smith", unit: "1st", email: "user4", rank: "Cpl"})
 
   console.log("Data Entered")
 }

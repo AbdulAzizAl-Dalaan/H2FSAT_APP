@@ -35,9 +35,26 @@ router.get('/', async function(req, res, next) {
     const users = await User.findAll({where: {unit: req.session.user.unit}})
     const h2f_results = await H2F_R.findAll({where: {unit: req.session.user.unit}})
     // merge the two on email
-    
-
-    res.render('unitsummary', {h2f_results});
+    let total_results = []
+    for (let i = 0; i < users.length; i++)
+    {
+        let user = users[i]
+        let h2f_result = await H2F_R.findOne({where: {email: user.email}})
+        let h2f_score = "N/A"
+        if (h2f_result !== null) {
+            h2f_score = h2f_result.score
+        }
+        total_results.push(
+            {
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+                rank: user.rank,
+                h2f_score: h2f_score
+            }
+        )
+    }
+    res.render('unitsummary', {total_results});
 });
 
 module.exports = router;

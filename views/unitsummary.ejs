@@ -36,15 +36,21 @@
             <table id="datatable" class="table">
                 <thead class="table-dark">
                     <tr>
+                        <th scope="col">Firstname</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Rank</th>
                         <th scope="col">Email</th>
                         <th scope="col">H2F Score</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% h2f_results.forEach(result => { %>
+                    <% total_results.forEach(result => { %>
                         <tr>
+                            <td><%= result.firstname %></td>
+                            <td><%= result.lastname %></td>
+                            <td><%= result.rank %></td>
                             <td><%= result.email %></td>
-                            <td><%= result.score %></td>
+                            <td><%= result.h2f_score %></td>
                         </tr>
                     <% }) %>
                 </tbody>
