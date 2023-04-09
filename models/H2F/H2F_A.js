@@ -8,11 +8,6 @@ H2F_A.init({
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    aid: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true
-    },
     answer: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -33,7 +33,6 @@ router.get('/', async function(req, res, next) {
     */
     
     const users = await User.findAll({where: {unit: req.session.user.unit}})
-    const h2f_results = await H2F_R.findAll({where: {unit: req.session.user.unit}})
     // merge the two on email
     let total_results = []
     for (let i = 0; i < users.length; i++)

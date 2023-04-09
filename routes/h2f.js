@@ -67,8 +67,6 @@ router.post('/submit', async function(req, res, next) {
         }
         results[answer.qid] = req.body[answer.qid]
       });
-      console.log(results)
-      console.log(score)
       const result = await H2F_R.create({ email: user.email, unit: user.unit, results: JSON.stringify(results), score: score })
       res.redirect('/home/?msg=success')
     }

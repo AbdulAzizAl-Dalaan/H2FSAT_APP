@@ -51,38 +51,6 @@ router.post('/login', async function(req, res, next) {
 
 });
 
-router.get('/register', function(req, res, next) {
-  res.render('register');
-});
-
-router.post('/register', async function(req, res, next) {
-  const user = await User.findByPk(req.body.username);
-  const email = await User.findOne({where: {email: req.body.email}})
-  if(user !== null)
-  {
-    console.log("User Already Exists: " + req.body.username);
-    res.redirect('/register?msg=username+already+exists')
-  }
-  else if (email !== null)
-  {
-    console.log("Email Already Exists: " + req.body.email);
-    res.redirect('/register?msg=email+already+exists')
-  }
-  else
-  {
-    console.log("Creating User: " + req.body.username)
-    await User.create({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        number: req.body.number
-    })
-    res.redirect('/')
-  }
-});
-
 router.get('/logout', function(req, res, next) {
   if (req.session.user)
   {
@@ -122,7 +90,7 @@ router.post('/forgotpassword', async function(req, res, next) {
           email: req.body.email
         }
       })
-      res.redirect('/?msg=password+updated')
+      res.redirect('/passlogin?msg=success')
     }
   }
 });

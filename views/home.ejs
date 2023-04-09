@@ -25,9 +25,11 @@
 <%- include('header') %>
 <%- include("appmsg") %>
 <div class="content">
-  <h2>Welcome to H2F <%= rank %> <%= firstname %> <%= lastname %></h2>
+  <h2>Welcome to the H2FSAT <%= rank %> <%= firstname %> <%= lastname %></h2>
   <p>
-    Any user should be able to visit the home page. The home page for anonymous, non-logged in users will display trending quizzes. The home page for logged in users will display trending quizzes, recommended quizzes, and friend activity.
+    H2F is designed to optimize Soldier personal readiness, reduce injury rates, improve rehabilitation after injury, and increase the overall effectiveness of the Total Army.
+    These assessment tools are designed to help you identify your strengths and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of 
+    the Army National Guard along with the PHA.
   </p>
 
   <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -52,9 +54,14 @@
       <div class="card h-100">
         <img src="..." class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Cognitive Performance</h5>
+          <h5 class="card-title">Cognitive Performance Assessment</h5>
           <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
         </div>
+        <form method="get" action="/cpa">
+          <div class="form-group">
+            <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -66,6 +73,11 @@
           <h5 class="card-title">Fuctional Movement Screening</h5>
           <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
         </div>
+        <form method="get" action="/fms">
+          <div class="form-group">
+            <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

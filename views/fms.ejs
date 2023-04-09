@@ -23,20 +23,12 @@
 <body>
 <%- include('header') %>
 <div class="content">
-  <h2>H2F Assessment Knowledge Check</h2>
+  <h2>Fuctional Movement Screening</h2>
   <p>
     Add a description of the assessment here.
   </p>
-  <form method="post" action="/h2f/submit">
-    <% questions.forEach(question => { %>
-      <h4> <%= question.question %> </h1>
-      <% answers.forEach(answer => { %>
-          <% if (answer.qid == question.qid) { %>
-              <input type="radio" id="answer" name="<%= question.qid %>" value="<%= answer.answer %>">
-              <label for="answer"><%= answer.answer %></label><br>
-          <% } %>
-      <% }) %>
-    <% }) %>
+  <form method="post" action="/cpa/submit">
+    <!-- ADD EJS TAGS HERE BASED ON YOUR ASSESSMENT -->
     <input type="submit" value="Submit">
   </form>
   </div>

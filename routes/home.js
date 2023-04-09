@@ -38,6 +38,14 @@ router.get('/unitsummary', async function(req, res, next) {
   res.redirect('unitsummary');
 });
 
+router.get('/cpa', async function(req, res, next) {
+  res.redirect('cpa');
+});
+
+router.get('/fms', async function(req, res, next) {
+  res.redirect('fms');
+});
+
 
 
 module.exports = router;
