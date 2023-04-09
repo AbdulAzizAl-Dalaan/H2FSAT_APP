@@ -16,13 +16,14 @@
       {
         max-width: 1000px;
         margin: auto;
+        margin-top: 20px;
       }
 
     </style>
 </head>
 <body>
 <%- include('header') %>
-
+<%- include("appmsg") %>
 <div class="content">
   <h2>Welcome to H2F <%= rank %> <%= firstname %> <%= lastname %></h2>
   <p>
@@ -35,7 +36,7 @@
       <div class="card h-100">
         <img src="/images/h2f_card.png.." class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Holistic Health and Fitness</h5>
+          <h5 class="card-title">Holistic Health and Fitness (H2F) Knowledge Check</h5>
           <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
         </div>
         <form method="get" action="/h2f">

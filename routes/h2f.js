@@ -27,9 +27,17 @@ const sessionChecker = (req, res, next) => {
 router.use(sessionChecker)
 
 router.get('/', async function(req, res, next) {
-  const questions = await H2F_Q.findAll()
-  const answers = await H2F_A.findAll()
-  res.render('h2f', {questions, answers});
+  const results = await H2F_R.findAll({where: {email: req.session.user.email}})
+  if (results.length === 0)
+  {
+    const questions = await H2F_Q.findAll()
+    const answers = await H2F_A.findAll()
+    res.render('h2f', {questions, answers});
+  }
+  else
+  {
+    res.redirect('/home/?msg=already')
+  }
 });
 
 router.post('/submit', async function(req, res, next) {
@@ -61,7 +69,7 @@ router.post('/submit', async function(req, res, next) {
       });
       console.log(results)
       console.log(score)
-      const result = await H2F_R.create({ email: user.email, results: JSON.stringify(results), score: score })
+      const result = await H2F_R.create({ email: user.email, unit: user.unit, results: JSON.stringify(results), score: score })
       res.redirect('/home/?msg=success')
     }
   }

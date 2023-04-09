@@ -8,6 +8,12 @@ H2F_R.init({
     {
         type: DataTypes.STRING,
         allowNull: false,
+        primaryKey: true
+    },
+    unit:
+    {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     results: 
     {

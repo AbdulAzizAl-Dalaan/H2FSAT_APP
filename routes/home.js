@@ -21,7 +21,6 @@ const sessionChecker = (req, res, next) => {
 
 router.use(sessionChecker)
 
-
 router.get('/', async function(req, res, next) {
   if (req.query.msg)
   {
@@ -31,9 +30,14 @@ router.get('/', async function(req, res, next) {
   res.render('home');
 });
 
-
 router.get('/h2f', async function(req, res, next) {
   res.redirect('h2f');
 });
+
+router.get('/unitsummary', async function(req, res, next) {
+  res.redirect('unitsummary');
+});
+
+
 
 module.exports = router;

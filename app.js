@@ -14,6 +14,7 @@ var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
 var h2fRouter = require('./routes/h2f');
+var unitsummary = require('./routes/unitsummary');
 
 
 var app = express();
@@ -40,6 +41,7 @@ app.use('/', indexRouter);
 app.use('/home', homeRouter);
 app.use('/about', aboutRouter);
 app.use('/h2f', h2fRouter);
+app.use('/unitsummary', unitsummary);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -82,12 +84,22 @@ async function setup() {
   const h2f_a9 = await H2F_A.create({qid: 3, aid: 9, answer: "True", correct: false})
   const h2f_a10 = await H2F_A.create({qid: 3, aid: 10, answer: "False", correct: true})
 
-  //const h2f_r1 = await H2F_R.create({email: "user", result_dict: "{1: 4, 2: 8, 3: 10}"})
+  const h2f_q4 = await H2F_Q.create({qid: 4, question: "Static stretching should be done before a workout."})
+  const h2f_a11 = await H2F_A.create({qid: 4, aid: 11, answer: "True", correct: false})
+  const h2f_a12 = await H2F_A.create({qid: 4, aid: 12, answer: "False", correct: true})
 
-  console.log("User created")
+  const user1 = await User.create({firstname: "Jack", lastname: "Doe", unit: "1st", email: "user1", rank: "Pvt"})
+  const user2 = await User.create({firstname: "Jill", lastname: "Shawn", unit: "1st", email: "user2", rank: "Pvt"})
+  const user3 = await User.create({firstname: "Joe", lastname: "Johnson", unit: "1st", email: "user3", rank: "Sgt"})
+
+  const user1_res = await H2F_R.create({email: "user1", unit: "1st",results: "{1: 4, 2: 5, 3: 9, 4: 11}", score: 1})
+  const user2_res = await H2F_R.create({email: "user2", unit: "1st",results: "{1: 1, 2: 8, 3: 10, 4: 12}", score: 2})
+  const user3_res = await H2F_R.create({email: "user3", unit: "1st",results: "{1: 4, 2: 7, 3: 10, 4: 11}", score: 3})
+
+  console.log("Data Entered")
 }
 
-sequelize.sync({force: true}).then(()=>{
+sequelize.sync({force: true, alter: true}).then(()=>{
   console.log("Database synced")
   setup().then(()=>console.log("Setup completed"))
 })

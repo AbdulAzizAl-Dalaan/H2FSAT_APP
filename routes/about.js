@@ -24,10 +24,6 @@ const sessionChecker = (req, res, next) => {
 router.use(sessionChecker)
 
 router.get('/', function(req, res, next) {
-  if(req.query.msg)
-  {
-    res.locals.msg = req.query.msg
-  }
   res.render('about');
 });
 
