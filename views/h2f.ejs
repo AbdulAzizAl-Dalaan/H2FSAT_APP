@@ -32,7 +32,7 @@
       <h4> <%= question.question %> </h1>
       <% answers.forEach(answer => { %>
           <% if (answer.qid == question.qid) { %>
-              <input type="radio" id="answer" name="<%= question.qid %>" value="<%= answer.answer %>">
+              <input type="radio" id="answer" required name="<%= question.qid %>" value="<%= answer.answer %>">
               <label for="answer"><%= answer.answer %></label><br>
           <% } %>
       <% }) %>

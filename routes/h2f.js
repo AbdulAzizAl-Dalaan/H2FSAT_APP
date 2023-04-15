@@ -3,6 +3,7 @@ const User = require('../models/User')
 const H2F_Q = require('../models/H2F/H2F_Q')
 const H2F_A = require('../models/H2F/H2F_A')
 const H2F_R = require('../models/H2F/H2F_R')
+const { Op } = require('sequelize')
 var router = express.Router();
 
 
@@ -55,19 +56,37 @@ router.post('/submit', async function(req, res, next) {
     }
     else 
     {
-      const answers = await H2F_A.findAll({where: {correct: true}})
-      let results = {}
+      const questions = await H2F_Q.findAll()
+      const answers = await H2F_A.findAll()
+      question_to_answers = {}
+      answer_to_aid = {}
+      answers.forEach(answer => { // 38
+        answer_to_aid[answer.answer] = [answer.aid, answer.correct] 
+        if (question_to_answers[answer.qid])
+        {
+          question_to_answers[answer.qid].push(answer.answer)
+        }
+        else
+        {
+          question_to_answers[answer.qid] =  [answer.answer]
+        }
+      });
+      let my_results = {}
       let score = 0
-      answers.forEach((answer) => {
-        // console.log(req.body[answer.qid], answer.answer)
-        // console.log(req.body[answer.qid] === answer.answer)
-        if (req.body[answer.qid] === answer.answer)
+
+      for (let i = 1; i < questions.length + 1; i++) // 10
+      {
+        let qid = i
+        let answer = req.body[qid]
+        let aid = answer_to_aid[answer][0]
+        let correct = answer_to_aid[answer][1]
+        if (correct)
         {
           score += 1
         }
-        results[answer.qid] = req.body[answer.qid]
-      });
-      const result = await H2F_R.create({ email: user.email, unit: user.unit, results: JSON.stringify(results), score: score })
+        my_results[qid] = aid
+      }
+      const result = await H2F_R.create({ email: user.email, unit: user.unit, results: JSON.stringify(my_results), score: score })
       res.redirect('/home/?msg=success')
     }
   }

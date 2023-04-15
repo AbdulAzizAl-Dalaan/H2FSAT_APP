@@ -14,6 +14,11 @@ H2F_Q.init({
     {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    category:
+    {
+        type: DataTypes.STRING,
+        allowNull: false,
     }
 }, { 
     sequelize, 

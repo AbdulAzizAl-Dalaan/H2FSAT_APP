@@ -30,33 +30,45 @@
     <p>
         This page should contain information about the unit, including the unit's H2F assessment results.
     </p>
-    <table id="example" class="table table-striped table-bordered" style="width:100%">
+    <div class="table-responsive">
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
 
-        <div class="container mt-4">
-            <table id="datatable" class="table">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">Firstname</th>
-                        <th scope="col">Lastname</th>
-                        <th scope="col">Rank</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">H2F Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% total_results.forEach(result => { %>
+            <div class="container mt-4">
+                <table id="datatable" class="table">
+                    <thead class="table-dark">
                         <tr>
-                            <td><%= result.firstname %></td>
-                            <td><%= result.lastname %></td>
-                            <td><%= result.rank %></td>
-                            <td><%= result.email %></td>
-                            <td><%= result.h2f_score %></td>
+                            <th scope="col">Firstname</th>
+                            <th scope="col">Lastname</th>
+                            <th scope="col">Rank</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Knowledge Check</th>
+                            <th scope="col">Physical (%)</th>
+                            <th scope="col">Nutrition (%)</th>
+                            <th scope="col">Mental (%)</th>
+                            <th scope="col">Spiritual (%)</th>
+                            <th scope="col">Sleep (%)</th>
                         </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        </div>
-    </table>
+                    </thead>
+                    <tbody>
+                        <% total_results.forEach(result => { %>
+                            <tr>
+                                <td><%= result.firstname %></td>
+                                <td><%= result.lastname %></td>
+                                <td><%= result.rank %></td>
+                                <td><%= result.email %></td>
+                                <td><%= result.h2f_score %></td>
+                                <td><%= result.physical %></td>
+                                <td><%= result.nutrition %></td>
+                                <td><%= result.mental %></td>
+                                <td><%= result.spiritual %></td>
+                                <td><%= result.sleep %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </table>
+    </div>
 </div>
 
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>

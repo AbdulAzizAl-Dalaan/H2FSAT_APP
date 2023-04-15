@@ -33,25 +33,86 @@ router.get('/', async function(req, res, next) {
     */
     
     const users = await User.findAll({where: {unit: req.session.user.unit}})
+    let correct_result = await H2F_A.findAll({where: {correct: true}})
+    let correct_answers = {}
+    correct_result.forEach((result) => {
+        correct_answers[result.qid] = result.aid
+    })
     // merge the two on email
     let total_results = []
     for (let i = 0; i < users.length; i++)
     {
         let user = users[i]
         let h2f_result = await H2F_R.findOne({where: {email: user.email}})
-        let h2f_score = "N/A"
-        if (h2f_result !== null) {
-            h2f_score = h2f_result.score
-        }
-        total_results.push(
+        if (h2f_result !== null)
+        {
+            let physical = 0, physical_total = 0
+            let nutrition = 0, nutrition_total = 0
+            let mental = 0, mental_total = 0
+            let spiritual = 0, spiritual_total = 0
+            let sleep = 0, sleep_total = 0
+            let h2f_score = h2f_result.score
+            h2f_result = JSON.parse(h2f_result.results)
+            for (let j = 1; j < correct_result.length + 1; j++)
             {
-                firstname: user.firstname,
-                lastname: user.lastname,
-                email: user.email,
-                rank: user.rank,
-                h2f_score: h2f_score
+                if (j < 3)
+                {
+                    physical_total += 1
+                    physical += h2f_result[j] === correct_answers[j] ? 1 : 0
+                }
+                else if (j < 5)
+                {
+                    nutrition_total += 1
+                    nutrition += h2f_result[j] === correct_answers[j] ? 1 : 0
+                }
+                else if (j < 7)
+                {
+                    mental_total += 1
+                    mental += h2f_result[j] === correct_answers[j] ? 1 : 0
+                }
+                else if (j < 9)
+                {
+                    spiritual_total += 1
+                    spiritual += h2f_result[j] === correct_answers[j] ? 1 : 0
+                }
+                else if (j < 11)
+                {
+                    sleep_total += 1
+                    sleep += h2f_result[j] === correct_answers[j] ? 1 : 0
+                }
             }
-        )
+            total_results.push(
+                {
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    email: user.email,
+                    rank: user.rank,
+                    h2f_score: h2f_score,
+                    physical: (physical / physical_total) * 100,
+                    nutrition: (nutrition / nutrition_total) * 100,
+                    mental: (mental / mental_total) * 100,
+                    spiritual: (spiritual / spiritual_total) * 100,
+                    sleep: (sleep / sleep_total) * 100,
+                }
+            )
+        }
+        else
+        {
+            total_results.push(
+                {
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    email: user.email,
+                    rank: user.rank,
+                    h2f_score: 'N/A',
+                    physical: 'N/A',
+                    nutrition: 'N/A',
+                    mental: 'N/A',
+                    spiritual: 'N/A',
+                    sleep: 'N/A',
+                }
+            )
+        }
     }
     res.render('unitsummary', {total_results});
 });
