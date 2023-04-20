@@ -3,6 +3,10 @@ const User = require('../models/User')
 const H2F_Q = require('../models/H2F/H2F_Q')
 const H2F_A = require('../models/H2F/H2F_A')
 const H2F_R = require('../models/H2F/H2F_R')
+const FMS_Q = require('../models/FMS/FMS_Q')
+const FMS_A = require('../models/FMS/FMS_A')
+const FMS_R = require('../models/FMS/FMS_R')
+
 var router = express.Router();
 
 
@@ -40,9 +44,39 @@ router.get('/', async function(req, res, next) {
     })
     // merge the two on email
     let total_results = []
+    let fms_col = []
+    
     for (let i = 0; i < users.length; i++)
     {
         let user = users[i]
+        let fms_result = await FMS_R.findOne({ where: { email: user.email } });
+        let help = '';
+        if (fms_result === null) {
+            help = 'N/A';
+          } else if (
+            fms_result.hurdle_step === 1 ||
+            fms_result.inline_lunge === 1 ||
+            fms_result.shoulder_mobility === 1 ||
+            fms_result.active_straight_leg_raise === 1 ||
+            fms_result.trunk_stability_pushup === 1 ||
+            fms_result.rotary_stability === 1
+          ) {
+            help = 'MFT';
+          } else if (
+            fms_result.hurdle_step === 0 ||
+            fms_result.inline_lunge === 0 ||
+            fms_result.shoulder_mobility === 0 ||
+            fms_result.active_straight_leg_raise === 0 ||
+            fms_result.trunk_stability_pushup === 0 ||
+            fms_result.rotary_stability === 0
+          ) {
+            help = 'PT';
+          } else {
+            help = 'PASSED';
+          }
+          
+
+        
         let h2f_result = await H2F_R.findOne({where: {email: user.email}})
         if (h2f_result !== null)
         {
@@ -93,6 +127,7 @@ router.get('/', async function(req, res, next) {
                     mental: (mental / mental_total) * 100,
                     spiritual: (spiritual / spiritual_total) * 100,
                     sleep: (sleep / sleep_total) * 100,
+                    fms: help
                 }
             )
         }
@@ -110,6 +145,7 @@ router.get('/', async function(req, res, next) {
                     mental: 'N/A',
                     spiritual: 'N/A',
                     sleep: 'N/A',
+                    fms: help
                 }
             )
         }

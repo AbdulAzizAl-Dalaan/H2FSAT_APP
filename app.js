@@ -159,3 +159,4 @@ sequelize.sync({force: true, alter: true}).then(()=>{
 })
 
 module.exports = app;
+
