@@ -57,17 +57,23 @@ router.get('/', async function(req, res, next) {
         let user = users[i]
         let fms_result = await FMS_R.findOne({ where: { email: user.email } });
         let help = '';
+        let fmsGrader = '';
         if (fms_result === null) {
             help = 'N/A';
-          } else if (
+            fmsGrader = 'N/A'
+
+        } else if (
             fms_result.hurdle_step === 0 ||
             fms_result.inline_lunge === 0 ||
             fms_result.shoulder_mobility === 0 ||
             fms_result.active_straight_leg_raise === 0 ||
             fms_result.trunk_stability_pushup === 0 ||
             fms_result.rotary_stability === 0
+            
           ) {
             help = 'PT';
+            fmsGrader = fms_result.fms_grader;
+
           } else if (
             fms_result.hurdle_step === 1 ||
             fms_result.inline_lunge === 1 ||
@@ -76,11 +82,16 @@ router.get('/', async function(req, res, next) {
             fms_result.trunk_stability_pushup === 1 ||
             fms_result.rotary_stability === 1
           ) {
-            help = 'PT';
+            help = 'MFT';
+            fmsGrader = fms_result.fms_grader;
+
           } else {
             help = 'PASSED';
+            fmsGrader = fms_result.fms_grader;
+
           }
 
+          
           let cpa_result = await CPA_R.findOne({where: {email: user.email}})
           let holder = 1
   
@@ -155,6 +166,7 @@ router.get('/', async function(req, res, next) {
                     spiritual: (spiritual / spiritual_total) * 100,
                     sleep: (sleep / sleep_total) * 100,
                     fms: help,
+                    fmsGrade: fmsGrader,
                     cpa: holder == 0 ? boolTSCore : 'N/A'
                 }
             )
@@ -174,6 +186,7 @@ router.get('/', async function(req, res, next) {
                     spiritual: 'N/A',
                     sleep: 'N/A',
                     fms: help,
+                    fmsGrade: fmsGrader,
                     cpa: holder == 0 ? boolTSCore : 'N/A'
                 }
             )
