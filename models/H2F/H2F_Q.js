@@ -27,4 +27,3 @@ H2F_Q.init({
 
 
 module.exports = H2F_Q
-

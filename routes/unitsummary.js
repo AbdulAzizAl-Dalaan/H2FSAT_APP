@@ -9,6 +9,11 @@ const FMS_R = require('../models/FMS/FMS_R')
 
 var router = express.Router();
 
+const CPA_R = require('../models/CPA/CPA_R')//cpa model
+var router = express.Router();
+
+//cpa boolean
+let boolTSCore = false;
 
 const sessionChecker = (req, res, next) => {
     if(req.session.user)
@@ -45,6 +50,7 @@ router.get('/', async function(req, res, next) {
     // merge the two on email
     let total_results = []
     let fms_col = []
+    let cpa_col = []
     
     for (let i = 0; i < users.length; i++)
     {
@@ -73,6 +79,27 @@ router.get('/', async function(req, res, next) {
             help = 'PT';
           } else {
             help = 'PASSED';
+          }
+
+          let cpa_result = await CPA_R.findOne({where: {email: user.email}})
+          let holder = 1
+  
+          if(cpa_result !== null)
+          {
+              if (cpa_result && cpa_result.total_score && cpa_result.abilityTS && cpa_result.curTS) {
+                  if(cpa_result.total_score <= 25 || cpa_result.abilityTS <= 25 || cpa_result.curTS <= 25)
+                  {
+                      boolTSCore = true;
+                  }
+                  //cpa_result = JSON.parse(cpa_result.total_score, cpa_result.abilityTS, cpa_result.curTS);//may be problem here
+                  cpa_result = { total_score: cpa_result.total_score, abilityTS: cpa_result.abilityTS, curTS: cpa_result.curTS };
+              } else {
+                  tscore = 'N/A';
+                  boolTSCore = false;
+                  cpa_result = {}; // Or any other default value you want to use
+              }
+              holder = 0
+  
           }
           
 
@@ -127,7 +154,8 @@ router.get('/', async function(req, res, next) {
                     mental: (mental / mental_total) * 100,
                     spiritual: (spiritual / spiritual_total) * 100,
                     sleep: (sleep / sleep_total) * 100,
-                    fms: help
+                    fms: help,
+                    cpa: holder == 0 ? boolTSCore : 'N/A'
                 }
             )
         }
@@ -145,10 +173,13 @@ router.get('/', async function(req, res, next) {
                     mental: 'N/A',
                     spiritual: 'N/A',
                     sleep: 'N/A',
-                    fms: help
+                    fms: help,
+                    cpa: holder == 0 ? boolTSCore : 'N/A'
                 }
             )
         }
+        boolTSCore = false;
+        holder = 1;
     }
     res.render('unitsummary', {total_results});
 });

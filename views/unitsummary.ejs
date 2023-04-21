@@ -48,6 +48,7 @@
                             <th scope="col">Spiritual (%)</th>
                             <th scope="col">Sleep (%)</th>
                             <th scope="col">FMS Result</th>
+                            <th scope="col">CPA (T/F)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,6 +65,7 @@
                                 <td><%= result.spiritual %></td>
                                 <td><%= result.sleep %></td>
                                 <td><%= result.fms %></td>
+                                <td><%= result.cpa %></td>
                             </tr>
                         <% }) %>
                     </tbody>
@@ -82,7 +84,3 @@
         $('#datatable').DataTable();
     } ); 
 </script>
-
-</body>
-
-</html>

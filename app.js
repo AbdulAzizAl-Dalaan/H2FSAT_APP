@@ -10,6 +10,10 @@ const H2F_Q = require('./models/H2F/H2F_Q')
 const H2F_A = require('./models/H2F/H2F_A')
 const H2F_R = require('./models/H2F/H2F_R')
 /* ADD YOUR ADDITIONAL MODELS HERE */
+// const CPA_A = require('./models/CPA/CPA_A')//leave in for when I clean up code if you remvoe its all good though
+// const CPA_Q = require('./models/CPA/CPA_Q')
+const CPA_R = require('./models/CPA/CPA_R')
+const {CPA_A, CPA_Q} = require('./models/CPA/association')
 
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
@@ -20,6 +24,7 @@ var fmsRouter = require('./routes/fms');
 var cpaRouter = require('./routes/cpa');
 
 const { json } = require('sequelize');
+
 
 
 var app = express();
@@ -150,6 +155,11 @@ async function setup() {
 
   /* ADD ADDITIONAL NEEDED DATA HERE BASED ON YOUR MODELS */
 
+  /*CPA user USING THIS USER FOR MY TEST*/
+  const cpaUser = await User.create({firstname: "James", lastname: "Bond", unit: "1st", email: "bond1", rank: "Sgt"})
+
+  
+
   console.log("Data Entered")
 }
 
@@ -159,4 +169,3 @@ sequelize.sync({force: true, alter: true}).then(()=>{
 })
 
 module.exports = app;
-

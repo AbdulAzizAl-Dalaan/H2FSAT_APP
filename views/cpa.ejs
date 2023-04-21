@@ -25,12 +25,117 @@
 <div class="content">
   <h2>Cognitive Performance Assessment</h2>
   <p>
-    Add a description of the assessment here.
+    For each phrase fill in the categories on a scale 1-10. 1 being do not agree, and 10 being you really agree.
   </p>
   <form method="post" action="/cpa/submit">
     <!-- ADD EJS TAGS HERE BASED ON YOUR ASSESSMENT -->
+    <h3>Motivation to live a healthy lifestyle in each category:</h3>
+    <label for="motivation_physical">Physical Health:</label>
+    <input type="number" id="motivation_physical" name="motivation_physical" required><br>
+    <label for="motivation_mental">Mental Health:</label>
+    <input type="number" id="motivation_mental" name="motivation_mental" required><br>
+    <label for="motivation_nutritional">Nutritional Health:</label>
+    <input type="number" id="motivation_nutritional" name="motivation_nutritional" required><br>
+    <label for="motivation_spiritual">Spiritual Health:</label>
+    <input type="number" id="motivation_spiritual" name="motivation_spiritual" required><br>
+    <label for="motivation_sleep">Sleep Health:</label>
+    <input type="number" id="motivation_sleep" name="motivation_sleep" required><br>
+    <p id="total_score">Total Motivation Score: _______/50</p>
+
+    <h3>Ability to live a healthy lifestyle in each category:</h3>
+    <label for="abilityPH">Physical Health:</label>
+    <input type="number" id="abilityPH" name="abilityPH" required><br>
+    <label for="abilityMH">Mental Health:</label>
+    <input type="number" id="abilityMH" name="abilityMH" required><br>
+    <label for="abilityNH">Nutritional Health:</label>
+    <input type="number" id="abilityNH" name="abilityNH" required><br>
+    <label for="abilitySPH">Spiritual Health:</label>
+    <input type="number" id="abilitySPH" name="abilitySPH" required><br>
+    <label for="abilitySLH">Sleep Health:</label>
+    <input type="number" id="abilitySLH" name="abilitySLH" required><br>
+    <p id="abilityTS">Total Ability Score: _______/50</p>
+
+    <h3>Current (past 7 days) self-rating of my:</h3>
+    <label for="curPH">Physical Health:</label>
+    <input type="number" id="curPH" name="curPH" required><br>
+    <label for="curMH">Mental Health:</label>
+    <input type="number" id="curMH" name="curMH" required><br>
+    <label for="curNH">Nutritional Health:</label>
+    <input type="number" id="curNH" name="curNH" required><br>
+    <label for="curSPH">Spiritual Health:</label>
+    <input type="number" id="curSPH" name="curSPH" required><br>
+    <label for="curSLH">Sleep Health:</label>
+    <input type="number" id="curSLH" name="curSLH" required><br>
+    <p id="curTS">Total Current Score: _______/50</p>
+
     <input type="submit" value="Submit">
   </form>
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script>
+  // Select input elements and the total motivation score element
+  const motivationInputs = [
+    document.getElementById("motivation_physical"),
+    document.getElementById("motivation_mental"),
+    document.getElementById("motivation_nutritional"),
+    document.getElementById("motivation_spiritual"),
+    document.getElementById("motivation_sleep"),
+  ];
+  const abilityIn = [
+    document.getElementById("abilityPH"),
+    document.getElementById("abilityMH"),
+    document.getElementById("abilityNH"),
+    document.getElementById("abilitySPH"),
+    document.getElementById("abilitySLH")
+  ]
+  const currentInputs = [
+    document.getElementById("curPH"),
+    document.getElementById("curMH"),
+    document.getElementById("curNH"),
+    document.getElementById("curSPH"),
+    document.getElementById("curSLH")
+  ]
+  const totalMotivationScoreElement = document.getElementById("total_score");
+  const totalAbilityScore = document.getElementById("abilityTS");
+  const totalCurrentScore = document.getElementById("curTS");
+
+  // Update the total motivation score
+  function updateTotalMotivationScore() {
+    let totalScore = 0;
+    for (const input of motivationInputs) {
+      totalScore += parseInt(input.value) || 0;
+    }
+    totalMotivationScoreElement.textContent = `Total Motivation Score: ${totalScore}/50`;
+  }
+
+  function updateTotalAbilityScore() {
+    let totalScore = 0;
+    for (const input of abilityIn) {
+      totalScore += parseInt(input.value) || 0;
+    }
+    totalAbilityScore.textContent = `Total Ability Score: ${totalScore}/50`;
+  }
+
+
+  function updateTotalCurrentScore() {
+    let totalScore = 0;
+    for (const input of currentInputs) {
+      totalScore += parseInt(input.value) || 0;
+    }
+    totalCurrentScore.textContent = `Total Current Score: ${totalScore}/50`;
+  }
+  
+
+  // Attach event listeners to input elements
+  for (const input of motivationInputs) {
+    input.addEventListener("input", updateTotalMotivationScore);
+  }
+  for (const input of abilityIn) {
+    input.addEventListener("input", updateTotalAbilityScore);
+  }
+  for (const input of currentInputs) {
+    input.addEventListener("input", updateTotalCurrentScore);
+  }
+</script>
