@@ -25,34 +25,68 @@
 <div class="content">
   <h2>Functional Movement Screening</h2>
   <p>
-    For each movement, enter a value from 0(pain with movement) to 3(perfect form).
+    For each movement, enter a value from 0 (pain with movement) to 3 (perfect form).
   </p>
   <form method="post" action="/fms/submit">
-    <!-- ADD EJS TAGS HERE BASED ON YOUR ASSESSMENT -->
+    <div class="form-group">
+      <label for="fms_grader">Grader's Name:</label>
+      <input type="text" id="fms_grader" name="fms_grader" class="form-control" required>
+    </div>
     <h3>These are all FMS tests:</h3>
-    <label for="deep_squat">Deep Squat:</label>
-    <input type="number" id="deep_squat" name="deep_squat" min="0" max="3" required><br>
-    <label for="hurdle_step">Hurdle Step:</label>
-    <input type="number" id="hurdle_step" name="hurdle_step" min="0" max="3" required><br>
-    <label for="inline_lunge">Inline Lunge:</label>
-    <input type="number" id="inline_lunge" name="inline_lunge" min="0" max="3" required><br>
-    <label for="shoulder_mobility">Shoulder Mobility:</label>
-    <input type="number" id="shoulder_mobility" name="shoulder_mobility" min="0" max="3" required><br>
-    <label for="active_straight_leg_raise">Active Straight Leg Raise:</label>
-    <input type="number" id="active_straight_leg_raise" name="active_straight_leg_raise" min="0" max="3" required><br>
-    <label for="trunk_stability_pushup">Trunk Stability Pushup:</label>
-    <input type="number" id="trunk_stability_pushup" name="trunk_stability_pushup" min="0" max="3" required><br>
-    <label for="rotary_stability">Rotary Stability:</label>
-    <input type="number" id="rotary_stability" name="rotary_stability" min="0" max="3" required><br>
+    <div class="row mb-3">
+      <label for="deep_squat" class="col-sm-4 col-form-label">Deep Squat:</label>
+      <div class="col-sm-8">
+        <input type="number" id="deep_squat" name="deep_squat" min="0" max="3" class="form-control" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="hurdle_step" class="col-sm-4 col-form-label">Hurdle Step:</label>
+      <div class="col-sm-8">
+        <input type="number" id="hurdle_step" name="hurdle_step" min="0" max="3" class="form-control" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="inline_lunge" class="col-sm-4 col-form-label">Inline Lunge:</label>
+      <div class="col-sm-8">
+        <input type="number" id="inline_lunge" name="inline_lunge" min="0" max="3" class="form-control" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="shoulder_mobility" class="col-sm-4 col-form-label">Shoulder Mobility:</label>
+      <div class="col-sm-8">
+        <input type="number" id="shoulder_mobility" name="shoulder_mobility" min="0" max="3" class="form-control" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="active_straight_leg_raise" class="col-sm-4 col-form-label">Active Straight Leg Raise:</label>
+      <div class="col-sm-8">
+        <input type="number" id="active_straight_leg_raise" name="active_straight_leg_raise" min="0" max="3" class="form-control" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="trunk_stability_pushup" class="col-sm-4 col-form-label">Trunk Stability Pushup:</label>
+      <div class="col-sm-8">
+        <input type="number" id="trunk_stability_pushup" name="trunk_stability_pushup" min="0" max="3" class="form-control" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="rotary_stability" class="col-sm-4 col-form-label">Rotary Stability:</label>
+      <div class="col-sm-8">
+        <input type="number" id="rotary_stability" name="rotary_stability" min="0" max="3" class="form-control" required>
+      </div>
+    </div>
     <p id="score">FMS Score: _______/21</p>
-
-    
 
     <input type="submit" value="Submit">
   </form>
-  </div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<style>
+  form div {
+    display: inline-block;
+    margin-right: 10px;
+  }
+</style>
 
 <script>
   // Select input elements and the total motivation score element
