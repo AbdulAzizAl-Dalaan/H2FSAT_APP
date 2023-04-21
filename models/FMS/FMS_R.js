@@ -97,7 +97,13 @@ FMS_R.init({
             min: 0,
             max: 21
         }
-    }
+    },
+    fms_grader:
+    {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true
+    },
 }, { 
     sequelize, 
     modelName: 'FMS_R' 
