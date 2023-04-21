@@ -45,7 +45,8 @@ router.post('/submit', async function(req, res, next) {
     const active_straight_leg_raise = parseInt(req.body.active_straight_leg_raise);
     const trunk_stability_pushup = parseInt(req.body.trunk_stability_pushup);
     const rotary_stability = parseInt(req.body.rotary_stability);
-    const score = deep_squat+hurdle_step+inline_lunge+shoulder_mobility+active_straight_leg_raise+trunk_stability_pushup+rotary_stability
+    const score = deep_squat+hurdle_step+inline_lunge+shoulder_mobility+active_straight_leg_raise+trunk_stability_pushup+rotary_stability;
+    const fms_grader = String(req.body.fms_grader);
     
 
     const result = await FMS_R.create({
@@ -58,9 +59,8 @@ router.post('/submit', async function(req, res, next) {
       active_straight_leg_raise: active_straight_leg_raise,
       trunk_stability_pushup: trunk_stability_pushup,
       rotary_stability: rotary_stability,
-
       score: score,
-      
+      fms_grader: fms_grader,
     });
 
     res.redirect('/home/?msg=success');
