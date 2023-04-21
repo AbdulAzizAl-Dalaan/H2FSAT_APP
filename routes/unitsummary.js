@@ -60,21 +60,21 @@ router.get('/', async function(req, res, next) {
         if (fms_result === null) {
             help = 'N/A';
           } else if (
-            fms_result.hurdle_step === 1 ||
-            fms_result.inline_lunge === 1 ||
-            fms_result.shoulder_mobility === 1 ||
-            fms_result.active_straight_leg_raise === 1 ||
-            fms_result.trunk_stability_pushup === 1 ||
-            fms_result.rotary_stability === 1
-          ) {
-            help = 'MFT';
-          } else if (
             fms_result.hurdle_step === 0 ||
             fms_result.inline_lunge === 0 ||
             fms_result.shoulder_mobility === 0 ||
             fms_result.active_straight_leg_raise === 0 ||
             fms_result.trunk_stability_pushup === 0 ||
             fms_result.rotary_stability === 0
+          ) {
+            help = 'PT';
+          } else if (
+            fms_result.hurdle_step === 1 ||
+            fms_result.inline_lunge === 1 ||
+            fms_result.shoulder_mobility === 1 ||
+            fms_result.active_straight_leg_raise === 1 ||
+            fms_result.trunk_stability_pushup === 1 ||
+            fms_result.rotary_stability === 1
           ) {
             help = 'PT';
           } else {
