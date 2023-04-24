@@ -4,7 +4,7 @@ const app = express();
 const session = require('express-session');
 const cpaRouter = require('./routes/cpa');
 
-// Set up session middleware for testing
+
 app.use(
   session({
     secret: 'test secret',
@@ -14,12 +14,12 @@ app.use(
   }),
 );
 
-// Set up the router you want to test
+
 app.use(cpaRouter);
 
 describe('CPA Routes', () => {
   beforeEach(() => {
-    // Set up a fake session for testing
+    
     const fakeSession = {
       user: {
         email: 'test@example.com',
