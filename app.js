@@ -76,9 +76,9 @@ app.use(function(err, req, res, next) {
 
 async function setup() {
 
-  const user = await User.create({firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt"})
-  const unitleader = await User.create({firstname: "Jane", lastname: "Doe", unit: "1st", email: "unit", rank: "SSgt", password: '1234', isUnitLeader: true})
-  const admin = await User.create({firstname: "Brian", lastname: "Harder", unit: "1st", email: "admin", rank: "Cpt", password: '1234', isAdmin: true})
+  const user = await User.create({firstname: "John", lastname: "Doe", unit: "1st", email: "john.doe@army.mil", rank: "Sgt"})
+  const unitleader = await User.create({firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true})
+  const admin = await User.create({firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true})
 
   const h2f_q1 = await H2F_Q.create({qid: 1, question: "How long should you cool down after a workout?", category: "Physical"})
   const h2f_a1 = await H2F_A.create({qid: 1, answer: "30 minutes", correct: false})
@@ -140,23 +140,23 @@ async function setup() {
 
 
 
-  const user1 = await User.create({firstname: "Jack", lastname: "Doe", unit: "1st", email: "user1", rank: "Pvt"})
-  const user2 = await User.create({firstname: "Jill", lastname: "Shawn", unit: "1st", email: "user2", rank: "Pvt"})
-  const user3 = await User.create({firstname: "Joe", lastname: "Johnson", unit: "1st", email: "user3", rank: "Sgt"})
+  const user1 = await User.create({firstname: "Tom", lastname: "Hall", unit: "1st", email: "tom.hall@army.mil", rank: "Pvt"})
+  const user2 = await User.create({firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt"})
+  const user3 = await User.create({firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "Sgt"})
 
   let res1 = {1: 4, 2: 7, 3: 10, 4: 14, 5: 17, 6: 23, 7: 28, 8: 31, 9: 35, 10: 37} // full 10
   let res2 = {1: 4, 2: 8, 3: 10, 4: 15, 5: 17, 6: 23, 7: 25, 8: 31, 9: 34, 10: 38} // -5
   let res3 = {1: 3, 2: 7, 3: 9, 4: 14, 5: 17, 6: 24, 7: 28, 8: 31, 9: 35, 10: 37} // -3
 
-  const user1_res = await H2F_R.create({email: "user1", unit: "1st",results: JSON.stringify(res1), score: 10})
-  const user2_res = await H2F_R.create({email: "user2", unit: "1st",results: JSON.stringify(res2), score: 5})
-  const user3_res = await H2F_R.create({email: "user3", unit: "1st",results: JSON.stringify(res3), score: 7})
-  const user4 = await User.create({firstname: "John", lastname: "Smith", unit: "1st", email: "user4", rank: "Cpl"})
+  const user1_res = await H2F_R.create({email: "tom.hall@army.mil", unit: "1st",results: JSON.stringify(res1), score: 10})
+  const user2_res = await H2F_R.create({email: "jill.shawn@army.mil", unit: "1st",results: JSON.stringify(res2), score: 5})
+  const user3_res = await H2F_R.create({email: "joe.johnson@army.mil", unit: "1st",results: JSON.stringify(res3), score: 7})
+  const user4 = await User.create({firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl"})
 
   /* ADD ADDITIONAL NEEDED DATA HERE BASED ON YOUR MODELS */
 
   /*CPA user USING THIS USER FOR MY TEST*/
-  const cpaUser = await User.create({firstname: "James", lastname: "Bond", unit: "1st", email: "bond1", rank: "Sgt"})
+  const cpaUser = await User.create({firstname: "James", lastname: "Bond", unit: "1st", email: "james.bond@army.mil", rank: "Sgt"})
 
   
 

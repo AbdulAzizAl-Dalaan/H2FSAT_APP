@@ -20,6 +20,7 @@
       }
 
     </style>
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
 <%- include('header') %>
@@ -32,56 +33,66 @@
     the Army National Guard along with the PHA.
   </p>
 
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
     <div class="col">
       <div class="card h-100">
-        <img src="/images/h2f_card.png.." class="card-img-top" alt="...">
+        <img src="/images/placeholder.png" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Holistic Health and Fitness (H2F) Knowledge Check</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <h5 class="card-title"><strong>Holistic Health and Fitness (H2F) Knowledge Check</strong></h5>
+          <br>
+          <p class="card-text">Knowledge Check Assessment on the aspects of physical and non-physical human performance among the categories 
+            of Physical, Nutrition, Mental, Spiritual, and Sleep. 
+          </p>
         </div>
-        <form method="get" action="/h2f">
-          <div class="form-group">
-            <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
-          </div>
-        </form>
+        <div style="text-align: center;">
+          <form method="get" action="/h2f">
+            <div class="form-group">
+              <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
 
     <div class="col">
       <div class="card h-100">
-        <img src="..." class="card-img-top" alt="...">
+        <img src="/images/placeholder.png" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Cognitive Performance Assessment</h5>
+          <h5 class="card-title"><strong>Cognitive Performance Assessment</strong></h5>
+          <br>
           <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
         </div>
-        <form method="get" action="/cpa">
-          <div class="form-group">
-            <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
-          </div>
-        </form>
+        <div style="text-align: center;">
+          <form method="get" action="/cpa">
+            <div class="form-group">
+              <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
 
     <div class="col">
       <div class="card h-100">
-        <img src="..." class="card-img-top" alt="...">
+        <img src="/images/placeholder.png" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Functional Movement Screening</h5>
-          <p class="card-text">The Functional Movement Screening (FMS) is a tool used to assess movement patterns and identify limitations or asymmetries in the body. It is commonly used in the fitness and sports performance industry to help prevent injuries and improve performance by identifying areas that may need improvement. The FMS consists of seven fundamental movement patterns that are scored on a scale from 0 to 3, with a higher score indicating better movement quality.</p>
+          <h5 class="card-title"><strong>Functional Movement Screening</strong></h5>
+          <br>
+          <p class="card-text">The Functional Movement Screening (FMS) is a tool used to assess movement patterns and identify limitations or asymmetries in the body.</p>
         </div>
-        <form method="get" action="/fms">
-          <div class="form-group">
-            <label for="password">Enter password:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-warning" onclick="return checkPassword()">Start Assessment</button>
-          </div>
-        </form>
+        <div style="text-align: center;">
+          <form method="get" action="/fms">
+            <div class="form-group">
+              <label for="password">Enter password:</label>
+              <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-warning" onclick="return checkPassword()">Start Assessment</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
     

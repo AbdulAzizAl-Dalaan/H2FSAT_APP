@@ -1,8 +1,33 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+input[type=submit], input[type=button] {
+  background-color: #FEC325;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
 
-a {
-  color: #00B7FF;
+input[type=submit]:hover, input[type=button]:hover {
+  background-color: #20202D;
+  color: white;
+
+}
+
+button[type=submit] {
+  background-color: #FEC325;
+  color: #20202D !important;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+button[type=submit]:hover {
+  background-color: #20202D;
+  color: white !important;
 }

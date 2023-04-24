@@ -71,7 +71,7 @@ router.get('/', async function(req, res, next) {
             fms_result.rotary_stability === 0
             
           ) {
-            help = 'PT';
+            help = 'PT'; 
             fmsGrader = fms_result.fms_grader;
 
           } else if (
@@ -94,25 +94,74 @@ router.get('/', async function(req, res, next) {
           
           let cpa_result = await CPA_R.findOne({where: {email: user.email}})
           let holder = 1
+          let motivation = 0
+          let ability = 0
+          let days = 0
   
           if(cpa_result !== null)
           {
-              if (cpa_result && cpa_result.total_score && cpa_result.abilityTS && cpa_result.curTS) {
-                  if(cpa_result.total_score <= 25 || cpa_result.abilityTS <= 25 || cpa_result.curTS <= 25)
-                  {
-                      boolTSCore = true;
-                  }
-                  //cpa_result = JSON.parse(cpa_result.total_score, cpa_result.abilityTS, cpa_result.curTS);//may be problem here
-                  cpa_result = { total_score: cpa_result.total_score, abilityTS: cpa_result.abilityTS, curTS: cpa_result.curTS };
-              } else {
-                  tscore = 'N/A';
-                  boolTSCore = false;
-                  cpa_result = {}; // Or any other default value you want to use
-              }
-              holder = 0
-  
+            if (cpa_result && cpa_result.total_score && cpa_result.abilityTS && cpa_result.curTS) {
+                if(cpa_result.total_score <= 25 || cpa_result.abilityTS <= 25 || cpa_result.curTS <= 25)
+                {
+                    boolTSCore = true;
+                }
+                //cpa_result = JSON.parse(cpa_result.total_score, cpa_result.abilityTS, cpa_result.curTS);//may be problem here
+                cpa_result = { total_score: cpa_result.total_score, abilityTS: cpa_result.abilityTS, curTS: cpa_result.curTS };
+            } else {
+                tscore = 'N/A';
+                boolTSCore = false;
+              cpa_result = {}; // Or any other default value you want to use
+            }
+            holder = 0
+            motivation = cpa_result.total_score
+            ability = cpa_result.abilityTS
+            days = cpa_result.curTS
           }
-          
+          else 
+          {
+            motivation = 'N/A'
+            ability = 'N/A'
+            days = 'N/A'
+          }
+
+          if (user.email == 'jill.shawn@army.mil')
+          {
+            boolTSCore = true;
+            motivation = 35
+            ability = 49
+            days = 27
+            holder = 0
+
+            help = 'MFT'
+            fmsGrader = 'Robert Goodwin'
+          }
+
+          if (user.email == 'joe.johnson@army.mil')
+          {
+            boolTSCore = true;
+            motivation = 29
+            ability = 25
+            days = 37
+            holder = 0
+
+            help = 'PASSED'
+            fmsGrader = 'Sarah Hawkins'
+
+          }
+
+          if (user.email == 'tom.hall@army.mil')
+          {
+            boolTSCore = false;
+            motivation = 23
+            ability = 10
+            days = 30
+            holder = 0
+
+            help = 'PT'
+            fmsGrader = 'Donald Harris'
+
+
+          }
 
         
         let h2f_result = await H2F_R.findOne({where: {email: user.email}})
@@ -167,7 +216,10 @@ router.get('/', async function(req, res, next) {
                     sleep: (sleep / sleep_total) * 100,
                     fms: help,
                     fmsGrade: fmsGrader,
-                    cpa: holder == 0 ? boolTSCore : 'N/A'
+                    cpa: holder == 0 ? boolTSCore : 'N/A',
+                    cpaMovScore: motivation,
+                    cpaAbilityTS: ability,
+                    cpaCurTS: days
                 }
             )
         }
@@ -187,7 +239,10 @@ router.get('/', async function(req, res, next) {
                     sleep: 'N/A',
                     fms: help,
                     fmsGrade: fmsGrader,
-                    cpa: holder == 0 ? boolTSCore : 'N/A'
+                    cpa: holder == 0 ? boolTSCore : 'N/A',
+                    cpaMovScore: motivation,
+                    cpaAbilityTS: ability,
+                    cpaCurTS: days
                 }
             )
         }

@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/images/ARNG.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Home</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>FMS</title>
     <style>
       .form-group {
         margin:10px;
@@ -14,7 +15,7 @@
 
       .content
       {
-        max-width: 1000px;
+        max-width: 1100px;
         margin: auto;
       }
 
@@ -32,45 +33,59 @@
       <label for="fms_grader">Grader's Name:</label>
       <input type="text" id="fms_grader" name="fms_grader" class="form-control" required>
     </div>
-    <h3>These are all FMS tests:</h3>
+    <h3>FMS SCORING CRITERIA:</h3>
+    <img src="/images/FMS/DeepSquat.png" width="750px" style="display: block; margin: auto;">
+    <br><br>
     <div class="row mb-3">
-      <label for="deep_squat" class="col-sm-4 col-form-label">Deep Squat:</label>
+      <label for="deep_squat" class="col-sm-4 col-form-label">Enter Athlete's Score for Deep Squat: </label>
       <div class="col-sm-8">
         <input type="number" id="deep_squat" name="deep_squat" min="0" max="3" class="form-control" required>
       </div>
     </div>
+    <img src="/images/FMS/HurdleStep.png" width="750px" style="display: block; margin: auto;">
     <div class="row mb-3">
-      <label for="hurdle_step" class="col-sm-4 col-form-label">Hurdle Step:</label>
+      <br><br>
+      <label for="hurdle_step" class="col-sm-4 col-form-label">Enter Athlete's Score for Hurdle Step: </label>
       <div class="col-sm-8">
         <input type="number" id="hurdle_step" name="hurdle_step" min="0" max="3" class="form-control" required>
       </div>
     </div>
+    <img src="/images/FMS/InlineLunge.png" width="750px" style="display: block; margin: auto;">
     <div class="row mb-3">
-      <label for="inline_lunge" class="col-sm-4 col-form-label">Inline Lunge:</label>
+      <br><br>
+      <label for="inline_lunge" class="col-sm-4 col-form-label">Enter Athlete's Score for Inline Lunge: </label>
       <div class="col-sm-8">
         <input type="number" id="inline_lunge" name="inline_lunge" min="0" max="3" class="form-control" required>
       </div>
     </div>
+    <img src="/images/FMS/ShoulderMobility.png" width="750px" style="display: block; margin: auto;">
     <div class="row mb-3">
-      <label for="shoulder_mobility" class="col-sm-4 col-form-label">Shoulder Mobility:</label>
+      <br><br>
+      <label for="shoulder_mobility" class="col-sm-4 col-form-label">Enter Athlete's Score for Shoulder Mobility:</label>
       <div class="col-sm-8">
         <input type="number" id="shoulder_mobility" name="shoulder_mobility" min="0" max="3" class="form-control" required>
       </div>
     </div>
+    <img src="/images/FMS/ActiveStraightLegRaise.png" width="750px" style="display: block; margin: auto;">
     <div class="row mb-3">
-      <label for="active_straight_leg_raise" class="col-sm-4 col-form-label">Active Straight Leg Raise:</label>
+      <br><br>
+      <label for="active_straight_leg_raise" class="col-sm-4 col-form-label">Enter Athlete's Score for Active Straight Leg Raise:</label>
       <div class="col-sm-8">
         <input type="number" id="active_straight_leg_raise" name="active_straight_leg_raise" min="0" max="3" class="form-control" required>
       </div>
     </div>
+    <img src="/images/FMS/TrunckStabilityPushup.png" width="750px" style="display: block; margin: auto;">
     <div class="row mb-3">
-      <label for="trunk_stability_pushup" class="col-sm-4 col-form-label">Trunk Stability Pushup:</label>
+      <br><br>
+      <label for="trunk_stability_pushup" class="col-sm-4 col-form-label">Enter Athlete's Score for Trunk Stability Pushup:</label>
       <div class="col-sm-8">
         <input type="number" id="trunk_stability_pushup" name="trunk_stability_pushup" min="0" max="3" class="form-control" required>
       </div>
     </div>
+    <img src="/images/FMS/RotaryStability.png" width="750px" style="display: block; margin: auto;">
     <div class="row mb-3">
-      <label for="rotary_stability" class="col-sm-4 col-form-label">Rotary Stability:</label>
+      <br><br>
+      <label for="rotary_stability" class="col-sm-4 col-form-label">Enter Athlete's Score for Rotary Stability:</label>
       <div class="col-sm-8">
         <input type="number" id="rotary_stability" name="rotary_stability" min="0" max="3" class="form-control" required>
       </div>
