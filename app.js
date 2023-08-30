@@ -15,6 +15,9 @@ const H2F_R = require('./models/H2F/H2F_R')
 const CPA_R = require('./models/CPA/CPA_R')
 const {CPA_A, CPA_Q} = require('./models/CPA/association')
 
+const FMS_Q = require('./models/FMS/FMS_Q')
+const FMS_A = require('./models/FMS/FMS_A')
+
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
