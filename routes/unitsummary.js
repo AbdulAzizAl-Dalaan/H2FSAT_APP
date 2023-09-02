@@ -40,7 +40,7 @@ router.get('/', async function(req, res, next) {
     /* 
     * Will have to be change based on future additions to the database
     */
-    
+
     const users = await User.findAll({where: {unit: req.session.user.unit}})
     let correct_result = await H2F_A.findAll({where: {correct: true}})
     let correct_answers = {}
