@@ -34,6 +34,28 @@
   </p>
 
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+  <% surveys.forEach((survey) => { %>
+    <div class="col">
+      <div class="card h-100">
+        <img src="/images/placeholder.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><strong><%= survey.title  %></strong></h5>
+          <br>
+          <p class="card-text">
+            <%= survey.description %>
+          </p>
+        </div>
+        <div style="text-align: center;">
+          <form method="get" action="home/<%= survey.survey_id%>"> <!-- CHANGE TO SURVEY LINK -->
+            <div class="form-group">
+              <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div> 
+   
+  <% }) %>
     <div class="col">
       <div class="card h-100">
         <img src="/images/placeholder.png" class="card-img-top" alt="...">
@@ -95,6 +117,7 @@
         </div>
       </div>
     </div>
+  </div>
     
     <script>
     function checkPassword() {

@@ -6,6 +6,16 @@ class Survey_A extends Model { }
 
 
 Survey_A.init({
+    survey_id:
+    {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Survey_Q,
+            key: "survey_id"
+        },
+        primaryKey: true
+    },
     question_id:
     {
         type: DataTypes.INTEGER,
@@ -22,7 +32,7 @@ Survey_A.init({
         allowNull: false,
         primaryKey: true
     },
-    answer_text:
+    text: // doubles as either the choice text for ('all' and 'one' type questions) or the text answer for ('text' and 'range' type questions)
     {
         type: DataTypes.STRING,
         allowNull: true

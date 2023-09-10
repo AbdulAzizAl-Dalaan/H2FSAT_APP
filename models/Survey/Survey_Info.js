@@ -1,30 +1,36 @@
 const sequelize = require('../../db');
 const { Model, DataTypes } = require('sequelize');
+const User = require('../User');
 
 class Survey_Info extends Model { }
 
 Survey_Info.init({
-    survey_name:
+    survey_id:
+    {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+    },
+    author: // creator of the survey
+    {
+        type: DataTypes.STRING,
+        allowNull: false, 
+        references: {
+            model: User,
+            key: "email"
+        },
+        primaryKey: true
+    },
+    title:
     {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true
+        unique: true
     }, 
-    survey_description:
+    description:
     {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    survey_author:
-    {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    num_questions:
-    {
-        type: DataTypes.INTEGER,
-        allowNull: false
-
     }
 }, {
     sequelize,

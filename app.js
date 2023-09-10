@@ -6,18 +6,31 @@ var logger = require('morgan');
 const session = require('express-session')
 const sequelize = require('./db');
 const User = require('./models/User')
+
+/*
 const H2F_Q = require('./models/H2F/H2F_Q')
 const H2F_A = require('./models/H2F/H2F_A')
 const H2F_R = require('./models/H2F/H2F_R')
-/* ADD YOUR ADDITIONAL MODELS HERE */
-// const CPA_A = require('./models/CPA/CPA_A')//leave in for when I clean up code if you remvoe its all good though
-// const CPA_Q = require('./models/CPA/CPA_Q')
+
 const { CPA_A, CPA_Q } = require('./models/CPA/association')
 const CPA_R = require('./models/CPA/CPA_R')
 
 const FMS_Q = require('./models/FMS/FMS_Q')
 const FMS_A = require('./models/FMS/FMS_A')
 const FMS_R = require('./models/FMS/FMS_R')
+*/
+
+const Survey_Info = require('./models/Survey/Survey_Info')
+const Survey_Q = require('./models/Survey/Survey_Q')
+const Survey_A = require('./models/Survey/Survey_A')
+
+Survey_Info.hasMany(Survey_Q, { foreignKey: "survey_id" })
+Survey_Q.belongsTo(Survey_Info)
+Survey_Q.hasMany(Survey_A, { foreignKey: "question_id" })
+Survey_Q.hasMany(Survey_A, { foreignKey: "survey_id" })
+Survey_A.belongsTo(Survey_Q)
+
+
 
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
@@ -80,11 +93,26 @@ app.use(function (err, req, res, next) {
 // question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"
 
 async function setup() {
-
-  const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "john.doe@army.mil", rank: "Sgt" })
+  const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt" })
   const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true })
   const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true })
 
+  const survey_one = await Survey_Info.create({survey_id: 1, author: "brian.harder@army.mil", title: "Survey One", description: "This is a survey"})
+  const survey_one_q2 = await Survey_Q.create({survey_id: 1, question_id: 1, prompt: "What is the capital of Washington State?", type: "one"})
+  const survey_one_q2_a1 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 1, text: "Seattle"})
+  const survey_one_q2_a2 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 2, text: "Pullman"})
+  const survey_one_q2_a3 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 3, text: "Olympia"})
+  const survey_one_q2_a4 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 4, text: "Vancouver"})
+  const survey_one_q3 = await Survey_Q.create({survey_id: 1, question_id: 2, prompt: "Enter you name please?", type: "text"})
+  const survey_one_q4 = await Survey_Q.create({survey_id: 1, question_id: 3, prompt: "What is your favorite number from 1-10?", type: "range", top_range: 10, bottom_range: 1})
+  const survey_one_q5 = await Survey_Q.create({survey_id: 1, question_id: 4, prompt: "Select all the classes that you have taken:", type: "all"})
+  const survey_one_q5_a1 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 1, text: "CPT_S 302"})
+  const survey_one_q5_a2 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 2, text: "CPT_S 350"})
+  const survey_one_q5_a3 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 3, text: "CPT_S 360"})
+  const survey_one_q5_a4 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 4, text: "CPT_S 421"})
+
+
+  /*
   const h2f_q1 = await H2F_Q.create({ qid: 1, question: "How long should you cool down after a workout?", category: "Physical" })
   const h2f_a1 = await H2F_A.create({ qid: 1, answer: "30 minutes", correct: false })
   const h2f_a2 = await H2F_A.create({ qid: 1, answer: "75 minutes", correct: false })
@@ -170,19 +198,6 @@ async function setup() {
   const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "1st", email: "justin.chen@army.mil", rank: "Pvt" });
   const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "1st", email: "grace.wu@army.mil", rank: "Pvt" });
   const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "1st", email: "steven.liu@army.mil", rank: "Sgt" });
-
-    /*
-  qid 1 -> aid 1-4
-  qid 2 -> aid 5-8 
-  qid 3 -> aid 9-12 
-  qid 4 -> aid 13-16 
-  qid 5 -> aid 17-20 
-  qid 6 -> aid 21-24 
-  qid 7 -> aid 25-28 
-  qid 8 -> aid 29-32 
-  qid 9 -> aid 33-36
-  qid 10 -> aid 37-38
-  */
 
   let res1 = { 1: 4, 2: 7, 3: 10, 4: 14, 5: 17, 6: 23, 7: 28, 8: 31, 9: 35, 10: 37 } // full score 10
   let res2 = { 1: 4, 2: 8, 3: 10, 4: 15, 5: 17, 6: 23, 7: 25, 8: 31, 9: 34, 10: 38 } // score 5
@@ -484,7 +499,7 @@ async function setup() {
 
 
   const cpaUser = await User.create({ firstname: "James", lastname: "Bond", unit: "1st", email: "james.bond@army.mil", rank: "Sgt" })
-
+  */
 
 
   console.log("Data Entered")
