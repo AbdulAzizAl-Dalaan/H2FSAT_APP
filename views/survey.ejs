@@ -28,7 +28,7 @@
     <%- include('header') %>
 
     <div class="content">
-      <form method="post" action="" class="row g-3"> <!-- CHANGE TO SURVEY SUBMIT -->
+      <form method="post" action="/home/:id/submit" class="row g-3"> <!-- CHANGE TO SURVEY SUBMIT -->
         <% questions.forEach(question => { %>
         <div class="question-container col-12">
           <h4>
@@ -61,8 +61,11 @@
             <% }) %>
           <% } else if (question.type === "range") { %> 
 
-          <% } else { %>
-
+          <% } else { %> <!-- text question -->
+            <div class="form-floating">
+              <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+              <label for="floatingTextarea2">Comments</label>
+            </div>
           <% } %>
         </div>
         <% }) %>

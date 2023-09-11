@@ -3,6 +3,7 @@ var router = express.Router();
 const Survey_Info = require('../models/Survey/Survey_Info')
 const Survey_Q = require('../models/Survey/Survey_Q')
 const Survey_A = require('../models/Survey/Survey_A')
+const Survey_R = require('../models/Survey/Survey_R')
 
 const sessionChecker = (req, res, next) => {
   if(req.session.user)
@@ -47,6 +48,20 @@ router.get('/:id', async function(req, res, next) {
     res.redirect('/home/?msg=notfound')
   }
   
+});
+
+router.post('/:id/submit', async function(req, res, next) {
+  const survey = await Survey_Info.findByPk(req.params.id)
+  if (survey !== null)
+  {
+    // put logic here to check results
+    console.log("INTO SUBMIT")
+    res.redirect('/home/?msg=success')
+  }
+  else
+  {
+    res.redirect('/home/?msg=notfound')
+  }
 });
 
 router.get('/h2f', async function(req, res, next) {
