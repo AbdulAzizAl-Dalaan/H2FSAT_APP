@@ -52,6 +52,25 @@ app.use(session({
   cookie: { secure: false }
 }))
 
+
+//For excel stuff********
+
+// const uploadRoutes = require('./routes/upload');
+// app.use('/upload', uploadRoutes);
+
+//install multer**********
+// const multer = require('multer');
+// const csvParser = require('csv-parser');
+
+const uploadRoutes = require('./routes/upload'); // adjust the path to where your upload.js is located
+app.use('/upload', uploadRoutes);
+
+// app.get('/upload-csv', (req, res) => {
+//   res.render('upload');  // Render the upload form
+// });
+
+//for excel stuff^*********
+
 app.use('/', indexRouter);
 app.use('/home', homeRouter);
 app.use('/about', aboutRouter);
