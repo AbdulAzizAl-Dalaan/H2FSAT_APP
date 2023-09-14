@@ -70,6 +70,18 @@ router.post('/:id/submit', async function(req, res, next) {
       const questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
       const answers = await Survey_A.findAll({where: {survey_id: req.params.id}})
       // PERFORM RESULT CREATION HERE
+      let result_dict = {}
+      questions.forEach(question => {
+        const answer = req.body[question.question_id]
+        console.log("ANSWER: " + answer) 
+        if (answer !== undefined)
+        {
+          result_dict[question.question_id] = answer
+        }
+      });
+      console.log("RESULT DICT: " + JSON.stringify(result_dict))
+      const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, results: result_dict})
+      res.redirect('/home/?msg=success')
     }
     else 
     {

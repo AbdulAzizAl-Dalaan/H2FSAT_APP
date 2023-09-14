@@ -19,7 +19,7 @@ Survey_R.init({
     },
     results: // should be stored as a JSON object with the question_id as the key and the answer_id as the value
     {
-        type: DataTypes.TEXT,
+        type: DataTypes.JSON,
         allowNull: false,
     }
 }, {
