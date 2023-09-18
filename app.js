@@ -23,14 +23,13 @@ const FMS_R = require('./models/FMS/FMS_R')
 const Survey_Info = require('./models/Survey/Survey_Info')
 const Survey_Q = require('./models/Survey/Survey_Q')
 const Survey_A = require('./models/Survey/Survey_A')
+const Survey_R = require('./models/Survey/Survey_R');
 
 Survey_Info.hasMany(Survey_Q, { foreignKey: "survey_id" })
 Survey_Q.belongsTo(Survey_Info)
 Survey_Q.hasMany(Survey_A, { foreignKey: "question_id" })
 Survey_Q.hasMany(Survey_A, { foreignKey: "survey_id" })
 Survey_A.belongsTo(Survey_Q)
-
-
 
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
@@ -42,8 +41,6 @@ var cpaRouter = require('./routes/cpa');
 
 const { json } = require('sequelize');
 // const setup = require('./setup')
-
-
 
 var app = express();
 
@@ -97,81 +94,144 @@ async function setup() {
   const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true })
   const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true })
 
-  const survey_one = await Survey_Info.create({survey_id: 1, author: "brian.harder@army.mil", title: "Survey One", description: "This is a test survey"})
-  const survey_one_q2 = await Survey_Q.create({survey_id: 1, question_id: 1, prompt: "What is the capital of Washington State?", type: "one"})
-  const survey_one_q2_a1 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 1, text: "Seattle"})
-  const survey_one_q2_a2 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 2, text: "Pullman"})
-  const survey_one_q2_a3 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 3, text: "Olympia"})
-  const survey_one_q2_a4 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 4, text: "Vancouver"})
-  const survey_one_q3 = await Survey_Q.create({survey_id: 1, question_id: 2, prompt: "Enter you name please?", type: "text"})
-  const survey_one_q3_a1 = await Survey_A.create({survey_id: 1, question_id: 2, answer_id: 1, text: "Name"})
-  const survey_one_q4 = await Survey_Q.create({survey_id: 1, question_id: 3, prompt: "What is your favorite number from 1-10?", type: "range", top_range: 10, bottom_range: 1})
-  const survey_one_q4_a1 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 1, text: "number"})
-  const survey_one_q5 = await Survey_Q.create({survey_id: 1, question_id: 4, prompt: "Select all the classes that you have taken:", type: "all"})
-  const survey_one_q5_a1 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 1, text: "CPT_S 302"})
-  const survey_one_q5_a2 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 2, text: "CPT_S 350"})
-  const survey_one_q5_a3 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 3, text: "CPT_S 360"})
-  const survey_one_q5_a4 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 4, text: "CPT_S 421"})
+  const survey_one       = await Survey_Info.create({survey_id: 5, author: "brian.harder@army.mil", title: "Survey One", description: "This is a test survey"})
+  const survey_one_q2    = await Survey_Q.create({survey_id: 5, question_id: 1, prompt: "What is the capital of Washington State?", type: "one"})
+  const survey_one_q2_a1 = await Survey_A.create({survey_id: 5, question_id: 1, answer_id: 1, text: "Seattle"})
+  const survey_one_q2_a2 = await Survey_A.create({survey_id: 5, question_id: 1, answer_id: 2, text: "Pullman"})
+  const survey_one_q2_a3 = await Survey_A.create({survey_id: 5, question_id: 1, answer_id: 3, text: "Olympia"})
+  const survey_one_q2_a4 = await Survey_A.create({survey_id: 5, question_id: 1, answer_id: 4, text: "Vancouver"})
+  const survey_one_q3    = await Survey_Q.create({survey_id: 5, question_id: 2, prompt: "Enter you name please?", type: "text"})
+  const survey_one_q3_a1 = await Survey_A.create({survey_id: 5, question_id: 2, answer_id: 1, text: "Name"})
+  const survey_one_q4    = await Survey_Q.create({survey_id: 5, question_id: 3, prompt: "What is your favorite number from 5-10?", type: "range", top_range: 10, bottom_range: 5})
+  const survey_one_q4_a1 = await Survey_A.create({survey_id: 5, question_id: 3, answer_id: 1, text: "number"})
+  const survey_one_q5    = await Survey_Q.create({survey_id: 5, question_id: 4, prompt: "Select all the classes that you have taken:", type: "all"})
+  const survey_one_q5_a1 = await Survey_A.create({survey_id: 5, question_id: 4, answer_id: 1, text: "CPT_S 302"})
+  const survey_one_q5_a2 = await Survey_A.create({survey_id: 5, question_id: 4, answer_id: 2, text: "CPT_S 350"})
+  const survey_one_q5_a3 = await Survey_A.create({survey_id: 5, question_id: 4, answer_id: 3, text: "CPT_S 360"})
+  const survey_one_q5_a4 = await Survey_A.create({survey_id: 5, question_id: 4, answer_id: 4, text: "CPT_S 421"})
+  const survey_one_q6    = await Survey_Q.create({survey_id: 5, question_id: 5, prompt: "Can you see the following image",img: "FMS/DeepSquat.png", type: "one"})
+  const survey_one_q6_a1 = await Survey_A.create({survey_id: 5, question_id: 5, answer_id: 1, text: "Yes"})
+  const survey_one_q6_a2 = await Survey_A.create({survey_id: 5, question_id: 5, answer_id: 2, text: "No"})
 
+  const h2f_info = await Survey_Info.create({survey_id: 1, author: "brian.harder@army.mil", title: "Holistic Health and Fitness (H2F) Knowledge Check", description: "H2F is designed to optimize Soldier personal readiness,\
+  reduce injury rates, improve rehabilitation after injury, and increase the overall effectiveness of the Total Army. These assessment tools are designed to help you identify your strengths\
+   and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of the Army National Guard along with the PHA.", show_question_numbers: true})
+
+  const h2f_q1    = await Survey_Q.create({survey_id: 1, question_id: 1, prompt: "How long should you cool down after a workout?", type: "one"})
+  const h2f_q1_a1 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 1, text: "30 minutes"})
+  const h2f_q1_a2 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 2, text: "75 minutes"})
+  const h2f_q1_a3 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 3, text: "300 minutes"})
+  const h2f_q1_a4 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 4, text: "150 minutes"}) // correct
+
+  const h2f_q2    = await Survey_Q.create({survey_id: 1, question_id: 2, prompt: "All of the following can be results of doing a proper cool down after exercise EXCEPT:", type: "one"})
+  const h2f_q2_a1 = await Survey_A.create({survey_id: 1, question_id: 2, answer_id: 1, text: "Slowly reducing heart rate"})
+  const h2f_q2_a2 = await Survey_A.create({survey_id: 1, question_id: 2, answer_id: 2, text: "Preventing blood pooling in the extremities"})
+  const h2f_q2_a3 = await Survey_A.create({survey_id: 1, question_id: 2, answer_id: 3, text: "Increase the body's ability to burn fat"}) // correct
+  const h2f_q2_a4 = await Survey_A.create({survey_id: 1, question_id: 2, answer_id: 4, text: "Enhancing Flexibility and range of motion"})
+
+  const h2f_q3    = await Survey_Q.create({survey_id: 1, question_id: 3, prompt: "Which of the following is not a food group:", type: "one"})
+  const h2f_q3_a1 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 1, text: "Fruits"})
+  const h2f_q3_a2 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 2, text: "Rice"}) // correct
+  const h2f_q3_a3 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 3, text: "Grains"})
+  const h2f_q3_a4 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 4, text: "Protein"})
+
+  const h2f_q4    = await Survey_Q.create({survey_id: 1, question_id: 4, prompt: "All of the following are examples of whole grains except:", type: "one"})
+  const h2f_q4_a1 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 1, text: "Brown Rice"})
+  const h2f_q4_a2 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 2, text: "White Bread"}) // correct
+  const h2f_q4_a3 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 3, text: "Popcorn"})
+  const h2f_q4_a4 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 4, text: "Oatmeal"})
+
+  const h2f_q5    = await Survey_Q.create({survey_id: 1, question_id: 5, prompt: "The ability to sense other people's emotions is known as:", type: "one"})
+  const h2f_q5_a1 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 1, text: "Empathy"}) // correct
+  const h2f_q5_a2 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 2, text: "Kinesis"})
+  const h2f_q5_a3 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 3, text: "Mind Reading"})
+  const h2f_q5_a4 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 4, text: "Sympathy"})
+
+  const h2f_q6    = await Survey_Q.create({survey_id: 1, question_id: 6, prompt: "The ability to sort through irrelevant information and thoughts to concentrate and focus on a specific task is known as:", type: "one"})
+  const h2f_q6_a1 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 1, text: "Attention"})
+  const h2f_q6_a2 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 2, text: "Centralizing"})
+  const h2f_q6_a3 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 3, text: "Processing"}) // correct
+  const h2f_q6_a4 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 4, text: "Details"})
+
+  const h2f_q7    = await Survey_Q.create({survey_id: 1, question_id: 7, prompt: "The idea of learning how to be fully present and engaged in moment and aware of your thoughts and feelings without distraction or judgment is:", type: "one"})
+  const h2f_q7_a1 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 1, text: "Inner Peace"})
+  const h2f_q7_a2 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 2, text: "Serenity"})
+  const h2f_q7_a3 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 3, text: "Empathy"})
+  const h2f_q7_a4 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 4, text: "Mindfulness"}) // correct
+
+  const h2f_q8    = await Survey_Q.create({survey_id: 1, question_id: 8, prompt: "The process of two people or groups in a conflict agreeing to make amends or come to a truce is known as:", type: "one"})
+  const h2f_q8_a1 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 1, text: "Compatibility"})
+  const h2f_q8_a2 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 2, text: "Engagement"})
+  const h2f_q8_a3 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 3, text: "Reconciliation"}) // correct
+  const h2f_q8_a4 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 4, text: "Empathy"})
+
+  const h2f_q9    = await Survey_Q.create({survey_id: 1, question_id: 9, prompt: "Adults need at least how many hours of sleep per night?", type: "one"})
+  const h2f_q9_a1 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 1, text: "4-5 Hours"})
+  const h2f_q9_a2 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 2, text: "6-7 Hours"})
+  const h2f_q9_a3 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 3, text: "7-8 Hours"}) // correct
+  const h2f_q9_a4 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 4, text: "5-6 Hours"})
+
+  const h2f_q10    = await Survey_Q.create({survey_id: 1, question_id: 10, prompt: "Being awake for more than 20 hours results in an impairment equal to a blood alcohol level of 0.08%.", type: "one"})
+  const h2f_q10_a1 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 1, text: "True"}) // correct
+  const h2f_q10_a2 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 2, text: "False"})
+
+  const cpa_info = await Survey_Info.create({survey_id: 2, author: "brian.harder@army.mil", title: "Cogntive Performance Assessment", description: "This assessment is designed to measure your cognitive performance."})
+  
+  const cpa_q1    = await Survey_Q.create({survey_id: 2, question_id: 1, header: "Motivation to live a healthy lifestyle in each category", prompt: "M- Physical Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q1_a1 = await Survey_A.create({survey_id: 2, question_id: 1, answer_id: 1, text: "number"})
+  const cpa_q2    = await Survey_Q.create({survey_id: 2, question_id: 2, prompt: "M- Mental Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q2_a1 = await Survey_A.create({survey_id: 2, question_id: 2, answer_id: 1, text: "number"})
+  const cpa_q3    = await Survey_Q.create({survey_id: 2, question_id: 3, prompt: "M- Nutritional Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q3_a1 = await Survey_A.create({survey_id: 2, question_id: 3, answer_id: 1, text: "number"})
+  const cpa_q4    = await Survey_Q.create({survey_id: 2, question_id: 4, prompt: "M- Spiritual Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q4_a1 = await Survey_A.create({survey_id: 2, question_id: 4, answer_id: 1, text: "number"})
+  const cpa_q5    = await Survey_Q.create({survey_id: 2, question_id: 5, prompt: "M- Sleep Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q5_a1 = await Survey_A.create({survey_id: 2, question_id: 5, answer_id: 1, text: "number"})
+
+  const cpa_q6     = await Survey_Q.create({survey_id: 2, question_id: 6, header: "Ability to live a healthy lifestyle in each category", prompt: "A- Physical Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q6_a1  = await Survey_A.create({survey_id: 2, question_id: 6, answer_id: 1, text: "number"})
+  const cpa_q7     = await Survey_Q.create({survey_id: 2, question_id: 7, prompt: "A- Mental Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q7_a1  = await Survey_A.create({survey_id: 2, question_id: 7, answer_id: 1, text: "number"}) 
+  const cpa_q8     = await Survey_Q.create({survey_id: 2, question_id: 8, prompt: "A- Nutritional Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q8_a1  = await Survey_A.create({survey_id: 2, question_id: 8, answer_id: 1, text: "number"})
+  const cpa_q9     = await Survey_Q.create({survey_id: 2, question_id: 9, prompt: "A- Spiritual Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q9_a1  = await Survey_A.create({survey_id: 2, question_id: 9, answer_id: 1, text: "number"})
+  const cpa_q10    = await Survey_Q.create({survey_id: 2, question_id: 10, prompt: "A- Sleep Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q10_a1 = await Survey_A.create({survey_id: 2, question_id: 10, answer_id: 1, text: "number"})
+  
+  const cpa_q11    = await Survey_Q.create({survey_id: 2, question_id: 11, header: "Current (past 7 days) in each category", prompt: "C- Physical Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q11_a1 = await Survey_A.create({survey_id: 2, question_id: 11, answer_id: 1, text: "number"})
+  const cpa_q12    = await Survey_Q.create({survey_id: 2, question_id: 12, prompt: "C-Mental Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q12_a1 = await Survey_A.create({survey_id: 2, question_id: 12, answer_id: 1, text: "number"})
+  const cpa_q13    = await Survey_Q.create({survey_id: 2, question_id: 13, prompt: "C-Nutritional Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q13_a1 = await Survey_A.create({survey_id: 2, question_id: 13, answer_id: 1, text: "number"})
+  const cpa_q14    = await Survey_Q.create({survey_id: 2, question_id: 14, prompt: "C-Spiritual Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q14_a1 = await Survey_A.create({survey_id: 2, question_id: 14, answer_id: 1, text: "number"})
+  const cpa_q15    = await Survey_Q.create({survey_id: 2, question_id: 15, prompt: "C-Sleep Health: ", type: "range", top_range: 10, bottom_range: 1})
+  const cpa_q15_a1 = await Survey_A.create({survey_id: 2, question_id: 15, answer_id: 1, text: "number"})
+
+  const fms_info = await Survey_Info.create({survey_id: 3, author: "brian.harder@army.mil", title: "Functional Movement Screening", description: "This assessment is designed to measure your functional movement.", secure: true, password: "1234"})
+
+  const fms_q1    = await Survey_Q.create({survey_id: 3, question_id: 1, prompt: "Grader Name: ", type: "text"})
+  const fms_q1_a1 = await Survey_A.create({survey_id: 3, question_id: 1, answer_id: 1, text: "Name"})
+  const fms_q2    = await Survey_Q.create({survey_id: 3, question_id: 2, prompt: "Enter Athlete's Score for Deep Squat: ",img: "FMS/DeepSquat.png", type: "range", bottom_range: 0, top_range: 3})
+  const fms_q2_a1 = await Survey_A.create({survey_id: 3, question_id: 2, answer_id: 1, text: "3"})
+  const fms_q3    = await Survey_Q.create({survey_id: 3, question_id: 3, prompt: "Enter Athlete's Score for Hurdle Step: ",img: "FMS/HurdleStep.png", type: "range", bottom_range: 0, top_range: 3})
+  const fms_q3_a1 = await Survey_A.create({survey_id: 3, question_id: 3, answer_id: 1, text: "3"})
+  const fms_q4    = await Survey_Q.create({survey_id: 3, question_id: 4, prompt: "Enter Athlete's Score for Inline Lunge: ",img: "FMS/InlineLunge.png", type: "range", bottom_range: 0, top_range: 3})
+  const fms_q4_a1 = await Survey_A.create({survey_id: 3, question_id: 4, answer_id: 1, text: "3"})
+  const fms_q5    = await Survey_Q.create({survey_id: 3, question_id: 5, prompt: "Enter Athlete's Score for Shoulder Mobility: ",img: "FMS/ShoulderMobility.png", type: "range", bottom_range: 0, top_range: 3})
+  const fms_q5_a1 = await Survey_A.create({survey_id: 3, question_id: 5, answer_id: 1, text: "3"})
+  const fms_q6    = await Survey_Q.create({survey_id: 3, question_id: 6, prompt: "Enter Athlete's Score for Active Straight Leg Raise: ",img: "FMS/ActiveStraightLegRaise.png", type: "range", bottom_range: 0, top_range: 3})
+  const fms_q6_a1 = await Survey_A.create({survey_id: 3, question_id: 6, answer_id: 1, text: "3"})
+  const fms_q7    = await Survey_Q.create({survey_id: 3, question_id: 7, prompt: "Enter Athlete's Score for Trunk Stability Push-Up: ",img: "FMS/TrunkStabilityPushup.png", type: "range", bottom_range: 0, top_range: 3})
+  const fms_q7_a1 = await Survey_A.create({survey_id: 3, question_id: 7, answer_id: 1, text: "3"})
+  const fms_q8    = await Survey_Q.create({survey_id: 3, question_id: 8, prompt: "Enter Athlete's Score for Rotary Stability: ",img: "FMS/RotaryStability.png", type: "range", bottom_range: 0, top_range: 3})
+  const fms_q8_a1 = await Survey_A.create({survey_id: 3, question_id: 8, answer_id: 1, text: "3"})
+
+  
 
   /*
-  const h2f_q1 = await H2F_Q.create({ qid: 1, question: "How long should you cool down after a workout?", category: "Physical" })
-  const h2f_a1 = await H2F_A.create({ qid: 1, answer: "30 minutes", correct: false })
-  const h2f_a2 = await H2F_A.create({ qid: 1, answer: "75 minutes", correct: false })
-  const h2f_a3 = await H2F_A.create({ qid: 1, answer: "300 minutes", correct: false })
-  const h2f_a4 = await H2F_A.create({ qid: 1, answer: "150 minutes", correct: true })
-
-  const h2f_q2 = await H2F_Q.create({ qid: 2, question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:", category: "Physical" })
-  const h2f_a5 = await H2F_A.create({ qid: 2, answer: "Slowly reducing heart rate", correct: false })
-  const h2f_a6 = await H2F_A.create({ qid: 2, answer: "Preventing blood pooling in the extremities", correct: false })
-  const h2f_a7 = await H2F_A.create({ qid: 2, answer: "Increase the body's ability to burn fat", correct: true })
-  const h2f_a8 = await H2F_A.create({ qid: 2, answer: "Enhancing Flexibility and range of motion", correct: false })
-
-  const h2f_q3 = await H2F_Q.create({ qid: 3, question: "Which of the following is not a food group:", category: "Nutrition" })
-  const h2f_a9 = await H2F_A.create({ qid: 3, answer: "Fruits", correct: false })
-  const h2f_a10 = await H2F_A.create({ qid: 3, answer: "Rice", correct: true })
-  const h2f_a11 = await H2F_A.create({ qid: 3, answer: "Grains", correct: false })
-  const h2f_a12 = await H2F_A.create({ qid: 3, answer: "Protein", correct: false })
-
-  const h2f_q4 = await H2F_Q.create({ qid: 4, question: "All of the following are examples of whole grains except:", category: "Nutrition" })
-  const h2f_a13 = await H2F_A.create({ qid: 4, answer: "Brown Rice", correct: false })
-  const h2f_a14 = await H2F_A.create({ qid: 4, answer: "White Bread", correct: true })
-  const h2f_a15 = await H2F_A.create({ qid: 4, answer: "Popcorn", correct: false })
-  const h2f_a16 = await H2F_A.create({ qid: 4, answer: "Oatmeal", correct: false })
-
-  const h2f_q5 = await H2F_Q.create({ qid: 5, question: "The ability to sense other people's emotions is known as:", category: "Mental" })
-  const h2f_a17 = await H2F_A.create({ qid: 5, answer: "Empathy", correct: true })
-  const h2f_a18 = await H2F_A.create({ qid: 5, answer: "Kinesis", correct: false })
-  const h2f_a19 = await H2F_A.create({ qid: 5, answer: "Mind Reading", correct: false })
-  const h2f_a20 = await H2F_A.create({ qid: 5, answer: "Sympathy", correct: false })
-
-  const h2f_q6 = await H2F_Q.create({ qid: 6, question: "The ability to sort through irrelevant information and thoughts to concentrate and focus on a specific task is known as:", category: "Mental" })
-  const h2f_a21 = await H2F_A.create({ qid: 6, answer: "Attention", correct: false })
-  const h2f_a22 = await H2F_A.create({ qid: 6, answer: "Centralizing", correct: false })
-  const h2f_a23 = await H2F_A.create({ qid: 6, answer: "Processing", correct: true })
-  const h2f_a24 = await H2F_A.create({ qid: 6, answer: "Details", correct: false })
-
-  const h2f_q7 = await H2F_Q.create({ qid: 7, question: "The idea of learning how to be fully present and engaged in moment and aware of your thoughts and feelings without distraction or judgment is:", category: "Spiritual" })
-  const h2f_a26 = await H2F_A.create({ qid: 7, answer: "Inner Peace", correct: false })
-  const h2f_a27 = await H2F_A.create({ qid: 7, answer: "Serenity", correct: false })
-  const h2f_a28 = await H2F_A.create({ qid: 7, answer: "Empathy", correct: false })
-  const h2f_a25 = await H2F_A.create({ qid: 7, answer: "Mindfulness", correct: true })
-
-  const h2f_q8 = await H2F_Q.create({ qid: 8, question: "The process of two people or groups in a conflict agreeing to make amends or come to a truce is known as:", category: "Spiritual" })
-  const h2f_a30 = await H2F_A.create({ qid: 8, answer: "Compatibility", correct: false })
-  const h2f_a31 = await H2F_A.create({ qid: 8, answer: "Engagement", correct: false })
-  const h2f_a29 = await H2F_A.create({ qid: 8, answer: "Reconciliation", correct: true })
-  const h2f_a32 = await H2F_A.create({ qid: 8, answer: "Empathy", correct: false })
-
-  const h2f_q9 = await H2F_Q.create({ qid: 9, question: "Adults need at least how many hours of sleep per night?", category: "Sleep" })
-  const h2f_a33 = await H2F_A.create({ qid: 9, answer: "4-5 Hours", correct: false })
-  const h2f_a34 = await H2F_A.create({ qid: 9, answer: "6-7 Hours", correct: false })
-  const h2f_a35 = await H2F_A.create({ qid: 9, answer: "7-8 Hours", correct: true })
-  const h2f_a36 = await H2F_A.create({ qid: 9, answer: "5-6 Hours", correct: false })
-
-  const h2f_q10 = await H2F_Q.create({ qid: 10, question: "Being awake for more than 20 hours results in an impairment equal to a blood alcohol level of 0.08%.", category: "Sleep" })
-  const h2f_a37 = await H2F_A.create({ qid: 10, answer: "True", correct: true })
-  const h2f_a38 = await H2F_A.create({ qid: 10, answer: "False", correct: false })
 
   const user1 = await User.create({ firstname: "Tom", lastname: "Hall", unit: "1st", email: "tom.hall@army.mil", rank: "Pvt" });
   const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt" });

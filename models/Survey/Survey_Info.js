@@ -29,8 +29,26 @@ Survey_Info.init({
     }, 
     description:
     {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
+    },
+    secure: // checks if the user needs a password to access the survey
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    password: // only used if authorization is true
+    {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
+    show_question_numbers: // checks if the user wants to show question numbers
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     sequelize,

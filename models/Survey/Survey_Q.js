@@ -21,10 +21,22 @@ Survey_Q.init({
         },
         primaryKey: true
     },
+    header: // the header of the question
+    {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
     prompt: // the question itself
     {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    img:
+    {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null
     },
     type: // all (for select all), one (for multiple choice),  range (for number entry), and text (for text entry)
     {

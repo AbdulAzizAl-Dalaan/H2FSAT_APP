@@ -38,9 +38,24 @@
         <!-- CHANGE TO SURVEY SUBMIT -->
         <% questions.forEach(question=> { %>
         <div class="question-container col-12">
+          <% if (question.header !== null) { %>
+            <h2><%= question.header %></h2>
+          <% } %>
+
           <h4>
-            (<%= question.question_id %>)&nbsp;&nbsp;<%= question.prompt %>
+            <% if (survey.show_question_numbers) { %>
+              (<%= question.question_id %>)
+              &nbsp;&nbsp;
+            <% } %>
+            <%= question.prompt %>
           </h4>
+
+          <% if (question.img !== null) { %>
+          <img
+            src="/images/<%= question.img %>"
+            width="750px"
+            style="display: block; margin: auto;">
+          <% } %>
 
           <% if (question.type==="all" ) { %> <% answers.forEach(answer=> { %>
           &nbsp; <% if (answer.question_id===question.question_id) { %>
@@ -84,29 +99,19 @@
           
           
           <% } else if (question.type==="range" ) { %>
-          <div>
-            <label for="answer_<%= question.question_id %>">
-              <%= question.text %>
+          <div class="mb-3">
+            <label for="answer_<%= question.question_id %>" class="form-label">
+                <%= question.text %>
             </label>
-            <div class="d-flex justify-content-between align-items-center">
-              <span> <%= question.bottom_range %> </span>
-              <input
-                type="range"
-                class="form-range"
-                id="answer_<%= question.question_id %>"
-                required
-                name="<%= question.question_id %>"
-                min="<%= question.bottom_range %>"
-                max="<%= question.top_range %>"
-                oninput="document.getElementById('rangeValue_<%= question.question_id %>').innerHTML = this.value;"
-              />
-              <span> <%= question.top_range %> </span>
-            </div>
-            <span id="rangeValue_<%= question.question_id %>">
-              <%= question.bottom_range %>
-            </span>
+            <input type="number"
+                   class="form-control col-6"
+                   id="answer_<%= question.question_id %>"
+                   required
+                   name="<%= question.question_id %>"
+                   min="<%= question.bottom_range %>"
+                   max="<%= question.top_range %>"
+            />
           </div>
-
           
           
           <% } else { %>
@@ -138,23 +143,24 @@
       ></script>
 
       <script>
-        function validateForm() {
-          const checkboxes = document.querySelectorAll(
-            'input[type="checkbox"]'
-          );
-          let isChecked = false;
-          checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-              isChecked = true;
-            }
-          });
-          if (!isChecked) {
-            alert("Please select at least one option for checkbox questions.");
-            return false;
-          }
-          return true;
-        }
-      </script>
+  function validateForm() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    if (checkboxes.length === 0) {
+      return true;
+    }
+    let isChecked = false;
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        isChecked = true;
+      }
+    });
+    if (!isChecked) {
+      alert("Please select at least one option for checkbox questions.");
+      return false;
+    }
+    return true;
+  }
+</script>
     </div>
   </body>
 </html>
