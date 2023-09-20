@@ -17,8 +17,10 @@ Survey_Q.belongsTo(Survey_Info)
 Survey_Q.hasMany(Survey_A, { foreignKey: "question_id" })
 Survey_Q.hasMany(Survey_A, { foreignKey: "survey_id" })
 Survey_A.belongsTo(Survey_Q)
+Survey_A.belongsTo(Survey_Info)
 User.hasMany(Survey_R, { foreignKey: "user_id" })
 Survey_Info.hasMany(Survey_R, { foreignKey: "survey_id" })
+Survey_R.belongsTo(Survey_Info)
 Survey_R.belongsTo(User)
 
 var indexRouter = require('./routes/index');

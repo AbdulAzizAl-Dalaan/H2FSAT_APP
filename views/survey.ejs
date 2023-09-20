@@ -28,7 +28,7 @@
   <body>
     <%- include('header') %>
 
-    <div class="content" style="padding-top: 20px;">
+    <div class="content" style="padding-top: 20px">
       <form
         method="post"
         action="/home/<%= survey.survey_id %>/submit"
@@ -41,7 +41,7 @@
         <% questions.forEach(question=> { %>
         <div class="question-container col-12">
           <% if (question.header !==null) { %>
-          <h2><%= question.header %></h2>
+          <h2 style="padding-bottom: 15px;"><%= question.header %></h2>
           <% } %>
 
           <h4>
@@ -101,27 +101,28 @@
               name="<%= question.question_id %>"
               min="<%= question.bottom_range %>"
               max="<%= question.top_range %>"
+              placeholder="Enter your answer here"
             />
           </div>
 
           <% break; case "text" : %>
-          <div>
+          <div class="mb-3">
+            <label for="answer_<%= question.question_id %>">
+              <%= question.text %>
+            </label>
             <input
               type="text"
-              class="form-control"
+              class="form-control col-6"
               id="answer_<%= question.question_id %>"
               required
               name="<%= question.question_id %>"
               placeholder="Enter your answer here"
             />
-            <label for="answer_<%= question.question_id %>">
-              <%= question.text %>
-            </label>
           </div>
           <% break; default: break; } %>
         </div>
         <% }) %>
-        <div class="row mb-3" style="padding-top: 10px;">
+        <div class="row mb-3" style="padding-top: 10px">
           <div class="col-12 text-center">
             <input type="submit" value="Submit" class="btn btn-warning" />
           </div>
