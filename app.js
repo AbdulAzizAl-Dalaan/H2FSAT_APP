@@ -7,19 +7,6 @@ const session = require('express-session')
 const sequelize = require('./db');
 const User = require('./models/User')
 
-/*
-const H2F_Q = require('./models/H2F/H2F_Q')
-const H2F_A = require('./models/H2F/H2F_A')
-const H2F_R = require('./models/H2F/H2F_R')
-
-const { CPA_A, CPA_Q } = require('./models/CPA/association')
-const CPA_R = require('./models/CPA/CPA_R')
-
-const FMS_Q = require('./models/FMS/FMS_Q')
-const FMS_A = require('./models/FMS/FMS_A')
-const FMS_R = require('./models/FMS/FMS_R')
-*/
-
 const Survey_Info = require('./models/Survey/Survey_Info')
 const Survey_Q = require('./models/Survey/Survey_Q')
 const Survey_A = require('./models/Survey/Survey_A')
@@ -30,13 +17,14 @@ Survey_Q.belongsTo(Survey_Info)
 Survey_Q.hasMany(Survey_A, { foreignKey: "question_id" })
 Survey_Q.hasMany(Survey_A, { foreignKey: "survey_id" })
 Survey_A.belongsTo(Survey_Q)
+User.hasMany(Survey_R, { foreignKey: "user_id" })
+Survey_Info.hasMany(Survey_R, { foreignKey: "survey_id" })
+Survey_R.belongsTo(User)
 
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
 var unitsummaryRouter = require('./routes/unitsummary');
-const { json } = require('sequelize');
-// const setup = require('./setup')
 
 var app = express();
 
@@ -229,6 +217,7 @@ async function setup() {
   
 
   /*
+  WILL BE USED FOR TESTING PURPOSES
 
   const user1 = await User.create({ firstname: "Tom", lastname: "Hall", unit: "1st", email: "tom.hall@army.mil", rank: "Pvt" });
   const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt" });
@@ -257,6 +246,7 @@ async function setup() {
   const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "1st", email: "justin.chen@army.mil", rank: "Pvt" });
   const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "1st", email: "grace.wu@army.mil", rank: "Pvt" });
   const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "1st", email: "steven.liu@army.mil", rank: "Sgt" });
+
 */
 
 
