@@ -21,6 +21,12 @@ Survey_R.init({
     {
         type: DataTypes.JSON,
         allowNull: false,
+    },
+    score:
+    {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: null
     }
 }, {
     sequelize,

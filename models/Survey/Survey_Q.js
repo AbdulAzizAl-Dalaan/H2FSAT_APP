@@ -27,7 +27,7 @@ Survey_Q.init({
         allowNull: true,
         defaultValue: null
     },
-    prompt: // the question itself
+    prompt: // the question text itself
     {
         type: DataTypes.STRING,
         allowNull: false
@@ -50,6 +50,12 @@ Survey_Q.init({
         defaultValue: null
     },
     bottom_range: // only used for range type questions
+    {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: null
+    },
+    point_value:
     {
         type: DataTypes.INTEGER,
         allowNull: true,

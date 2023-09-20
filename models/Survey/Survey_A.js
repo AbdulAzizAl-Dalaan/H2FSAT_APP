@@ -36,6 +36,12 @@ Survey_A.init({
     {
         type: DataTypes.STRING,
         allowNull: true
+    }, 
+    is_correct: // only used in point value questions to check if the answer is correct or not (add the question point value to the total if correct)
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: null
     }
 }, {
     sequelize,

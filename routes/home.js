@@ -6,6 +6,7 @@ const Survey_Q = require('../models/Survey/Survey_Q')
 const Survey_A = require('../models/Survey/Survey_A')
 const Survey_R = require('../models/Survey/Survey_R');
 const e = require('express');
+const { map } = require('../app');
 
 const sessionChecker = (req, res, next) => {
   if(req.session.user)
@@ -75,21 +76,44 @@ router.post('/:id/submit', async function(req, res, next) {
     const results = await Survey_R.findAll({where: {email: user.email, survey_id: survey.survey_id}})
     if (results.length === 0)
     {
-      const questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
-      const answers = await Survey_A.findAll({where: {survey_id: req.params.id}})
-      // PERFORM RESULT CREATION HERE
       let result_dict = {}
-      questions.forEach(question => {
-        const answer = req.body[question.question_id]
-        console.log("ANSWER: " + answer) 
-        if (answer !== undefined)
-        {
-          result_dict[question.question_id] = answer
-        }
-      });
-      console.log("RESULT DICT: " + JSON.stringify(result_dict))
-      const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, results: result_dict})
-      res.redirect('/home/?msg=success')
+      const questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
+      if (survey.grade_by_points)
+      {
+        let res_score = 0
+        const correct_answers = await Survey_A.findAll({where: {survey_id: req.params.id, is_correct: true}}) // get all correct texts only
+        const correct_answers_text = correct_answers.map(answer => answer.text)
+        questions.forEach(question => {
+          const answer = req.body[question.question_id]
+          console.log("ANSWER: " + answer) 
+          if (answer !== undefined)
+          {
+            result_dict[question.question_id] = answer
+          }
+          if (correct_answers_text.includes(answer))
+          {
+            res_score += question.point_value
+          }
+        });
+        console.log("RESULT DICT: " + JSON.stringify(result_dict))
+        console.log("SCORE: " + res_score)
+        const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, results: result_dict, score: res_score })
+        res.redirect('/home/?msg=success')
+      }
+      else
+      {
+        questions.forEach(question => {
+          const answer = req.body[question.question_id]
+          console.log("ANSWER: " + answer) 
+          if (answer !== undefined)
+          {
+            result_dict[question.question_id] = answer
+          }
+        });
+        console.log("RESULT DICT: " + JSON.stringify(result_dict))
+        const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, results: result_dict })
+        res.redirect('/home/?msg=success')
+      }
     }
     else 
     {

@@ -26,7 +26,13 @@ Survey_Info.init({
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-    }, 
+    },
+    card_img: // image for the survey
+    {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
     description:
     {
         type: DataTypes.TEXT,
@@ -45,6 +51,12 @@ Survey_Info.init({
         defaultValue: null
     },
     show_question_numbers: // checks if the user wants to show question numbers
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    grade_by_points: // checks if the user wants to grade by points
     {
         type: DataTypes.BOOLEAN,
         allowNull: false,
