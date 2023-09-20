@@ -29,6 +29,10 @@
     <section>
         <h2>Select your Excel for upload:</h2>
         <form action="/upload/handle-upload" method="post" enctype="multipart/form-data">
+            <select name="uploadType">
+                <option value="cpa_h2f">CPA and H2F</option>
+                <option value="fms">FMS</option>
+            </select>
             <input type="file" name="csvfile" accept=".xlsx, .csv, .xls">
             <input type="submit" value="Upload CSV">
         </form>
