@@ -1,15 +1,6 @@
 var express = require('express');
-const User = require('../models/User')
-const H2F_Q = require('../models/H2F/H2F_Q')
-const H2F_A = require('../models/H2F/H2F_A')
-const H2F_R = require('../models/H2F/H2F_R')
-const FMS_Q = require('../models/FMS/FMS_Q')
-const FMS_A = require('../models/FMS/FMS_A')
-const FMS_R = require('../models/FMS/FMS_R')
 
 var router = express.Router();
-
-const CPA_R = require('../models/CPA/CPA_R')//cpa model
 var router = express.Router();
 
 //cpa boolean

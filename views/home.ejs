@@ -18,6 +18,9 @@
         margin: auto;
         margin-top: 20px;
       }
+      body {
+        padding-bottom: 20px;
+      }
 
     </style>
     <link rel="stylesheet" href="/stylesheets/style.css">
@@ -34,77 +37,53 @@
   </p>
 
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
-    <div class="col">
-      <div class="card h-100">
-        <img src="/images/placeholder.png" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title"><strong>Holistic Health and Fitness (H2F) Knowledge Check</strong></h5>
-          <br>
-          <p class="card-text">Knowledge Check Assessment on the aspects of physical and non-physical human performance among the categories 
-            of Physical, Nutrition, Mental, Spiritual, and Sleep. 
-          </p>
-        </div>
-        <div style="text-align: center;">
-          <form method="get" action="/h2f">
-            <div class="form-group">
-              <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
-            </div>
-          </form>
+    <% surveys.forEach((survey) => { %>
+      <div class="col">
+        <div class="card h-100">
+          <img src="/images/placeholder.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"><strong><%= survey.title  %></strong></h5>
+            <br>
+            <p class="card-text">
+              <%= survey.description.substring(0, 265).replace(/\s+\S*$/, '') + (survey.description.length > 265 ? '...' : '') %>
+            </p>
+          </div>
+          <div style="text-align: center;">
+            <% if (survey.secure) { %>
+              <form method="post" action="/home/<%= survey.survey_id %>/authorize">
+                <div class="form-group">
+                  <label for="password">Enter password:</label>
+                  <input type="password" id="password" required name="password" class="form-control">
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-warning">Start Assessment</button>
+                </div>
+              </form>   
+            <% } else { %>
+            <form method="get" action="/home/<%= survey.survey_id%>"> 
+              <div class="form-group">
+                <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
+              </div>
+            </form>
+            <% } %>
+
+
         </div>
       </div>
-    </div>
+    </div> 
+  <% }) %>
 
-
-    <div class="col">
-      <div class="card h-100">
-        <img src="/images/placeholder.png" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title"><strong>Cognitive Performance Assessment</strong></h5>
-          <br>
-          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-        </div>
-        <div style="text-align: center;">
-          <form method="get" action="/cpa">
-            <div class="form-group">
-              <input type="submit" value="Start Assessment" class="btn btn-warning"></button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col">
-      <div class="card h-100">
-        <img src="/images/placeholder.png" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title"><strong>Functional Movement Screening</strong></h5>
-          <br>
-          <p class="card-text">The Functional Movement Screening (FMS) is a tool used to assess movement patterns and identify limitations or asymmetries in the body.</p>
-        </div>
-        <div style="text-align: center;">
-          <form method="get" action="/fms">
-            <div class="form-group">
-              <label for="password">Enter password:</label>
-              <input type="password" id="password" name="password" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-warning" onclick="return checkPassword()">Start Assessment</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    
-    <script>
-    function checkPassword() {
-      var password = document.getElementById("password").value;
-      if (password === "1234") { 
+      
+  <script>
+    function checkPassword(password) {
+      var inputPassword = document.getElementById("password").value;
+      if (inputPassword === password) { 
         return true;
       } else {
         alert("Incorrect password. Please try again.");
         return false;
       }
     }
-    </script>
+  </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
