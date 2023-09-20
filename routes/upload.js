@@ -7,13 +7,18 @@ const User = require('../models/User');
 const H2F_A = require('../models/H2F/H2F_A');
 const H2F_Q = require('../models/H2F/H2F_Q');
 const H2F_R = require('../models/H2F/H2F_R');
+const CPA_R = require('../models/CPA/CPA_R')
 
 const router = express.Router();
 
 const upload = multer({ dest: 'uploads/' });
 
+//they have to be an admin or unitleader to upload excel can easily change to just admin
 router.get('/csv', (req, res) => {
-    res.render('upload'); 
+    res.render('upload', {
+        isAdmin: true,
+        isUnitLeader: true
+    }); 
 });
 
 router.post('/handle-upload', upload.single('csvfile'), async (req, res) => {
@@ -39,7 +44,7 @@ router.post('/handle-upload', upload.single('csvfile'), async (req, res) => {
 
             let answers = {};
             for (let i = 1; i <= 10; i++) {
-                // Fetch the question from the database for the current index
+                //get the question from the database for the current index
                 const currentQuestion = await H2F_Q.findOne({
                     where: {
                         qid: i
@@ -68,6 +73,38 @@ router.post('/handle-upload', upload.single('csvfile'), async (req, res) => {
                 score: Object.values(answers).filter(aid => aid).length
             };
             await H2F_R.create(resultObj);
+
+            const cpaObj = {
+                email: row['email'],
+                unit: row['Unit'],
+                motivation_physical: row['Motivation to live a healthy lifestyle in each category: Physical'],
+                motivation_mental: row['Motivation to live a healthy lifestyle in each category: Mental'],
+                motivation_nutritional: row['Motivation to live a healthy lifestyle in each category: Nutritional'],
+                motivation_spiritual: row['Motivation to live a healthy lifestyle in each category: Spiritual'],
+                motivation_sleep: row['Motivation to live a healthy lifestyle in each category: Sleep'],
+                abilityPH: row['Ability to live a healthy lifestyle in each category: Physical'],
+                abilityMH: row['Ability to live a healthy lifestyle in each category: Mental'],
+                abilityNH: row['Ability to live a healthy lifestyle in each category: Nutritional'],
+                abilitySPH: row['Ability to live a healthy lifestyle in each category: Spiritual'],
+                abilitySLH: row['Ability to live a healthy lifestyle in each category: Sleep'],
+                curPH: row['Current (past 7 days) self-rating of my: Physical'],
+                curMH: row['Current (past 7 days) self-rating of my: Mental'],
+                curNH: row['Current (past 7 days) self-rating of my: Nutritional'],
+                curSPH: row['Current (past 7 days) self-rating of my: Spiritual'],
+                curSLH: row['Current (past 7 days) self-rating of my: Sleep']
+            };
+
+            cpaObj.total_score = cpaObj.motivation_physical + cpaObj.motivation_mental + 
+                     cpaObj.motivation_nutritional + cpaObj.motivation_spiritual + 
+                     cpaObj.motivation_sleep;
+
+            cpaObj.abilityTS = cpaObj.abilityPH + cpaObj.abilityMH + cpaObj.abilityNH +
+                            cpaObj.abilitySPH + cpaObj.abilitySLH;
+
+            cpaObj.curTS = cpaObj.curPH + cpaObj.curMH + cpaObj.curNH + cpaObj.curSPH + cpaObj.curSLH;
+
+
+            await CPA_R.create(cpaObj);
         }
 
         res.send('Excel data saved successfully!');
