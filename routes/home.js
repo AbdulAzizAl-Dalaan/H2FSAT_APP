@@ -5,8 +5,6 @@ const Survey_Info = require('../models/Survey/Survey_Info')
 const Survey_Q = require('../models/Survey/Survey_Q')
 const Survey_A = require('../models/Survey/Survey_A')
 const Survey_R = require('../models/Survey/Survey_R');
-const e = require('express');
-const { map } = require('../app');
 
 const sessionChecker = (req, res, next) => {
   if(req.session.user)
@@ -126,20 +124,27 @@ router.post('/:id/submit', async function(req, res, next) {
   }
 });
 
-router.get('/h2f', async function(req, res, next) {
-  res.redirect('h2f');
+router.post('/:id/authorize', async function(req, res, next) {
+  const survey = await Survey_Info.findByPk(req.params.id)
+  if (survey !== null)
+  {
+    if (req.body.password === survey.password)
+    {
+      res.redirect('/home/' + req.params.id)
+    }
+    else
+    {
+      res.redirect('/home/?msg=wrongpass')
+    }
+  }
+  else
+  {
+    res.redirect('/home/?msg=notfound')
+  }
 });
 
 router.get('/unitsummary', async function(req, res, next) {
   res.redirect('unitsummary');
-});
-
-router.get('/cpa', async function(req, res, next) {
-  res.redirect('cpa');
-});
-
-router.get('/fms', async function(req, res, next) {
-  res.redirect('fms');
 });
 
 

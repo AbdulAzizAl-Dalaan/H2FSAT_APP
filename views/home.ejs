@@ -50,13 +50,13 @@
           </div>
           <div style="text-align: center;">
             <% if (survey.secure) { %>
-              <form method="get" action="/home/<%= survey.survey_id %>">
+              <form method="post" action="/home/<%= survey.survey_id %>/authorize">
                 <div class="form-group">
                   <label for="password">Enter password:</label>
-                  <input type="password" id="password" name="password" class="form-control" required>
+                  <input type="password" id="password" required name="password" class="form-control">
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-warning" onclick="return checkPassword('<%= survey.password %>')">Start Assessment</button>
+                  <button type="submit" class="btn btn-warning">Start Assessment</button>
                 </div>
               </form>   
             <% } else { %>
