@@ -35,13 +35,17 @@
         class="row g-3"
         onsubmit="return validateForm()"
       >
-        <h1><%= survey.title %></h1>
+        <div class="row mb-3" style="padding-top: 10px">
+          <div class="col-12 text-center">
+            <h1 style="text-decoration: underline;"><%= survey.title %></h1>
+          </div>
+        </div>
         <p><%= survey.description %></p>
         <!-- CHANGE TO SURVEY SUBMIT -->
         <% questions.forEach(question=> { %>
         <div class="question-container col-12">
           <% if (question.header !==null) { %>
-          <h2 style="padding-bottom: 15px;"><%= question.header %></h2>
+          <h2 style="padding-bottom: 15px"><%= question.header %></h2>
           <% } %>
 
           <h4>

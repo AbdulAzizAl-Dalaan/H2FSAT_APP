@@ -10,6 +10,7 @@ Survey_Info.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true
     },
     author: // creator of the survey
     {
