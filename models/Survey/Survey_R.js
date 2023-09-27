@@ -1,6 +1,7 @@
 const sequelize = require('../../db');
 const { Model, DataTypes } = require('sequelize');
-// DEFINE BOTH USER AND SURVEY_INFO MODELS
+const User = require('../User');
+const Survey_Info = require('./Survey_Q');
 
 class Survey_R extends Model {}
 
@@ -9,12 +10,20 @@ Survey_R.init({
     {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: Survey_Info,
+            key: "survey_id"
+        },
         primaryKey: true
     },
     email: // the user who took the survey
     {
         type: DataTypes.STRING,
         allowNull: false,
+        references: {
+            model: User,
+            key: "email"
+        },
         primaryKey: true
     },
     results: // should be stored as a JSON object with the question_id as the key and the answer_id as the value

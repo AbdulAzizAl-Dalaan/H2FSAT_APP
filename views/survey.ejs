@@ -59,7 +59,7 @@
             width="750px"
             style="display: block; margin: auto"
           />
-          <% } %> <% switch (question.type) { case "all" : %> <%
+          <% } %> <% switch (question.type) { case "checkbox" : %> <%
           answers.forEach(answer=> { %> &nbsp; <% if
           (answer.question_id===question.question_id) { %>
           <div class="form-check">
@@ -74,7 +74,7 @@
               <%= answer.text %>
             </label>
           </div>
-          <% } %> <% }) %> <% break; case "one" : %> <% answers.forEach(answer=>
+          <% } %> <% }) %> <% break; case "multiple_choice" : %> <% answers.forEach(answer=>
           { %> &nbsp; <% if (answer.question_id==question.question_id) { %>
           <div class="form-check">
             <input
@@ -92,7 +92,7 @@
               <%= answer.text %>
             </label>
           </div>
-          <% } %> <% }) %> <% break; case "range" : %>
+          <% } %> <% }) %> <% break; case "number_range" : %>
           <div class="mb-3">
             <label for="answer_<%= question.question_id %>" class="form-label">
               <%= question.text %>

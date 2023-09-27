@@ -1,163 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/images/ARNG.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Create Survey</title>
-    <style>
-      .form-group {
-        margin:10px;
-      }
-
-      .content
-      {
-        max-width: 1000px;
-        margin: auto;
-        margin-top: 20px;
-      }
-      body {
-        padding-bottom: 20px;
-      }
-
-    </style>
-    <link rel="stylesheet" href="/stylesheets/style.css">
-</head>
-<body>
-<%- include('header') %>
-<%- include("appmsg") %>
-
-<div class="content">
-    <div class="row mb-3" style="padding-top: 10px">
-        <div class="col-12 text-center">
-          <h1 style="text-decoration: underline;">Assessment Information</h1>
-        </div>
-      </div>
-
-  <form method="post" action="/create">
-    <div class="form-group">
-      <label for="title">Title:</label>
-      <input type="text" class="form-control" id="title" name="title" required>
-    </div>
-    <div class="form-group">
-      <label for="description">Description:</label>
-      <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-4">
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="secure" name="secure" onchange="togglePasswordInput()">
-            <label class="form-check-label" for="secure">Require Password</label>
-          </div>
-        </div> 
-        <div class="col-sm-4">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="show_question_numbers" name="show_question_numbers">
-              <label class="form-check-label" for="show_question_numbers">Show Question Numbers</label>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="grade_by_points" name="grade_by_points">
-              <label class="form-check-label" for="grade_by_points">Grade by Points</label>
-            </div>
-          </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" disabled>
-      </div>
-
-
-    <div class="form-group">
-        <label for="question_type">Question Type:</label>
-        <select class="form-control" id="question_type" name="question_type" onchange="toggleQuestionFields()">
-          <option value="checkbox">Checkbox</option>
-          <option value="multiple_choice">Multiple Choice</option>
-          <option value="text">Text</option>
-          <option value="number_range">Number Range</option>
-        </select>
-      </div>
-      <div id="checkbox_fields" style="display: none;">
-        <div class="form-group">
-          <label for="checkbox_question">Checkbox Question:</label>
-          <input type="text" class="form-control" id="checkbox_question" name="checkbox_question">
-        </div>
-        <div class="form-group">
-          <label for="checkbox_options">Checkbox Options:</label>
-          <textarea class="form-control" id="checkbox_options" name="checkbox_options" rows="3"></textarea>
-        </div>
-      </div>
-      <div id="multiple_choice_fields" style="display: none;">
-        <div class="form-group">
-          <label for="multiple_choice_question">Multiple Choice Question:</label>
-          <input type="text" class="form-control" id="multiple_choice_question" name="multiple_choice_question">
-        </div>
-        <div class="form-group">
-          <label for="multiple_choice_options">Multiple Choice Options:</label>
-          <textarea class="form-control" id="multiple_choice_options" name="multiple_choice_options" rows="3"></textarea>
-        </div>
-      </div>
-      <div id="text_fields" style="display: none;">
-        <div class="form-group">
-          <label for="text_question">Text Question:</label>
-          <input type="text" class="form-control" id="text_question" name="text_question">
-        </div>
-      </div>
-      <div id="number_range_fields" style="display: none;">
-        <div class="form-group">
-          <label for="number_range_question">Number Range Question:</label>
-          <input type="text" class="form-control" id="number_range_question" name="number_range_question">
-        </div>
-        <div class="form-group">
-          <label for="number_range_min">Minimum Value:</label>
-          <input type="number" class="form-control" id="number_range_min" name="number_range_min">
-        </div>
-        <div class="form-group">
-          <label for="number_range_max">Maximum Value:</label>
-          <input type="number" class="form-control" id="number_range_max" name="number_range_max">
-        </div>
-      </div>
-
-
-    <div class="row mb-3" style="padding-top: 10px">
-      <div class="col-12 text-center">
-        <input type="submit" value="Submit" class="btn btn-warning" />
-      </div>
-    </div>
-  </form>
-
-</div>
-
-<script>
-  function togglePasswordInput() {
-    var passwordInput = document.getElementById("password");
-    var secureCheckbox = document.getElementById("secure");
-    passwordInput.disabled = !secureCheckbox.checked;
-  }
-
-  function toggleQuestionFields() {
-    var questionType = document.getElementById("question_type").value;
-    var checkboxFields = document.getElementById("checkbox_fields");
-    var multipleChoiceFields = document.getElementById("multiple_choice_fields");
-    var textFields = document.getElementById("text_fields");
-    var numberRangeFields = document.getElementById("number_range_fields");
-
-    checkboxFields.style.display = "none";
-    multipleChoiceFields.style.display = "none";
-    textFields.style.display = "none";
-    numberRangeFields.style.display = "none";
-
-    if (questionType === "checkbox") {
-      checkboxFields.style.display = "block";
-    } else if (questionType === "multiple_choice") {
-      multipleChoiceFields.style.display = "block";
-    } else if (questionType === "text") {
-      textFields.style.display = "block";
-    } else if (questionType === "number_range") {
-      numberRangeFields.style.display = "block";
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/images/ARNG.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <title>Create Survey</title>
+  <style>
+    .form-group {
+      margin: 10px;
     }
-  }
-</script>
+
+    .content {
+      max-width: 1000px;
+      margin: auto;
+      margin-top: 20px;
+    }
+
+    body {
+      padding-bottom: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+
+<body>
+  <%- include('header') %> <%- include("appmsg") %>
+
+      <div class="content">
+        <div class="row mb-3" style="padding-top: 10px">
+          <div class="col-12 text-center">
+            <h1 style="text-decoration: underline">Assessment Information</h1>
+          </div>
+        </div>
+
+        <form method="post" action="/create">
+          <div class="form-group">
+            <label for="title">Survey Name:</label>
+            <input type="text" class="form-control" id="title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label for="description">Survey Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="show_question_numbers">Show Question Numbers:</label>
+            <input type="checkbox" class="form-check-input" id="show_question_numbers" name="show_question_numbers" />
+          </div>
+          <div class="form-group">
+            <label for="grade_by_points">Grade by Points:</label>
+            <input type="checkbox" class="form-check-input" id="grade_by_points" name="grade_by_points" />
+          </div>
+          <div class="form-group">
+            <label for="secure">Require Password:</label>
+            <input type="checkbox" class="form-check-input" id="secure" name="secure"
+              onchange="togglePasswordInput()" />
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password" name="password" disabled />
+            </div>
+          </div>
+
+          <div id="questions">
+            <!-- Question fields will be dynamically generated here -->
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="addQuestion()">
+              Add Question
+            </button>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-success">Create Survey</button>
+          </div>
+        </form>
+      </div>
+
+      <script>
+        let questionCount = 0;
+
+        function togglePasswordInput() { // handles the password input field
+          var passwordInput = document.getElementById("password");
+          var secureCheckbox = document.getElementById("secure");
+          passwordInput.disabled = !secureCheckbox.checked;
+        }
+
+        function addQuestion() { // handles the question input fields
+          questionCount++;
+
+          // creates the question type select element
+          const questionTypeSelect = document.createElement("select");
+          questionTypeSelect.classList.add("form-control");
+          questionTypeSelect.setAttribute(
+            "name",
+            `question_${questionCount}_type`
+          );
+          questionTypeSelect.setAttribute(
+            "onchange",
+            `toggleQuestionFields(${questionCount})`
+          );
+
+          const checkboxOption = document.createElement("option");
+          checkboxOption.setAttribute("value", "checkbox");
+          checkboxOption.textContent = "Checkbox";
+          questionTypeSelect.appendChild(checkboxOption);
+
+          const multipleChoiceOption = document.createElement("option");
+          multipleChoiceOption.setAttribute("value", "multiple_choice");
+          multipleChoiceOption.textContent = "Multiple Choice";
+          questionTypeSelect.appendChild(multipleChoiceOption);
+
+          const textOption = document.createElement("option");
+          textOption.setAttribute("value", "text");
+          textOption.textContent = "Text";
+          questionTypeSelect.appendChild(textOption);
+
+          const numberRangeOption = document.createElement("option");
+          numberRangeOption.setAttribute("value", "number_range");
+          numberRangeOption.textContent = "Number Range";
+          questionTypeSelect.appendChild(numberRangeOption);
+
+          const questionTypeFormGroup = document.createElement("div");
+          questionTypeFormGroup.classList.add("form-group");
+          questionTypeFormGroup.appendChild(questionTypeSelect);
+
+          const questionFieldsDiv = document.createElement("div");
+          questionFieldsDiv.setAttribute(
+            "id",
+            `question_${questionCount}_fields`
+          );
+
+          const questionTitle = document.createElement("input");
+          questionTitle.setAttribute("type", "text");
+          questionTitle.classList.add("form-control");
+          questionTitle.setAttribute(
+            "name",
+            `question_${questionCount}_title`
+          );
+          questionTitle.setAttribute(
+            "placeholder",
+            `Question ${questionCount} Title`
+          );
+
+          const questionsDiv = document.getElementById("questions");
+          questionTypeFormGroup.append(questionTitle)
+          questionsDiv.appendChild(questionTypeFormGroup);
+          questionsDiv.appendChild(questionFieldsDiv);
+
+          toggleQuestionFields(questionCount);
+
+        }
+
+        function toggleQuestionFields(questionNumber) {
+          const questionTypeSelect = document.querySelector(
+            `[name="question_${questionNumber}_type"]`
+          );
+          const questionType = questionTypeSelect.value;
+
+          const questionFieldsDiv = document.getElementById(
+            `question_${questionNumber}_fields`
+          );
+          questionFieldsDiv.innerHTML = "";
+
+          if (questionType === "checkbox") {
+            const checkboxQuestionFormGroup = document.createElement("div");
+            checkboxQuestionFormGroup.classList.add("form-group");
+
+            const checkboxQuestionLabel = document.createElement("label");
+            checkboxQuestionLabel.setAttribute(
+              "for",
+              `question_${questionNumber}_checkbox_question`
+            );
+            checkboxQuestionLabel.textContent = "Checkbox Question Title:";
+
+            const checkboxQuestionInput = document.createElement("input");
+            checkboxQuestionInput.setAttribute("type", "text");
+            checkboxQuestionInput.classList.add("form-control");
+            checkboxQuestionInput.setAttribute(
+              "name",
+              `question_${questionNumber}_checkbox_question`
+            );
+            checkboxQuestionInput.setAttribute(
+              "id",
+              `question_${questionNumber}_checkbox_question`
+            );
+
+            const checkboxOptionsFormGroup = document.createElement("div");
+            checkboxOptionsFormGroup.classList.add("form-group");
+
+            const checkboxOptionsLabel = document.createElement("label");
+            checkboxOptionsLabel.setAttribute(
+              "for",
+              `question_${questionNumber}_checkbox_options`
+            );
+            checkboxOptionsLabel.textContent = "Checkbox Options:";
+
+            const defaultOption1 = document.createElement("input");
+            defaultOption1.setAttribute("type", "text");
+            defaultOption1.classList.add("form-control");
+            defaultOption1.setAttribute(
+              "name",
+              `question_${questionNumber}_checkbox_option_1`
+            );
+            defaultOption1.setAttribute(
+              "id",
+              `question_${questionNumber}_checkbox_option_1`
+            );
+            defaultOption1.value = "Option 1";
+
+            const defaultOption2 = document.createElement("input");
+            defaultOption2.setAttribute("type", "text");
+            defaultOption2.classList.add("form-control");
+            defaultOption2.setAttribute(
+              "name",
+              `question_${questionNumber}_checkbox_option_2`
+            );
+            defaultOption2.setAttribute(
+              "id",
+              `question_${questionNumber}_checkbox_option_2`
+            );
+            defaultOption2.value = "Option 2";
+
+            const addOptionButton = document.createElement("button");
+            addOptionButton.textContent = "Add Option";
+            addOptionButton.addEventListener("click", () => {
+              const optionCount = checkboxOptionsFormGroup.children.length - 2;
+              const newOptionInput = document.createElement("input");
+              newOptionInput.setAttribute("type", "text");
+              newOptionInput.classList.add("form-control");
+              newOptionInput.setAttribute(
+                "name",
+                `question_${questionNumber}_checkbox_option_${optionCount}`
+              );
+              newOptionInput.setAttribute(
+                "id",
+                `question_${questionNumber}_checkbox_option_${optionCount}`
+              );
+              checkboxOptionsFormGroup.insertBefore(
+                newOptionInput,
+                addOptionButton
+              );
+            });
+
+            const removeOptionButton = document.createElement("button");
+            removeOptionButton.textContent = "Remove Option";
+            removeOptionButton.addEventListener("click", () => {
+              const optionCount = checkboxOptionsFormGroup.children.length - 2;
+              if (optionCount > 2) {
+                const lastOptionInput =
+                  checkboxOptionsFormGroup.children[optionCount + 1];
+                checkboxOptionsFormGroup.removeChild(lastOptionInput);
+              }
+            });
+
+            checkboxOptionsFormGroup.appendChild(checkboxOptionsLabel);
+            checkboxOptionsFormGroup.appendChild(defaultOption1);
+            checkboxOptionsFormGroup.appendChild(defaultOption2);
+            checkboxOptionsFormGroup.appendChild(addOptionButton);
+            checkboxOptionsFormGroup.appendChild(removeOptionButton);
+
+            checkboxQuestionFormGroup.appendChild(checkboxQuestionLabel);
+            checkboxQuestionFormGroup.appendChild(checkboxQuestionInput);
+
+            questionFieldsDiv.appendChild(checkboxQuestionFormGroup);
+            questionFieldsDiv.appendChild(checkboxOptionsFormGroup);
+          } else if (questionType === "multiple_choice") {
+
+          } else if (questionType === "number_range") {
+            const numberRangeQuestionFormGroup = document.createElement("div");
+            numberRangeQuestionFormGroup.classList.add("form-group");
+
+            const numberRangeQuestionLabel = document.createElement("label");
+            numberRangeQuestionLabel.setAttribute(
+              "for",
+              `question_${questionNumber}_number_range_question`
+            );
+            numberRangeQuestionLabel.textContent = "Number Range Question:";
+
+            const numberRangeTopInput = document.createElement("input");
+            numberRangeTopInput.setAttribute("type", "number");
+            numberRangeTopInput.classList.add("form-control");
+            numberRangeTopInput.setAttribute(
+              "name",
+              `question_${questionNumber}_number_range_top`
+            );
+            numberRangeTopInput.setAttribute(
+              "id",
+              `question_${questionNumber}_number_range_top`
+            );
+            numberRangeTopInput.setAttribute("placeholder", "Top Range");
+
+            const numberRangeBottomInput = document.createElement("input");
+            numberRangeBottomInput.setAttribute("type", "number");
+            numberRangeBottomInput.classList.add("form-control");
+            numberRangeBottomInput.setAttribute(
+              "name",
+              `question_${questionNumber}_number_range_bottom`
+            );
+            numberRangeBottomInput.setAttribute(
+              "id",
+              `question_${questionNumber}_number_range_bottom`
+            );
+            numberRangeBottomInput.setAttribute("placeholder", "Bottom Range");
+
+            numberRangeQuestionFormGroup.appendChild(numberRangeQuestionLabel);
+            numberRangeQuestionFormGroup.appendChild(numberRangeTopInput);
+            numberRangeQuestionFormGroup.appendChild(numberRangeBottomInput);
+
+            questionFieldsDiv.appendChild(numberRangeQuestionFormGroup);
+          }
+        }
+      </script>
+</body>
+
+</html>

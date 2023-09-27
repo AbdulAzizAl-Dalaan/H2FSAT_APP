@@ -42,6 +42,25 @@ router.post('/', async function(req, res, next) {
         secure: req.body.secure === 'on' ? true : false, password: req.body.secure === 'on' ? req.body.password : null, 
         grade_by_points: req.body.grade_by_points === 'on' ? true : false, show_question_numbers: req.body.show_question_numbers === 'on' ? true : false})
     // ADD CODE TO CREATE SURVEY QUESTIONS AND ANSWERS HERE
+    let i = 1
+    while (req.body['question_' + i + '_title'] !== undefined)
+    {
+      console.log(req.body['question_' + i + '_title'])
+      console.log(req.body['question_' + i + '_type'])
+      const question = await Survey_Q.create({survey_id: survey.survey_id, prompt: req.body['question_' + i + '_title'], type: req.body['question_' + i + '_type'], top_range: req.body['question_' + i + '_number_range_top'], bottom_range: req.body['question_' + i + '_number_range_bottom'], point_value: req.body['question_' + i + '_point_value']})
+      i++;
+      /*
+      if (question.type === 'checkbox' || question.type === 'multiple_choice')
+      {
+        let j = 1
+        while (req.body['question_' + i + '_answer_' + j])
+        {
+          await Survey_A.create({survey_id: survey.survey_id, question_id: question.question_id, answer: req.body['question_' + i + '_answer_' + j]})
+          j++;
+        }
+      }
+      */
+    }
     res.redirect('home')
 }); 
 
