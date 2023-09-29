@@ -28,6 +28,7 @@ var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
 var createRouter = require('./routes/create');
 var unitsummaryRouter = require('./routes/unitsummary');
+var resultsRouter = require('./routes/results');
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/home', homeRouter);
 app.use('/about', aboutRouter);
 app.use('/create', createRouter);
 app.use('/unitsummary', unitsummaryRouter);
+app.use('/results', resultsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -76,6 +78,7 @@ app.use(function (err, req, res, next) {
 
 async function setup() {
   const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt" })
+  const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "Sgt" })
   const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true })
   const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true })
 
@@ -217,6 +220,8 @@ async function setup() {
   const fms_q7_a1 = await Survey_A.create({survey_id: 4, question_id: 7, answer_id: 1, text: "3"})
   const fms_q8    = await Survey_Q.create({survey_id: 4, question_id: 8, prompt: "Enter Athlete's Score for Rotary Stability: ",img: "FMS/RotaryStability.png", type: "number_range", bottom_range: 0, top_range: 3})
   const fms_q8_a1 = await Survey_A.create({survey_id: 4, question_id: 8, answer_id: 1, text: "3"})
+
+  const res1 = await Survey_R.create({survey_id: 1, email: "user", results: {"1": "Seattle", "2": "de", "3": "10", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}})
 
   
 
