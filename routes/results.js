@@ -29,15 +29,22 @@ router.get("/", async function (req, res, next) {
     res.locals.msg = req.query.msg;
   }
   // find all the survey ids which have results
-  const survey_results = await Survey_R.findAll();
-  const surveys_results_with_name = await Survey_R.findAll({
-    Include: [{ model: Survey_Info }],
-  });
-  console.log(surveys_results_with_name);
-  // join the tables on survey_id
-  console.log(surveys_results_with_name[0].Survey_Info);
+  const surveys = await Survey_Info.findAll()
+  res.render('results', {surveys})
 
-  res.render("results", { survey_results });
+});
+
+router.get('/:id', async function (req, res, next) {
+  if (req.query.msg) {
+    res.locals.msg = req.query.msg;
+  }
+  const survey = await Survey_Info.findAll({where: {survey_id: req.params.id}})
+  const survey_questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
+  const survey_results = await Survey_R.findAll({where: {survey_id: req.params.id}})
+
+
+
+  res.render("results_survey", {survey, survey_results})
 });
 
 module.exports = router;
