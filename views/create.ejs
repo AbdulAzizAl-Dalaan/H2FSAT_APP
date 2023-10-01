@@ -8,7 +8,7 @@
   <link rel="icon" href="/images/ARNG.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-  <title>Create Survey</title>
+  <title>Create Assessment</title>
   <style>
     .form-group {
       margin: 10px;
@@ -39,11 +39,11 @@
 
         <form method="post" action="/create">
           <div class="form-group">
-            <label for="title">Survey Name:</label>
+            <label for="title">Title:</label>
             <input type="text" class="form-control" id="title" name="title" required />
           </div>
           <div class="form-group">
-            <label for="description">Survey Description:</label>
+            <label for="description">Description:</label>
             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
           </div>
           <div class="form-group">
@@ -75,7 +75,7 @@
           </div>
 
           <div class="form-group">
-            <button type="submit" class="btn btn-success">Create Survey</button>
+            <button type="submit" class="btn btn-success">Create Assessment</button>
           </div>
         </form>
       </div>
@@ -92,7 +92,7 @@
         function addQuestion() { // handles the question input fields
           questionCount++;
 
-          // creates the question type select element
+          // creates the 
           const questionTypeSelect = document.createElement("select");
           questionTypeSelect.classList.add("form-control");
           questionTypeSelect.setAttribute(
@@ -145,9 +145,21 @@
             "placeholder",
             `Question ${questionCount} Title`
           );
+          questionTitle.required = true
+
+          const deleteButton = document.createElement("button");
+          deleteButton.setAttribute("type", "button");
+          deleteButton.classList.add("btn", "btn-danger", "ml-2");
+          deleteButton.textContent = "Delete Question";
+          deleteButton.addEventListener("click", function () {
+            questionTypeFormGroup.remove();
+            questionFieldsDiv.remove();
+            questionCount--; // decrease the question count when a question is removed
+            updateQuestionNumbers();
+          });
 
           const questionsDiv = document.getElementById("questions");
-          questionTypeFormGroup.append(questionTitle)
+          questionTypeFormGroup.append(questionTitle, deleteButton)
           questionsDiv.appendChild(questionTypeFormGroup);
           questionsDiv.appendChild(questionFieldsDiv);
 
@@ -166,109 +178,79 @@
           );
           questionFieldsDiv.innerHTML = "";
 
-          if (questionType === "checkbox") {
+          if (questionType === "checkbox" || questionType == "multiple_choice") {
             const checkboxQuestionFormGroup = document.createElement("div");
             checkboxQuestionFormGroup.classList.add("form-group");
 
-            const checkboxQuestionLabel = document.createElement("label");
-            checkboxQuestionLabel.setAttribute(
-              "for",
-              `question_${questionNumber}_checkbox_question`
-            );
-            checkboxQuestionLabel.textContent = "Checkbox Question Title:";
-
-            const checkboxQuestionInput = document.createElement("input");
-            checkboxQuestionInput.setAttribute("type", "text");
-            checkboxQuestionInput.classList.add("form-control");
-            checkboxQuestionInput.setAttribute(
-              "name",
-              `question_${questionNumber}_checkbox_question`
-            );
-            checkboxQuestionInput.setAttribute(
-              "id",
-              `question_${questionNumber}_checkbox_question`
-            );
-
-            const checkboxOptionsFormGroup = document.createElement("div");
-            checkboxOptionsFormGroup.classList.add("form-group");
+            const selectOptionsFormGroup = document.createElement("div");
+            selectOptionsFormGroup.classList.add("form-group");
 
             const checkboxOptionsLabel = document.createElement("label");
-            checkboxOptionsLabel.setAttribute(
-              "for",
-              `question_${questionNumber}_checkbox_options`
-            );
+            checkboxOptionsLabel.setAttribute("for", `question_${questionNumber}_options`);
             checkboxOptionsLabel.textContent = "Checkbox Options:";
 
             const defaultOption1 = document.createElement("input");
             defaultOption1.setAttribute("type", "text");
             defaultOption1.classList.add("form-control");
-            defaultOption1.setAttribute(
-              "name",
-              `question_${questionNumber}_checkbox_option_1`
-            );
-            defaultOption1.setAttribute(
-              "id",
-              `question_${questionNumber}_checkbox_option_1`
-            );
-            defaultOption1.value = "Option 1";
+            defaultOption1.setAttribute("name", `question_${questionNumber}_option_1`);
+            defaultOption1.setAttribute("id", `question_${questionNumber}_option_1`);
+            defaultOption1.setAttribute("placeholder", "Option 1")
+            defaultOption1.required = true
 
             const defaultOption2 = document.createElement("input");
             defaultOption2.setAttribute("type", "text");
             defaultOption2.classList.add("form-control");
-            defaultOption2.setAttribute(
-              "name",
-              `question_${questionNumber}_checkbox_option_2`
-            );
-            defaultOption2.setAttribute(
-              "id",
-              `question_${questionNumber}_checkbox_option_2`
-            );
-            defaultOption2.value = "Option 2";
+            defaultOption2.setAttribute("name", `question_${questionNumber}_option_2`);
+            defaultOption2.setAttribute("id", `question_${questionNumber}_option_2`);
+            defaultOption2.setAttribute("placeholder", "Option 2")
+
+            let optionIndex = 2; // Track the highest index ever used for options
 
             const addOptionButton = document.createElement("button");
+            addOptionButton.setAttribute("type", "button");
+            addOptionButton.setAttribute("class", "btn btn-primary")
             addOptionButton.textContent = "Add Option";
             addOptionButton.addEventListener("click", () => {
-              const optionCount = checkboxOptionsFormGroup.children.length - 2;
+              optionIndex++;  // Increment the index
               const newOptionInput = document.createElement("input");
               newOptionInput.setAttribute("type", "text");
               newOptionInput.classList.add("form-control");
-              newOptionInput.setAttribute(
-                "name",
-                `question_${questionNumber}_checkbox_option_${optionCount}`
-              );
-              newOptionInput.setAttribute(
-                "id",
-                `question_${questionNumber}_checkbox_option_${optionCount}`
-              );
-              checkboxOptionsFormGroup.insertBefore(
-                newOptionInput,
-                addOptionButton
-              );
+              newOptionInput.setAttribute("name", `question_${questionNumber}_option_${optionIndex}`);
+              newOptionInput.setAttribute("id", `question_${questionNumber}_option_${optionIndex}`);
+              newOptionInput.setAttribute("placeholder", `Option ${optionIndex}`)
+              selectOptionsFormGroup.insertBefore(newOptionInput, addOptionButton);
             });
 
             const removeOptionButton = document.createElement("button");
+            removeOptionButton.setAttribute("type", "button");
+            removeOptionButton.setAttribute("class", "btn btn-danger")
             removeOptionButton.textContent = "Remove Option";
             removeOptionButton.addEventListener("click", () => {
-              const optionCount = checkboxOptionsFormGroup.children.length - 2;
-              if (optionCount > 2) {
-                const lastOptionInput =
-                  checkboxOptionsFormGroup.children[optionCount + 1];
-                checkboxOptionsFormGroup.removeChild(lastOptionInput);
+              if (optionIndex > 2) {  // Ensure first 2 options are not removable
+                // Find the last input in the selectOptionsFormGroup
+                let lastOptionInput = null;
+                for (let i = selectOptionsFormGroup.children.length - 1; i >= 0; i--) {
+                  if (selectOptionsFormGroup.children[i].tagName.toLowerCase() === 'input' &&
+                    selectOptionsFormGroup.children[i].type === 'text') {
+                    lastOptionInput = selectOptionsFormGroup.children[i];
+                    break;
+                  }
+                }
+                if (lastOptionInput) {
+                  selectOptionsFormGroup.removeChild(lastOptionInput);
+                }
+                optionIndex--;  // Decrement the index
               }
             });
 
-            checkboxOptionsFormGroup.appendChild(checkboxOptionsLabel);
-            checkboxOptionsFormGroup.appendChild(defaultOption1);
-            checkboxOptionsFormGroup.appendChild(defaultOption2);
-            checkboxOptionsFormGroup.appendChild(addOptionButton);
-            checkboxOptionsFormGroup.appendChild(removeOptionButton);
-
-            checkboxQuestionFormGroup.appendChild(checkboxQuestionLabel);
-            checkboxQuestionFormGroup.appendChild(checkboxQuestionInput);
+            selectOptionsFormGroup.appendChild(checkboxOptionsLabel);
+            selectOptionsFormGroup.appendChild(defaultOption1);
+            selectOptionsFormGroup.appendChild(defaultOption2);
+            selectOptionsFormGroup.appendChild(addOptionButton);
+            selectOptionsFormGroup.appendChild(removeOptionButton);
 
             questionFieldsDiv.appendChild(checkboxQuestionFormGroup);
-            questionFieldsDiv.appendChild(checkboxOptionsFormGroup);
-          } else if (questionType === "multiple_choice") {
+            questionFieldsDiv.appendChild(selectOptionsFormGroup);
 
           } else if (questionType === "number_range") {
             const numberRangeQuestionFormGroup = document.createElement("div");
@@ -293,6 +275,7 @@
               `question_${questionNumber}_number_range_top`
             );
             numberRangeTopInput.setAttribute("placeholder", "Top Range");
+            numberRangeTopInput.required = true
 
             const numberRangeBottomInput = document.createElement("input");
             numberRangeBottomInput.setAttribute("type", "number");
@@ -306,12 +289,40 @@
               `question_${questionNumber}_number_range_bottom`
             );
             numberRangeBottomInput.setAttribute("placeholder", "Bottom Range");
+            numberRangeBottomInput.required = true
 
             numberRangeQuestionFormGroup.appendChild(numberRangeQuestionLabel);
             numberRangeQuestionFormGroup.appendChild(numberRangeTopInput);
             numberRangeQuestionFormGroup.appendChild(numberRangeBottomInput);
 
             questionFieldsDiv.appendChild(numberRangeQuestionFormGroup);
+          }
+        }
+
+        function updateQuestionNumbers() {
+          const questionDivs = document.getElementById('questions').children;
+          console.log(questionDivs)
+          for (let i = 0; i < questionDivs.length; i += 2) { // Skipping every second child because it's the fields div
+            // Assuming each questionTypeFormGroup is every odd-indexed child and each questionFieldsDiv is every even-indexed child
+            const questionTypeFormGroup = questionDivs[i];
+            const questionFieldsDiv = questionDivs[i + 1];
+
+            // Updating question title placeholder
+            const questionTitle = questionTypeFormGroup.querySelector('input[type="text"]');
+            questionTitle.placeholder = `Question ${i / 2 + 1} Title`;
+
+            // ... Add logic to update names, ids, etc. for all affected elements within questionTypeFormGroup and questionFieldsDiv ...
+
+            // Example:
+            const questionTypeSelect = questionTypeFormGroup.querySelector('select');
+            questionTypeSelect.name = `question_${i / 2 + 1}_type`;
+            questionTypeSelect.setAttribute(
+              "onchange",
+              `toggleQuestionFields(${i / 2 + 1})`
+            );
+
+            questionFieldsDiv.id = `question_${i / 2 + 1}_fields`;
+            toggleQuestionFields(i / 2 + 1);
           }
         }
       </script>

@@ -77,6 +77,11 @@ app.use(function (err, req, res, next) {
 // question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"
 
 async function setup() {
+  // SUBU TEST USERS
+  const adminSubu = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "kandaswamy", rank: "Cpt", password: '1234', isAdmin: true })
+  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "Sgt" })
+  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "Sgt" })
+  
   const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt" })
   const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "Sgt" })
   const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true })

@@ -31,6 +31,7 @@ router.get('/', async function(req, res, next) {
   {
     res.locals.msg = req.query.msg
   }
+  // ADD AN USER ADMIN CHECK HERE
   console.log("CURRENT USER:" + req.session.user.email)
   res.render('create');
 });
@@ -38,6 +39,7 @@ router.get('/', async function(req, res, next) {
 router.post('/', async function(req, res, next) {
     console.log("BODY CONTENTS:")
     console.log(req.body)
+    // ADD AN USER ADMIN CHECK HERE
     const survey = await Survey_Info.create({title: req.body.title, author: req.session.user.email, description: req.body.description, 
         secure: req.body.secure === 'on' ? true : false, password: req.body.secure === 'on' ? req.body.password : null, 
         grade_by_points: req.body.grade_by_points === 'on' ? true : false, show_question_numbers: req.body.show_question_numbers === 'on' ? true : false})
@@ -48,18 +50,16 @@ router.post('/', async function(req, res, next) {
       console.log(req.body['question_' + i + '_title'])
       console.log(req.body['question_' + i + '_type'])
       const question = await Survey_Q.create({survey_id: survey.survey_id, prompt: req.body['question_' + i + '_title'], type: req.body['question_' + i + '_type'], top_range: req.body['question_' + i + '_number_range_top'], bottom_range: req.body['question_' + i + '_number_range_bottom'], point_value: req.body['question_' + i + '_point_value']})
-      i++;
-      /*
       if (question.type === 'checkbox' || question.type === 'multiple_choice')
       {
         let j = 1
-        while (req.body['question_' + i + '_answer_' + j])
+        while (req.body['question_' + i + '_option_' + j])
         {
-          await Survey_A.create({survey_id: survey.survey_id, question_id: question.question_id, answer: req.body['question_' + i + '_answer_' + j]})
+          await Survey_A.create({survey_id: survey.survey_id, question_id: question.question_id, answer_id: j, text: req.body['question_' + i + '_option_' + j]})
           j++;
         }
       }
-      */
+      i++;
     }
     res.redirect('home')
 }); 
