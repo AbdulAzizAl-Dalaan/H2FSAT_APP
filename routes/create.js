@@ -62,6 +62,7 @@ router.post("/", async function (req, res, next) {
       console.log(req.body["question_" + i + "_type"]);
       const question = await Survey_Q.create({
         survey_id: survey.survey_id,
+        question_id: i,
         prompt: req.body["question_" + i + "_title"],
         type: req.body["question_" + i + "_type"],
         top_range: req.body["question_" + i + "_number_range_top"],

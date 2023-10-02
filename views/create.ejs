@@ -20,6 +20,11 @@
       margin-top: 20px;
     }
 
+    .question-dropdown {
+      margin-top: 50px;
+      /* Adjust this value as per your requirements */
+    }
+
     body {
       padding-bottom: 20px;
     }
@@ -98,7 +103,7 @@
 
           // creates the 
           const questionTypeSelect = document.createElement("select");
-          questionTypeSelect.classList.add("form-control");
+          questionTypeSelect.classList.add("form-control", "question-dropdown");
           questionTypeSelect.setAttribute(
             "name",
             `question_${questionCount}_type`
