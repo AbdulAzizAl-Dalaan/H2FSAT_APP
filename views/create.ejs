@@ -74,8 +74,12 @@
             </button>
           </div>
 
-          <div class="form-group">
-            <button type="submit" class="btn btn-success">Create Assessment</button>
+          <input type="hidden" id="num_questions" name="num_questions" value="0" />
+
+          <div class="form-group row mb-3" style="padding-top: 10px">
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-success">Create Assessment</button>
+            </div>
           </div>
         </form>
       </div>
@@ -164,7 +168,7 @@
           questionsDiv.appendChild(questionFieldsDiv);
 
           toggleQuestionFields(questionCount);
-
+          document.getElementById('num_questions').value = questionCount;
         }
 
         function toggleQuestionFields(questionNumber) {
@@ -179,15 +183,13 @@
           questionFieldsDiv.innerHTML = "";
 
           if (questionType === "checkbox" || questionType == "multiple_choice") {
-            const checkboxQuestionFormGroup = document.createElement("div");
-            checkboxQuestionFormGroup.classList.add("form-group");
 
             const selectOptionsFormGroup = document.createElement("div");
             selectOptionsFormGroup.classList.add("form-group");
 
             const checkboxOptionsLabel = document.createElement("label");
             checkboxOptionsLabel.setAttribute("for", `question_${questionNumber}_options`);
-            checkboxOptionsLabel.textContent = "Checkbox Options:";
+            checkboxOptionsLabel.textContent = questionType === "checkbox" ? "Checkbox Options:" : "Multiple Choice Options:";
 
             const defaultOption1 = document.createElement("input");
             defaultOption1.setAttribute("type", "text");
@@ -249,7 +251,6 @@
             selectOptionsFormGroup.appendChild(addOptionButton);
             selectOptionsFormGroup.appendChild(removeOptionButton);
 
-            questionFieldsDiv.appendChild(checkboxQuestionFormGroup);
             questionFieldsDiv.appendChild(selectOptionsFormGroup);
 
           } else if (questionType === "number_range") {
@@ -299,32 +300,48 @@
           }
         }
 
+        // WILL BE UPDATED LATER FOR STORING PRESENT VALUES FOR CHECKBOX, MULTIPLE CHOICE, AND NUMBER RANGE QUESTIONS
         function updateQuestionNumbers() {
-          const questionDivs = document.getElementById('questions').children;
-          console.log(questionDivs)
-          for (let i = 0; i < questionDivs.length; i += 2) { // Skipping every second child because it's the fields div
-            // Assuming each questionTypeFormGroup is every odd-indexed child and each questionFieldsDiv is every even-indexed child
+          const questionsDiv = document.getElementById('questions');
+          const questionDivs = questionsDiv.children;
+          let newQuestionCount = 0; // initialize new question number
+
+          // for loop to loop for the question {questionCount} fields
+          for (let i = 0; i < questionDivs.length; i += 2) {
             const questionTypeFormGroup = questionDivs[i];
             const questionFieldsDiv = questionDivs[i + 1];
 
-            // Updating question title placeholder
+            // New index for the question
+            newQuestionCount++;
+
+            // Updating question title placeholder and name attribute
             const questionTitle = questionTypeFormGroup.querySelector('input[type="text"]');
-            questionTitle.placeholder = `Question ${i / 2 + 1} Title`;
+            questionTitle.placeholder = `Question ${newQuestionCount} Title`;
+            questionTitle.name = `question_${newQuestionCount}_title`;
 
-            // ... Add logic to update names, ids, etc. for all affected elements within questionTypeFormGroup and questionFieldsDiv ...
-
-            // Example:
+            // Updating select name attribute
             const questionTypeSelect = questionTypeFormGroup.querySelector('select');
-            questionTypeSelect.name = `question_${i / 2 + 1}_type`;
+            questionTypeSelect.name = `question_${newQuestionCount}_type`;
             questionTypeSelect.setAttribute(
               "onchange",
-              `toggleQuestionFields(${i / 2 + 1})`
+              `toggleQuestionFields(${newQuestionCount})`
             );
 
-            questionFieldsDiv.id = `question_${i / 2 + 1}_fields`;
-            toggleQuestionFields(i / 2 + 1);
+            // Updating div id
+            questionFieldsDiv.id = `question_${newQuestionCount}_fields`;
+
+            // Update other fields within questionFieldsDiv by using regex among all similiar divs
+            [...questionFieldsDiv.querySelectorAll('input, select, textarea')].forEach(inputElem => {
+              inputElem.name = inputElem.name.replace(/\d+/g, newQuestionCount);
+            });
+
+            toggleQuestionFields(newQuestionCount);
           }
+
+          document.getElementById('num_questions').value = newQuestionCount;
+          questionCount = newQuestionCount; // Update global questionCount
         }
+
       </script>
 </body>
 

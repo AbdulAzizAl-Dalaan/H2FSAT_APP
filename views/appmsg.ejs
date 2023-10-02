@@ -1,35 +1,72 @@
-<% if (locals.msg) {%>
-
-    <% switch(msg) { case "success": %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Assessment Completed</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% break; case "successdel": %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong></strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% break; case "already":%>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>This Assessment has already been Completed</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% break; case "wrongpass": %>
-     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Incorrect Survey Password</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% break; case "notfound":%>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Survey Not Found</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% break; default: %>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong></strong> can not be added/deleted/found due to the errors below.
-        <p class="mb-0"></p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% break; } %>
-<% } %> 
+<% if (locals.msg) {%> <% switch(msg) { case "success": %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Assessment Completed</strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; case "successdel": %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong></strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; case "already":%>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>This Assessment has already been Completed</strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; case "wrongpass": %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Incorrect Survey Password</strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; case "notfound":%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Survey Not Found</strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; case "noaccess":%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>You do not have the proper credentials to access this page</strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; default: %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong></strong> can not be added/deleted/found due to the errors below.
+  <p class="mb-0"></p>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; } %> <% } %>
