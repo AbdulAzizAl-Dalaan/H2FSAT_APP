@@ -98,6 +98,37 @@ async function setup() {
   const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "Sgt" })
   const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true })
   const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true })
+  // Users for the 1st unit
+  const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt" });
+  const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "Sgt" });
+  const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl" });
+  const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "Pvt" });
+  const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "Sgt" });
+  const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "Pvt" });
+  const user8 = await User.create({ firstname: "Emily", lastname: "Jones", unit: "1st", email: "emily.jones@army.mil", rank: "Pvt" });
+  const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "Sgt" });
+
+  // Users for the 2nd unit
+  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", rank: "Pvt" });
+  const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "2nd", email: "mark.taylor@army.mil", rank: "Pvt" });
+  const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "2nd", email: "karen.anderson@army.mil", rank: "Sgt" });
+  const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "2nd", email: "chris.lee@army.mil", rank: "Pvt" });
+  const user14 = await User.create({ firstname: "Lisa", lastname: "Kim", unit: "2nd", email: "lisa.kim@army.mil", rank: "Pvt" });
+  const user15 = await User.create({ firstname: "Brian", lastname: "Chen", unit: "2nd", email: "brian.chen@army.mil", rank: "Sgt" });
+  const user16 = await User.create({ firstname: "Jessica", lastname: "Wang", unit: "2nd", email: "jessica.wang@army.mil", rank: "Pvt" });
+  const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "2nd", email: "kevin.zhang@army.mil", rank: "Pvt" });
+  const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "2nd", email: "michelle.li@army.mil", rank: "Sgt" });
+
+  // Users for the 3rd unit
+  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", rank: "Pvt" });
+  const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "3rd", email: "stephanie.chang@army.mil", rank: "Pvt" });
+  const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "3rd", email: "jason.chen@army.mil", rank: "Sgt" });
+  const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "3rd", email: "rachel.liu@army.mil", rank: "Pvt" });
+  const user23 = await User.create({ firstname: "Eric", lastname: "Wang", unit: "3rd", email: "eric.wang@army.mil", rank: "Pvt" });
+  const user24 = await User.create({ firstname: "Catherine", lastname: "Zhang", unit: "3rd", email: "catherine.zhang@army.mil", rank: "Sgt" });
+  const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "Pvt" });
+  const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "Pvt" });
+  const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "Sgt" });
 
   const survey_one       = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Survey One", description: "This is a test survey"})
   const survey_one_q2    = await Survey_Q.create({survey_id: 1, question_id: 1, prompt: "What is the capital of Washington State?", type: "multiple_choice"})
@@ -239,41 +270,36 @@ async function setup() {
   const fms_q8_a1 = await Survey_A.create({survey_id: 4, question_id: 8, answer_id: 1, text: "3"})
 
   const res1 = await Survey_R.create({survey_id: 1, email: "user", results: {"1": "Seattle", "2": "de", "3": "10", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}})
+  const res2 = await Survey_R.create({survey_id: 1, email: "jill.shawn@army.mil", results: {"1": "Pullman", "2": "Jill Shawn", "3": "7", "4": ["CPT_S 350", "CPT_S 360"], "5": "No"}})
+  const res3 = await Survey_R.create({survey_id: 1, email: "joe.johnson@army.mil", results: {"1": "Olympia", "2": "Joe Johnson", "3": "5", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}})
+  const res4 = await Survey_R.create({survey_id: 1, email: "adam.smith@army.mil", results: {"1": "Vancouver", "2": "Adam Smith", "3": "8", "4": ["CPT_S 302"], "5": "No"}})
+  const res5 = await Survey_R.create({survey_id: 1, email: "john.don@army.mil", results: {"1": "Pullman", "2": "John Don", "3": "6", "4": ["CPT_S 350", "CPT_S 421"], "5": "Yes"}})
+  const res6 = await Survey_R.create({survey_id: 1, email: "jane.jackson@army.mil", results: {"1": "Seattle", "2": "Jane Jackson", "3": "4", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 421"], "5": "No"}})
+  const res7 = await Survey_R.create({survey_id: 1, email: "mike.smith@army.mil", results: {"1": "Olympia", "2": "Mike Smith", "3": "2", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "No"}})
+  const res8 = await Survey_R.create({survey_id: 1, email: "emily.jones@army.mil", results: {"1": "Seattle", "2": "Emily Jones", "3": "9", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}})
+  const res9 = await Survey_R.create({survey_id: 1, email: "david.brown@army.mil", results: {"1": "Olympia", "2": "David Brown", "3": "1", "4": ["CPT_S 302", "CPT_S 350"], "5": "No"}})
+  const res10 = await Survey_R.create({survey_id: 1, email: "amy.wilson@army.mil", results: {"1": "Pullman", "2": "Amy Wilson", "3": "6", "4": ["CPT_S 302", "CPT_S 421"], "5": "No"}})
+  const res11 = await Survey_R.create({survey_id: 1, email: "mark.taylor@army.mil", results: {"1": "Olympia", "2": "Mark Taylor", "3": "5", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 421"], "5": "No"}})
+  const res12 = await Survey_R.create({survey_id: 1, email: "karen.anderson@army.mil", results: {"1": "Olympia", "2": "Karen Anderson", "3": "7", "4": ["CPT_S 350"], "5": "Yes"}})
+  const res13 = await Survey_R.create({survey_id: 1, email: "chris.lee@army.mil", results: {"1": "Olympia", "2": "Chris Lee", "3": "4", "4": ["CPT_S 302", "CPT_S 360"], "5": "Yes"}})
+  const res14 = await Survey_R.create({survey_id: 1, email: "lisa.kim@army.mil", results: {"1": "Olympia", "2": "Lisa Kim", "3": "9", "4": ["CPT_S 360", "CPT_S 421"], "5": "Yes"}})
+  const res15 = await Survey_R.create({survey_id: 1, email: "brian.chen@army.mil", results: {"1": "Olympia", "2": "Brian Chen", "3": "8", "4": ["CPT_S 350", "CPT_S 360"], "5": "No"}})
+  const res16 = await Survey_R.create({survey_id: 1, email: "jessica.wang@army.mil", results: {"1": "Olympia", "2": "Jessica Wang", "3": "6", "4": ["CPT_S 302", "CPT_S 421"], "5": "No"}})
+  const res17 = await Survey_R.create({survey_id: 1, email: "kevin.zhang@army.mil", results: {"1": "Olympia", "2": "Kevin Zhang", "3": "2", "4": ["CPT_S 350", "CPT_S 421"], "5": "No"}})
+  const res18 = await Survey_R.create({survey_id: 1, email: "michelle.li@army.mil", results: {"1": "Olympia", "2": "Michelle Li", "3": "5", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}})
+  const res19 = await Survey_R.create({survey_id: 1, email: "andrew.wu@army.mil", results: {"1": "Vancouver", "2": "Andrew Wu", "3": "7", "4": ["CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "No"}})
+  const res20 = await Survey_R.create({survey_id: 1, email: "stephanie.chang@army.mil", results: {"1": "Pullman", "2": "Stephanie Chang", "3": "3", "4": ["CPT_S 421"], "5": "No"}})
+  const res21 = await Survey_R.create({survey_id: 1, email: "jason.chen@army.mil", results: {"1": "Olympia", "2": "Jason Chen", "3": "4", "4": ["CPT_S 350", "CPT_S 421"], "5": "No"}})
+  const res22 = await Survey_R.create({survey_id: 1, email: "rachel.liu@army.mil", results: {"1": "Olympia", "2": "Rachel Liu", "3": "9", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "Yes"}})
+  const res23 = await Survey_R.create({survey_id: 1, email: "eric.wang@army.mil", results: {"1": "Vancouver", "2": "Eric Wang", "3": "1", "4": ["CPT_S 360", "CPT_S 421"], "5": "Yes"}})
+  const res24 = await Survey_R.create({survey_id: 1, email: "catherine.zhang@army.mil", results: {"1": "Olympia", "2": "Catherine Zhang", "3": "8", "4": ["CPT_S 302", "CPT_S 360", "CPT_S 421"], "5": "No"}})
+  const res25 = await Survey_R.create({survey_id: 1, email: "justin.chen@army.mil", results: {"1": "Vancouver", "2": "Justin Chen", "3": "2", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}})
+  const res26 = await Survey_R.create({survey_id: 1, email: "grace.wu@army.mil", results: {"1": "Olympia", "2": "Grace Wu", "3": "7", "4": ["CPT_S 360", "CPT_S 421"], "5": "No"}})
+  const res27 = await Survey_R.create({survey_id: 1, email: "steven.liu@army.mil", results: {"1": "Seattle", "2": "Steven Liu", "3": "6", "4": ["CPT_S 302", "CPT_S 360"], "5": "Yes"}})
+
 
   
 
-  /*
-  WILL BE USED FOR TESTING PURPOSES
-
-  const user1 = await User.create({ firstname: "Tom", lastname: "Hall", unit: "1st", email: "tom.hall@army.mil", rank: "Pvt" });
-  const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt" });
-  const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "Sgt" });
-  const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl" });
-  const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "Pvt" });
-  const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "Sgt" });
-  const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "Pvt" });
-  const user8 = await User.create({ firstname: "Emily", lastname: "Jones", unit: "1st", email: "emily.jones@army.mil", rank: "Pvt" });
-  const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "Sgt" });
-  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "1st", email: "amy.wilson@army.mil", rank: "Pvt" });
-  const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "1st", email: "mark.taylor@army.mil", rank: "Pvt" });
-  const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "1st", email: "karen.anderson@army.mil", rank: "Sgt" });
-  const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "1st", email: "chris.lee@army.mil", rank: "Pvt" });
-  const user14 = await User.create({ firstname: "Lisa", lastname: "Kim", unit: "1st", email: "lisa.kim@army.mil", rank: "Pvt" });
-  const user15 = await User.create({ firstname: "Brian", lastname: "Chen", unit: "1st", email: "brian.chen@army.mil", rank: "Sgt" });
-  const user16 = await User.create({ firstname: "Jessica", lastname: "Wang", unit: "1st", email: "jessica.wang@army.mil", rank: "Pvt" });
-  const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "1st", email: "kevin.zhang@army.mil", rank: "Pvt" });
-  const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "1st", email: "michelle.li@army.mil", rank: "Sgt" });
-  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "1st", email: "andrew.wu@army.mil", rank: "Pvt" });
-  const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "1st", email: "stephanie.chang@army.mil", rank: "Pvt" });
-  const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "1st", email: "jason.chen@army.mil", rank: "Sgt" });
-  const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "1st", email: "rachel.liu@army.mil", rank: "Pvt" });
-  const user23 = await User.create({ firstname: "Eric", lastname: "Wang", unit: "1st", email: "eric.wang@army.mil", rank: "Pvt" });
-  const user24 = await User.create({ firstname: "Catherine", lastname: "Zhang", unit: "1st", email: "catherine.zhang@army.mil", rank: "Sgt" });
-  const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "1st", email: "justin.chen@army.mil", rank: "Pvt" });
-  const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "1st", email: "grace.wu@army.mil", rank: "Pvt" });
-  const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "1st", email: "steven.liu@army.mil", rank: "Sgt" });
-
-*/
 
 
   console.log("Data Entered")
