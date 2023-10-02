@@ -5,6 +5,7 @@ const Survey_Info = require('../models/Survey/Survey_Info')
 const Survey_Q = require('../models/Survey/Survey_Q')
 const Survey_A = require('../models/Survey/Survey_A')
 const Survey_R = require('../models/Survey/Survey_R');
+const { where } = require('sequelize');
 
 const sessionChecker = (req, res, next) => {
   if(req.session.user)
@@ -27,7 +28,7 @@ const sessionChecker = (req, res, next) => {
 router.use(sessionChecker)
 
 router.get('/', async function(req, res, next) {
-  const surveys = await Survey_Info.findAll()
+  const surveys = await Survey_Info.findAll({where: {isCSVdata: false}})
   if (req.query.msg)
   {
     res.locals.msg = req.query.msg

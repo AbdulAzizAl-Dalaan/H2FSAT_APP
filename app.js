@@ -11,6 +11,7 @@ const Survey_Info = require('./models/Survey/Survey_Info')
 const Survey_Q = require('./models/Survey/Survey_Q')
 const Survey_A = require('./models/Survey/Survey_A')
 const Survey_R = require('./models/Survey/Survey_R');
+const Survey_D = require('./models/Survey/Survey_D')
 
 Survey_Info.hasMany(Survey_Q, { foreignKey: "survey_id" })
 Survey_Q.belongsTo(Survey_Info)
@@ -23,12 +24,16 @@ Survey_Info.hasMany(Survey_R, { foreignKey: "survey_id" })
 Survey_R.belongsTo(Survey_Info)
 Survey_R.belongsTo(User)
 
+Survey_Info.hasMany(Survey_D, { foreignKey: "survey_id" })
+Survey_D.belongsTo(Survey_Info)
+
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
 var createRouter = require('./routes/create');
 var unitsummaryRouter = require('./routes/unitsummary');
 var resultsRouter = require('./routes/results');
+var uploadRoutes = require('./routes/upload');
 
 var app = express();
 
@@ -57,6 +62,10 @@ app.use('/create', createRouter);
 app.use('/unitsummary', unitsummaryRouter);
 app.use('/results', resultsRouter);
 
+//excel stuff
+ 
+app.use('/upload', uploadRoutes);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -72,6 +81,9 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 
 // question: "How long should you cool down after a workout?"}
 // question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"
