@@ -9,7 +9,8 @@ Survey_Q.init({
     {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        //autoIncrement: true
     },
     survey_id:
     {

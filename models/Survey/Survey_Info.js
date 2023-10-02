@@ -10,6 +10,7 @@ Survey_Info.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true
     },
     author: // creator of the survey
     {
@@ -36,7 +37,7 @@ Survey_Info.init({
     description:
     {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
     secure: // checks if the user needs a password to access the survey
     {
@@ -57,6 +58,12 @@ Survey_Info.init({
         defaultValue: false
     },
     grade_by_points: // checks if the user wants to grade by points
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    isCSVdata://**New to Model**
     {
         type: DataTypes.BOOLEAN,
         allowNull: false,

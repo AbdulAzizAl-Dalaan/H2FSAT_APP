@@ -27,6 +27,7 @@ var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
 var unitsummaryRouter = require('./routes/unitsummary');
+var uploadRoutes = require('./routes/upload');
 
 var app = express();
 
@@ -53,6 +54,10 @@ app.use('/home', homeRouter);
 app.use('/about', aboutRouter);
 app.use('/unitsummary', unitsummaryRouter);
 
+//excel stuff
+ 
+app.use('/upload', uploadRoutes);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -68,6 +73,9 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 
 // question: "How long should you cool down after a workout?"}
 // question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"
