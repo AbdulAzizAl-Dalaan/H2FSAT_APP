@@ -13,18 +13,18 @@ const Survey_A = require('./models/Survey/Survey_A')
 const Survey_R = require('./models/Survey/Survey_R');
 const Survey_D = require('./models/Survey/Survey_D')
 
-Survey_Info.hasMany(Survey_Q, { foreignKey: "survey_id" })
+Survey_Info.hasMany(Survey_Q, { onDelete: 'CASCADE', hooks: true }) // foreignKey "survey_id"
 Survey_Q.belongsTo(Survey_Info)
-Survey_Q.hasMany(Survey_A, { foreignKey: "question_id" })
-Survey_Q.hasMany(Survey_A, { foreignKey: "survey_id" })
+Survey_Q.hasMany(Survey_A, {  onDelete: 'CASCADE', hooks: true }) // foreignKey "question_id"
+Survey_Q.hasMany(Survey_A, { onDelete: 'CASCADE', hooks: true }) // foreignKey "survey_id"
 Survey_A.belongsTo(Survey_Q)
 Survey_A.belongsTo(Survey_Info)
-User.hasMany(Survey_R, { foreignKey: "user_id" })
-Survey_Info.hasMany(Survey_R, { foreignKey: "survey_id" })
+User.hasMany(Survey_R, {  onDelete: 'CASCADE', hooks: true })            // foreignKey "user_id"
+Survey_Info.hasMany(Survey_R, {  onDelete: 'CASCADE', hooks: true })   // foreignKey "survey_id"
 Survey_R.belongsTo(Survey_Info)
 Survey_R.belongsTo(User)
 
-Survey_Info.hasMany(Survey_D, { foreignKey: "survey_id" })
+Survey_Info.hasMany(Survey_D, {  onDelete: 'CASCADE', hooks: true })   // foreignKey "survey_id"
 Survey_D.belongsTo(Survey_Info)
 
 var indexRouter = require('./routes/index');

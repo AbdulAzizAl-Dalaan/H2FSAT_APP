@@ -5,6 +5,7 @@ const Survey_Info = require("../models/Survey/Survey_Info");
 const Survey_Q = require("../models/Survey/Survey_Q");
 const Survey_A = require("../models/Survey/Survey_A");
 const Survey_R = require("../models/Survey/Survey_R");
+const { Op } = require("sequelize");
 
 const sessionChecker = (req, res, next) => {
   if (req.session.user) {
@@ -27,21 +28,19 @@ router.get("/:id", async function (req, res, next) {
   if (req.query.msg) {
     res.locals.msg = req.query.msg;
   }
-  const survey = await Survey_Info.findByPk(req.params.id)
-  if (survey)
-  {
-    const survey_questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
+  const survey = await Survey_Info.findByPk(req.params.id);
+  if (survey) {
+    const survey_questions = await Survey_Q.findAll({
+      where: { survey_id: req.params.id },
+    });
     if (res.locals.email && res.locals.isAdmin) {
-      res.render("edit", {survey, survey_questions});
+      res.render("edit", { survey, survey_questions });
     } else {
       res.redirect("/home/?msg=noaccess");
     }
+  } else {
+    res.redirect("home/?msg=notfound");
   }
-  else {
-    res.redirect("home/?msg=notfound")
-  }
-
-
 });
 
 router.post("/", async function (req, res, next) {
@@ -53,8 +52,7 @@ router.post("/", async function (req, res, next) {
 
   if (res.locals.email && res.locals.isAdmin) {
     res.redirect("home");
-  }
-  else {
+  } else {
     res.redirect("/home/?msg=noaccess");
   }
 });
@@ -64,23 +62,48 @@ router.post("/delete/:id", async function (req, res, next) {
   console.log(res.locals.email);
   console.log(res.locals.isAdmin);
 
-  // if (res.locals.email && res.locals.isAdmin) {
-  //   const survey = await Survey_Info.findByPk(req.params.id)
-  //   if (survey)
-  //   {
-  //     await survey.destroy()
-  //     res.redirect("/home/?msg=delete");
-  //   }
-  //   else
-  //   {
-  //     res.redirect("/home/?msg=notfound")
-  //   }
-    
-  // }
-  // else {
-  //   res.redirect("/home/?msg=noaccess");
-  // }
-  res.redirect('/home')
+  if (res.locals.email && res.locals.isAdmin) {
+    const survey = await Survey_Info.findByPk(req.params.id);
+    if (survey) {
+
+      await Survey_R.destroy({ where: { survey_id: survey.survey_id } });
+
+      const survey_questions = await Survey_Q.findAll({
+        where: { survey_id: survey.survey_id },
+        attributes: ["question_id"],
+      });
+
+      const question_ids = survey_questions.map((sq) => sq.question_id);
+      // THE FOLLOWING DELETION IS SUCCESSFUL
+      await Survey_A.destroy({
+        where: {
+          [Op.and]: [
+            { survey_id: survey.survey_id },
+            { question_id: { [Op.in]: question_ids } },
+          ],
+        },
+      });
+
+      // THE FOLLOWING DELETION IS NOT SUCCESSFUL
+
+      // await Survey_Q.destroy({
+      //   where: {
+      //     [Op.and]: [
+      //       { survey_id: survey.survey_id },
+      //       { question_id: { [Op.in]: question_ids } },
+      //     ],
+      //   },
+      // });
+      // await survey.destroy();
+
+      res.redirect("/home/?msg=delete");
+    } else {
+      res.redirect("/home/?msg=notfound");
+    }
+  } else {
+    res.redirect("/home/?msg=noaccess");
+  }
+  // res.redirect('/home')
 });
 
 module.exports = router;
