@@ -34,10 +34,12 @@ router.get('/', async function(req, res, next) {
     res.locals.msg = req.query.msg
   }
   console.log("CURRENT USER:" + req.session.user.email)
-  res.render('home', {surveys});
+  const isAdmin = req.session.user.isAdmin
+  res.render('home', {surveys, isAdmin});
 });
 
 router.get('/:id', async function(req, res, next) {
+  console.log("REQ URL: " + req.url)
   const survey = await Survey_Info.findByPk(req.params.id)
   if (survey !== null)
   {

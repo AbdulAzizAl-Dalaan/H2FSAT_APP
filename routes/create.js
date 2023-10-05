@@ -1,10 +1,8 @@
 var express = require("express");
 var router = express.Router();
-const User = require("../models/User");
 const Survey_Info = require("../models/Survey/Survey_Info");
 const Survey_Q = require("../models/Survey/Survey_Q");
 const Survey_A = require("../models/Survey/Survey_A");
-const Survey_R = require("../models/Survey/Survey_R");
 
 const sessionChecker = (req, res, next) => {
   if (req.session.user) {

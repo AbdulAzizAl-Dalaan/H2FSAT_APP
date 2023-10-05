@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/images/ARNG.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <title>Edit Assessment</title>
+  <style>
+    .form-group {
+      margin: 10px;
+    }
+
+    .content {
+      max-width: 1000px;
+      margin: auto;
+      margin-top: 20px;
+    }
+
+    .question-title-space {
+      margin-top: 60px;
+      /* Adjust this value as per your requirements */
+    }
+
+    .textbox-space {
+      margin-top: 20px;
+    }
+
+    .button-right {
+      float: right;
+      /* Makes the button float to the right */
+    }
+
+    .button-space {
+      margin-top: 20px;
+    }
+
+    body {
+      padding-bottom: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+
+<body>
+  <%- include('header') %> <%- include("appmsg") %>
+
+      <div class="content">
+        <div class="row mb-3" style="padding-top: 10px">
+          <div class="col-12 text-center">
+            <h1 style="text-decoration: underline">Edit Assessment Information</h1>
+          </div>
+        </div>
+
+        <form method="post" action="/edit">
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" value="<%= survey.title %>" required />
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3"><%= survey.description %></textarea>
+          </div>
+          <!-- <div class="form-group">
+            <label for="show_question_numbers">Show Question Numbers:</label>
+            <input type="checkbox" class="form-check-input" id="show_question_numbers" name="show_question_numbers" />
+          </div>
+          <div class="form-group">
+            <label for="grade_by_points">Grade by Points:</label>
+            <input type="checkbox" class="form-check-input" id="grade_by_points" name="grade_by_points" />
+          </div> -->
+          <div class="form-group">
+            <label for="secure">Require Password:</label>
+            <input type="checkbox" class="form-check-input" id="secure" name="secure"
+              onchange="togglePasswordInput()" />
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password" name="password" disabled />
+            </div>
+          </div>
+
+          <div id="questions">
+            <!-- Question fields will be dynamically generated here -->
+          </div>
+
+          <div class="form-group button-space">
+            <button type="button" class="btn btn-primary" onclick="addQuestion()">
+              Add Question
+            </button>
+          </div>
+
+          <input type="hidden" id="num_questions" name="num_questions" value="0" />
+
+          <div class="form-group row mb-3" style="padding-top: 10px">
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-success">Save Assessment</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <script>
+
+      </script>
+</body>
+
+</html>

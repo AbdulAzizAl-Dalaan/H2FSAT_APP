@@ -34,6 +34,7 @@ var createRouter = require('./routes/create');
 var unitsummaryRouter = require('./routes/unitsummary');
 var resultsRouter = require('./routes/results');
 var uploadRoutes = require('./routes/upload');
+var editDeleteRouter = require('./routes/edit-delete')
 
 var app = express();
 
@@ -61,6 +62,7 @@ app.use('/about', aboutRouter);
 app.use('/create', createRouter);
 app.use('/unitsummary', unitsummaryRouter);
 app.use('/results', resultsRouter);
+app.use('/edit', editDeleteRouter)
 
 //excel stuff
  
@@ -89,6 +91,9 @@ app.use(function (err, req, res, next) {
 // question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"
 
 async function setup() {
+  // Test Admin User
+  const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "Cpt", password: '1', gender: 'male', isAdmin: true })
+
   // SUBU TEST USERS
   const adminSubu = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "kandaswamy", rank: "Cpt", password: '1234', gender: 'male', isAdmin: true })
   const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "Sgt", gender: 'male' })

@@ -20,9 +20,22 @@
       margin-top: 20px;
     }
 
-    .question-dropdown {
-      margin-top: 50px;
+    .question-title-space {
+      margin-top: 60px;
       /* Adjust this value as per your requirements */
+    }
+
+    .textbox-space {
+      margin-top: 20px;
+    }
+
+    .button-right {
+      float: right;
+      /* Makes the button float to the right */
+    }
+
+    .button-space {
+      margin-top: 20px;
     }
 
     body {
@@ -73,7 +86,7 @@
             <!-- Question fields will be dynamically generated here -->
           </div>
 
-          <div class="form-group">
+          <div class="form-group button-space">
             <button type="button" class="btn btn-primary" onclick="addQuestion()">
               Add Question
             </button>
@@ -103,7 +116,7 @@
 
           // creates the 
           const questionTypeSelect = document.createElement("select");
-          questionTypeSelect.classList.add("form-control", "question-dropdown");
+          questionTypeSelect.classList.add("form-control", "textbox-space");
           questionTypeSelect.setAttribute(
             "name",
             `question_${questionCount}_type`
@@ -135,7 +148,6 @@
 
           const questionTypeFormGroup = document.createElement("div");
           questionTypeFormGroup.classList.add("form-group");
-          questionTypeFormGroup.appendChild(questionTypeSelect);
 
           const questionFieldsDiv = document.createElement("div");
           questionFieldsDiv.setAttribute(
@@ -145,7 +157,7 @@
 
           const questionTitle = document.createElement("input");
           questionTitle.setAttribute("type", "text");
-          questionTitle.classList.add("form-control");
+          questionTitle.classList.add("form-control", "question-title-space");
           questionTitle.setAttribute(
             "name",
             `question_${questionCount}_title`
@@ -155,10 +167,11 @@
             `Question ${questionCount} Title`
           );
           questionTitle.required = true
+          questionTypeFormGroup.appendChild(questionTitle)
 
           const deleteButton = document.createElement("button");
           deleteButton.setAttribute("type", "button");
-          deleteButton.classList.add("btn", "btn-danger", "ml-2");
+          deleteButton.classList.add("btn", "btn-danger", "ml-2", "button-space");
           deleteButton.textContent = "Delete Question";
           deleteButton.addEventListener("click", function () {
             questionTypeFormGroup.remove();
@@ -168,7 +181,7 @@
           });
 
           const questionsDiv = document.getElementById("questions");
-          questionTypeFormGroup.append(questionTitle, deleteButton)
+          questionTypeFormGroup.append(questionTypeSelect, deleteButton)
           questionsDiv.appendChild(questionTypeFormGroup);
           questionsDiv.appendChild(questionFieldsDiv);
 
@@ -198,7 +211,7 @@
 
             const defaultOption1 = document.createElement("input");
             defaultOption1.setAttribute("type", "text");
-            defaultOption1.classList.add("form-control");
+            defaultOption1.classList.add("form-control", "textbox-space");
             defaultOption1.setAttribute("name", `question_${questionNumber}_option_1`);
             defaultOption1.setAttribute("id", `question_${questionNumber}_option_1`);
             defaultOption1.setAttribute("placeholder", "Option 1")
@@ -206,7 +219,7 @@
 
             const defaultOption2 = document.createElement("input");
             defaultOption2.setAttribute("type", "text");
-            defaultOption2.classList.add("form-control");
+            defaultOption2.classList.add("form-control", "textbox-space");
             defaultOption2.setAttribute("name", `question_${questionNumber}_option_2`);
             defaultOption2.setAttribute("id", `question_${questionNumber}_option_2`);
             defaultOption2.setAttribute("placeholder", "Option 2")
@@ -215,13 +228,13 @@
 
             const addOptionButton = document.createElement("button");
             addOptionButton.setAttribute("type", "button");
-            addOptionButton.setAttribute("class", "btn btn-primary")
+            addOptionButton.classList.add("btn", "btn-primary", "button-space");
             addOptionButton.textContent = "Add Option";
             addOptionButton.addEventListener("click", () => {
               optionIndex++;  // Increment the index
               const newOptionInput = document.createElement("input");
               newOptionInput.setAttribute("type", "text");
-              newOptionInput.classList.add("form-control");
+              newOptionInput.classList.add("form-control", "textbox-space");
               newOptionInput.setAttribute("name", `question_${questionNumber}_option_${optionIndex}`);
               newOptionInput.setAttribute("id", `question_${questionNumber}_option_${optionIndex}`);
               newOptionInput.setAttribute("placeholder", `Option ${optionIndex}`)
@@ -230,7 +243,7 @@
 
             const removeOptionButton = document.createElement("button");
             removeOptionButton.setAttribute("type", "button");
-            removeOptionButton.setAttribute("class", "btn btn-danger")
+            removeOptionButton.classList.add("btn", "btn-danger", "button-right", "button-space");
             removeOptionButton.textContent = "Remove Option";
             removeOptionButton.addEventListener("click", () => {
               if (optionIndex > 2) {  // Ensure first 2 options are not removable
@@ -271,7 +284,7 @@
 
             const numberRangeTopInput = document.createElement("input");
             numberRangeTopInput.setAttribute("type", "number");
-            numberRangeTopInput.classList.add("form-control");
+            numberRangeTopInput.classList.add("form-control", "textbox-space");
             numberRangeTopInput.setAttribute(
               "name",
               `question_${questionNumber}_number_range_top`
@@ -280,12 +293,12 @@
               "id",
               `question_${questionNumber}_number_range_top`
             );
-            numberRangeTopInput.setAttribute("placeholder", "Top Range");
+            numberRangeTopInput.setAttribute("placeholder", "Top Range Number");
             numberRangeTopInput.required = true
 
             const numberRangeBottomInput = document.createElement("input");
             numberRangeBottomInput.setAttribute("type", "number");
-            numberRangeBottomInput.classList.add("form-control");
+            numberRangeBottomInput.classList.add("form-control", "textbox-space");
             numberRangeBottomInput.setAttribute(
               "name",
               `question_${questionNumber}_number_range_bottom`
@@ -294,12 +307,21 @@
               "id",
               `question_${questionNumber}_number_range_bottom`
             );
-            numberRangeBottomInput.setAttribute("placeholder", "Bottom Range");
+            numberRangeBottomInput.setAttribute("placeholder", "Bottom Range Number");
             numberRangeBottomInput.required = true
+
+            numberRangeTopInput.addEventListener("input", function () {
+              validateNumberRange(numberRangeTopInput, numberRangeBottomInput, questionNumber);
+            });
+
+            numberRangeBottomInput.addEventListener("input", function () {
+              validateNumberRange(numberRangeTopInput, numberRangeBottomInput, questionNumber);
+            });
 
             numberRangeQuestionFormGroup.appendChild(numberRangeQuestionLabel);
             numberRangeQuestionFormGroup.appendChild(numberRangeTopInput);
             numberRangeQuestionFormGroup.appendChild(numberRangeBottomInput);
+
 
             questionFieldsDiv.appendChild(numberRangeQuestionFormGroup);
           }
@@ -345,6 +367,17 @@
 
           document.getElementById('num_questions').value = newQuestionCount;
           questionCount = newQuestionCount; // Update global questionCount
+        }
+
+        function validateNumberRange(topInput, bottomInput, questionNumber) {
+          const topValue = parseFloat(topInput.value);
+          const bottomValue = parseFloat(bottomInput.value);
+
+          if (!isNaN(topValue) && !isNaN(bottomValue) && topValue <= bottomValue) {
+            alert(`Top range must be greater than bottom range for Question ${questionNumber}`);
+            topInput.value = "";
+            bottomInput.value = "";
+          }
         }
 
       </script>
