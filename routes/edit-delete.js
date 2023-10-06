@@ -57,8 +57,9 @@ router.post("/", async function (req, res, next) {
   }
 });
 
+// Might need to go back later for Survey_D Instances deletions 
 router.post("/delete/:id", async function (req, res, next) {
-  // ADD AN USER ADMIN CHECK HERE
+  
   console.log(res.locals.email);
   console.log(res.locals.isAdmin);
 
@@ -68,33 +69,11 @@ router.post("/delete/:id", async function (req, res, next) {
 
       await Survey_R.destroy({ where: { survey_id: survey.survey_id } });
 
-      const survey_questions = await Survey_Q.findAll({
-        where: { survey_id: survey.survey_id },
-        attributes: ["question_id"],
-      });
+      await Survey_A.destroy({ where: { survey_id: survey.survey_id }});
 
-      const question_ids = survey_questions.map((sq) => sq.question_id);
-      // THE FOLLOWING DELETION IS SUCCESSFUL
-      await Survey_A.destroy({
-        where: {
-          [Op.and]: [
-            { survey_id: survey.survey_id },
-            { question_id: { [Op.in]: question_ids } },
-          ],
-        },
-      });
+      await Survey_Q.destroy({ where: { survey_id: survey.survey_id } });
 
-      // THE FOLLOWING DELETION IS NOT SUCCESSFUL
-
-      // await Survey_Q.destroy({
-      //   where: {
-      //     [Op.and]: [
-      //       { survey_id: survey.survey_id },
-      //       { question_id: { [Op.in]: question_ids } },
-      //     ],
-      //   },
-      // });
-      // await survey.destroy();
+      await survey.destroy();
 
       res.redirect("/home/?msg=delete");
     } else {
@@ -103,7 +82,6 @@ router.post("/delete/:id", async function (req, res, next) {
   } else {
     res.redirect("/home/?msg=noaccess");
   }
-  // res.redirect('/home')
 });
 
 module.exports = router;
