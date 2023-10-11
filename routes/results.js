@@ -6,6 +6,7 @@ const Survey_Info = require("../models/Survey/Survey_Info");
 const Survey_Q = require("../models/Survey/Survey_Q");
 const Survey_A = require("../models/Survey/Survey_A");
 const Survey_R = require("../models/Survey/Survey_R");
+const Survey_D = require("../models/Survey/Survey_D");
 
 const sessionChecker = (req, res, next) => {
   if (req.session.user) {
@@ -38,11 +39,18 @@ router.get('/:id', async function (req, res, next) {
   if (req.query.msg) {
     res.locals.msg = req.query.msg;
   }
-  const survey = await Survey_Info.findAll({where: {survey_id: req.params.id}})
-  const survey_questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
-  const survey_results = await Survey_R.findAll({where: {survey_id: req.params.id}})
+  // const survey = await Survey_Info.findAll({where: {survey_id: req.params.id}})
+  // const survey_questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
+  // const survey_results = await Survey_R.findAll({where: {survey_id: req.params.id}})
 
+  const survey = await Survey_Info.findOne({ where: { survey_id: req.params.id } });
+  let survey_results = await Survey_R.findAll({ where: { survey_id: req.params.id } });
+  
+  if (survey_results.length === 0) {
+    survey_results = await Survey_D.findAll({ where: { survey_id: req.params.id } });
+  }
 
+  const survey_questions = await Survey_Q.findAll({ where: { survey_id: req.params.id } });
 
   res.render("results_survey", {survey, survey_results})
 });
