@@ -31,10 +31,14 @@ router.get("/:id", async function (req, res, next) {
   const survey = await Survey_Info.findByPk(req.params.id);
   if (survey) {
     const survey_questions = await Survey_Q.findAll({
-      where: { survey_id: req.params.id },
+      where: { survey_id: survey.survey_id },
     });
+    const survey_answers = await Survey_A.findAll({
+      where: { survey_id: survey.survey_id },
+    });
+
     if (res.locals.email && res.locals.isAdmin) {
-      res.render("edit", { survey, survey_questions });
+      res.render("edit", { survey, survey_questions, survey_answers });
     } else {
       res.redirect("/home/?msg=noaccess");
     }
