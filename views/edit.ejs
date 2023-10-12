@@ -96,11 +96,10 @@
       <script>
         let questionCount = 0;
 
-        let current_survey_questions = <%-JSON.stringify(survey_questions) %>;
+        let current_survey_questions = <%- JSON.stringify(questions_data) %>;
         current_survey_questions.forEach((question, index) => {
-          // addQuestion(question, index)
+          addQuestion(question, index)
         });
-        let current_survey_answers = <%-JSON.stringify(survey_answers) %>
 
         function togglePasswordInput() { // handles the password input field
           var passwordInput = document.getElementById("password");
@@ -108,7 +107,7 @@
           passwordInput.disabled = !secureCheckbox.checked;
         }
 
-        function addQuestion() { // handles the question input fields
+        function addQuestion(question = null, index = null) { // handles the question input fields
           questionCount++;
 
           // creates the 
@@ -182,11 +181,20 @@
           questionsDiv.appendChild(questionTypeFormGroup);
           questionsDiv.appendChild(questionFieldsDiv);
 
-          toggleQuestionFields(questionCount);
-          document.getElementById('num_questions').value = questionCount;
+          if (question) {
+
+            questionTitle.value = question.prompt;
+            questionTypeSelect.value = question.type;
+            toggleQuestionFields(question, questionCount)
+            document.getElementById('num_questions').value = questionCount;
+          }
+          else {
+            toggleQuestionFields(questionCount);
+            document.getElementById('num_questions').value = questionCount;
+          }
         }
 
-        function toggleQuestionFields(questionNumber) {
+        function toggleQuestionFields(question = null, questionNumber) {
           const questionTypeSelect = document.querySelector(
             `[name="question_${questionNumber}_type"]`
           );
@@ -206,22 +214,6 @@
             checkboxOptionsLabel.setAttribute("for", `question_${questionNumber}_options`);
             checkboxOptionsLabel.textContent = questionType === "checkbox" ? "Checkbox Options:" : "Multiple Choice Options:";
 
-            const defaultOption1 = document.createElement("input");
-            defaultOption1.setAttribute("type", "text");
-            defaultOption1.classList.add("form-control", "textbox-space");
-            defaultOption1.setAttribute("name", `question_${questionNumber}_option_1`);
-            defaultOption1.setAttribute("id", `question_${questionNumber}_option_1`);
-            defaultOption1.setAttribute("placeholder", "Option 1")
-            defaultOption1.required = true
-
-            const defaultOption2 = document.createElement("input");
-            defaultOption2.setAttribute("type", "text");
-            defaultOption2.classList.add("form-control", "textbox-space");
-            defaultOption2.setAttribute("name", `question_${questionNumber}_option_2`);
-            defaultOption2.setAttribute("id", `question_${questionNumber}_option_2`);
-            defaultOption2.setAttribute("placeholder", "Option 2")
-
-            let optionIndex = 2; // Track the highest index ever used for options
 
             const addOptionButton = document.createElement("button");
             addOptionButton.setAttribute("type", "button");
@@ -251,7 +243,7 @@
                     selectOptionsFormGroup.children[i].type === 'text') {
                     lastOptionInput = selectOptionsFormGroup.children[i];
                     break;
-                  }
+                  }lastOptionInput
                 }
                 if (lastOptionInput) {
                   selectOptionsFormGroup.removeChild(lastOptionInput);
@@ -261,8 +253,43 @@
             });
 
             selectOptionsFormGroup.appendChild(checkboxOptionsLabel);
-            selectOptionsFormGroup.appendChild(defaultOption1);
-            selectOptionsFormGroup.appendChild(defaultOption2);
+
+            let optionIndex = 2;
+
+            if (question) {
+
+              question.answers.forEach((answer, idx) => {
+                const optionInput = document.createElement("input");
+                optionInput.setAttribute("type", "text");
+                optionInput.classList.add("form-control", "textbox-space");
+                optionInput.setAttribute("name", `question_${questionNumber}_option_${idx + 1}`);
+                optionInput.setAttribute("id", `question_${questionNumber}_option_${idx + 1}`);
+                optionInput.setAttribute("placeholder", `Option ${idx + 1}`);
+                optionInput.value = answer.text;  // Set the value from the question.answers array
+                optionInput.required = true;
+                selectOptionsFormGroup.appendChild(optionInput);
+                optionIndex = idx;
+              });
+            }
+            else {
+              const defaultOption1 = document.createElement("input");
+              defaultOption1.setAttribute("type", "text");
+              defaultOption1.classList.add("form-control", "textbox-space");
+              defaultOption1.setAttribute("name", `question_${questionNumber}_option_1`);
+              defaultOption1.setAttribute("id", `question_${questionNumber}_option_1`);
+              defaultOption1.setAttribute("placeholder", "Option 1")
+              defaultOption1.required = true
+
+              const defaultOption2 = document.createElement("input");
+              defaultOption2.setAttribute("type", "text");
+              defaultOption2.classList.add("form-control", "textbox-space");
+              defaultOption2.setAttribute("name", `question_${questionNumber}_option_2`);
+              defaultOption2.setAttribute("id", `question_${questionNumber}_option_2`);
+              defaultOption2.setAttribute("placeholder", "Option 2")
+              selectOptionsFormGroup.appendChild(defaultOption1);
+              selectOptionsFormGroup.appendChild(defaultOption2);
+
+            }
             selectOptionsFormGroup.appendChild(addOptionButton);
             selectOptionsFormGroup.appendChild(removeOptionButton);
 
@@ -314,6 +341,11 @@
             numberRangeBottomInput.addEventListener("input", function () {
               validateNumberRange(numberRangeTopInput, numberRangeBottomInput, questionNumber);
             });
+
+            if (question) {
+              numberRangeBottomInput.value = question.bottom_range;
+              numberRangeTopInput.value = question.top_range;
+            }
 
             numberRangeQuestionFormGroup.appendChild(numberRangeQuestionLabel);
             numberRangeQuestionFormGroup.appendChild(numberRangeTopInput);
