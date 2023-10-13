@@ -67,7 +67,7 @@ router.get("/:id", async function (req, res, next) {
   }
 });
 
-router.post("/", async function (req, res, next) {
+router.post("/:id", async function (req, res, next) {
   console.log("BODY CONTENTS:");
   console.log(req.body);
   // ADD AN USER ADMIN CHECK HERE

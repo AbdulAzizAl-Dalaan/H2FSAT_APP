@@ -53,7 +53,7 @@
           </div>
         </div>
 
-        <form method="post" action="/edit">
+        <form method="post" action="/edit/<%= survey.survey_id %>">
           <div class="form-group">
             <label for="title">Title:</label>
             <input type="text" class="form-control" id="title" name="title" value="<%= survey.title %>" required />
@@ -96,7 +96,7 @@
       <script>
         let questionCount = 0;
 
-        let current_survey_questions = <%- JSON.stringify(questions_data) %>;
+        let current_survey_questions = <%- JSON.stringify(questions_data) %>; // AUTO FORMATTING WILL BREAK THE - IN THE EJS TAG
         current_survey_questions.forEach((question, index) => {
           addQuestion(question, index)
         });
@@ -110,7 +110,7 @@
         function addQuestion(question = null, index = null) { // handles the question input fields
           questionCount++;
 
-          // creates the 
+          // creates the dropdown
           const questionTypeSelect = document.createElement("select");
           questionTypeSelect.classList.add("form-control", "textbox-space");
           questionTypeSelect.setAttribute(
@@ -181,29 +181,33 @@
           questionsDiv.appendChild(questionTypeFormGroup);
           questionsDiv.appendChild(questionFieldsDiv);
 
-          if (question) {
+          questionTypeSelect.addEventListener("change", function () {
+            console.log("in change: " + questionTypeSelect.value)
+            toggleQuestionFields(null, questionCount, questionTypeSelect);
+          });
+
+          if (question !== null) {
 
             questionTitle.value = question.prompt;
             questionTypeSelect.value = question.type;
-            toggleQuestionFields(question, questionCount)
-            document.getElementById('num_questions').value = questionCount;
+            console.log("in question: " + questionTypeSelect.value)
+            toggleQuestionFields(question, questionCount, questionTypeSelect)
           }
           else {
-            toggleQuestionFields(questionCount);
-            document.getElementById('num_questions').value = questionCount;
+            questionTypeSelect.value = "checkbox";
+            console.log("in null question: " + questionTypeSelect.value)
+            toggleQuestionFields(null, questionCount, questionTypeSelect);
           }
+          document.getElementById('num_questions').value = questionCount;
         }
 
-        function toggleQuestionFields(question = null, questionNumber) {
-          const questionTypeSelect = document.querySelector(
-            `[name="question_${questionNumber}_type"]`
-          );
+        function toggleQuestionFields(question = null, questionNumber, questionTypeSelect) {
           const questionType = questionTypeSelect.value;
 
           const questionFieldsDiv = document.getElementById(
             `question_${questionNumber}_fields`
           );
-          questionFieldsDiv.innerHTML = "";
+          questionFieldsDiv.innerHTML = ""
 
           if (questionType === "checkbox" || questionType == "multiple_choice") {
 
@@ -243,7 +247,7 @@
                     selectOptionsFormGroup.children[i].type === 'text') {
                     lastOptionInput = selectOptionsFormGroup.children[i];
                     break;
-                  }lastOptionInput
+                  } lastOptionInput
                 }
                 if (lastOptionInput) {
                   selectOptionsFormGroup.removeChild(lastOptionInput);
@@ -256,7 +260,7 @@
 
             let optionIndex = 2;
 
-            if (question) {
+            if (question !== null) {
 
               question.answers.forEach((answer, idx) => {
                 const optionInput = document.createElement("input");
@@ -268,7 +272,7 @@
                 optionInput.value = answer.text;  // Set the value from the question.answers array
                 optionInput.required = true;
                 selectOptionsFormGroup.appendChild(optionInput);
-                optionIndex = idx;
+                optionIndex = idx + 1;
               });
             }
             else {
@@ -342,7 +346,7 @@
               validateNumberRange(numberRangeTopInput, numberRangeBottomInput, questionNumber);
             });
 
-            if (question) {
+            if (question !== null) {
               numberRangeBottomInput.value = question.bottom_range;
               numberRangeTopInput.value = question.top_range;
             }
