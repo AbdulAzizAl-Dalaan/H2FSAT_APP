@@ -45,12 +45,11 @@
         <% questions.forEach(question=> { %>
         <div class="question-container col-12">
           <% if (question.header !==null) { %>
-          <h2 style="padding-bottom: 15px"><%= question.header %></h2>
+          <h2 style="padding-bottom: 15px; padding-top: 55px;"><%= question.header %></h2>
           <% } %>
 
           <h4>
-            <% if (survey.show_question_numbers) { %> (<%= question.question_id
-            %>) &nbsp;&nbsp; <% } %> <%= question.prompt %>
+             <%= question.prompt %>
           </h4>
 
           <% if (question.img !==null) { %>

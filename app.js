@@ -156,7 +156,7 @@ async function setup() {
 
   const h2f_info = await Survey_Info.create({author: "brian.harder@army.mil", title: "Holistic Health and Fitness (H2F) Knowledge Check", description: "H2F is designed to optimize Soldier personal readiness,\
   reduce injury rates, improve rehabilitation after injury, and increase the overall effectiveness of the Total Army. These assessment tools are designed to help you identify your strengths\
-   and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of the Army National Guard along with the PHA.", show_question_numbers: true, grade_by_points: true})
+   and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of the Army National Guard along with the PHA.", isCore: 1})
 
   const h2f_q1    = await Survey_Q.create({survey_id: 2, question_id: 1, prompt: "How long should you cool down after a workout?", type: "multiple_choice", point_value: 1})
   const h2f_q1_a1 = await Survey_A.create({survey_id: 2, question_id: 1, answer_id: 1, text: "30 minutes"})
@@ -216,46 +216,46 @@ async function setup() {
   const h2f_q10_a1 = await Survey_A.create({survey_id: 2, question_id: 10, answer_id: 1, text: "True", is_correct: true}) // correct
   const h2f_q10_a2 = await Survey_A.create({survey_id: 2, question_id: 10, answer_id: 2, text: "False"})
 
-  const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cogntive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. "})
+  const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cogntive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", isCore: 2})
   
-  const cpa_q1    = await Survey_Q.create({survey_id: 3, question_id: 1, header: "Motivation to live a healthy lifestyle in each category", prompt: "M- Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q1    = await Survey_Q.create({survey_id: 3, question_id: 1, header: "Motivation to live a healthy lifestyle in each category", prompt: "Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q1_a1 = await Survey_A.create({survey_id: 3, question_id: 1, answer_id: 1, text: "number"})
-  const cpa_q2    = await Survey_Q.create({survey_id: 3, question_id: 2, prompt: "M- Mental Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q2    = await Survey_Q.create({survey_id: 3, question_id: 2, prompt: "Mental Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q2_a1 = await Survey_A.create({survey_id: 3, question_id: 2, answer_id: 1, text: "number"})
-  const cpa_q3    = await Survey_Q.create({survey_id: 3, question_id: 3, prompt: "M- Nutritional Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q3    = await Survey_Q.create({survey_id: 3, question_id: 3, prompt: "Nutritional Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q3_a1 = await Survey_A.create({survey_id: 3, question_id: 3, answer_id: 1, text: "number"})
-  const cpa_q4    = await Survey_Q.create({survey_id: 3, question_id: 4, prompt: "M- Spiritual Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q4    = await Survey_Q.create({survey_id: 3, question_id: 4, prompt: "Spiritual Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q4_a1 = await Survey_A.create({survey_id: 3, question_id: 4, answer_id: 1, text: "number"})
-  const cpa_q5    = await Survey_Q.create({survey_id: 3, question_id: 5, prompt: "M- Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q5    = await Survey_Q.create({survey_id: 3, question_id: 5, prompt: "Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q5_a1 = await Survey_A.create({survey_id: 3, question_id: 5, answer_id: 1, text: "number"})
 
-  const cpa_q6     = await Survey_Q.create({survey_id: 3, question_id: 6, header: "Ability to live a healthy lifestyle in each category", prompt: "A- Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q6     = await Survey_Q.create({survey_id: 3, question_id: 6, header: "Ability to live a healthy lifestyle in each category", prompt: "Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q6_a1  = await Survey_A.create({survey_id: 3, question_id: 6, answer_id: 1, text: "number"})
-  const cpa_q7     = await Survey_Q.create({survey_id: 3, question_id: 7, prompt: "A- Mental Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q7     = await Survey_Q.create({survey_id: 3, question_id: 7, prompt: "Mental Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q7_a1  = await Survey_A.create({survey_id: 3, question_id: 7, answer_id: 1, text: "number"}) 
-  const cpa_q8     = await Survey_Q.create({survey_id: 3, question_id: 8, prompt: "A- Nutritional Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q8     = await Survey_Q.create({survey_id: 3, question_id: 8, prompt: "Nutritional Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q8_a1  = await Survey_A.create({survey_id: 3, question_id: 8, answer_id: 1, text: "number"})
-  const cpa_q9     = await Survey_Q.create({survey_id: 3, question_id: 9, prompt: "A- Spiritual Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q9     = await Survey_Q.create({survey_id: 3, question_id: 9, prompt: "Spiritual Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q9_a1  = await Survey_A.create({survey_id: 3, question_id: 9, answer_id: 1, text: "number"})
-  const cpa_q10    = await Survey_Q.create({survey_id: 3, question_id: 10, prompt: "A- Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q10    = await Survey_Q.create({survey_id: 3, question_id: 10, prompt: "Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q10_a1 = await Survey_A.create({survey_id: 3, question_id: 10, answer_id: 1, text: "number"})
   
-  const cpa_q11    = await Survey_Q.create({survey_id: 3, question_id: 11, header: "Current (past 7 days) in each category", prompt: "C- Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q11    = await Survey_Q.create({survey_id: 3, question_id: 11, header: "Current (past 7 days) in each category", prompt: "Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q11_a1 = await Survey_A.create({survey_id: 3, question_id: 11, answer_id: 1, text: "number"})
-  const cpa_q12    = await Survey_Q.create({survey_id: 3, question_id: 12, prompt: "C-Mental Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q12    = await Survey_Q.create({survey_id: 3, question_id: 12, prompt: "Mental Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q12_a1 = await Survey_A.create({survey_id: 3, question_id: 12, answer_id: 1, text: "number"})
-  const cpa_q13    = await Survey_Q.create({survey_id: 3, question_id: 13, prompt: "C-Nutritional Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q13    = await Survey_Q.create({survey_id: 3, question_id: 13, prompt: "Nutritional Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q13_a1 = await Survey_A.create({survey_id: 3, question_id: 13, answer_id: 1, text: "number"})
-  const cpa_q14    = await Survey_Q.create({survey_id: 3, question_id: 14, prompt: "C-Spiritual Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q14    = await Survey_Q.create({survey_id: 3, question_id: 14, prompt: "Spiritual Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q14_a1 = await Survey_A.create({survey_id: 3, question_id: 14, answer_id: 1, text: "number"})
-  const cpa_q15    = await Survey_Q.create({survey_id: 3, question_id: 15, prompt: "C-Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1})
+  const cpa_q15    = await Survey_Q.create({survey_id: 3, question_id: 15, prompt: "Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1})
   const cpa_q15_a1 = await Survey_A.create({survey_id: 3, question_id: 15, answer_id: 1, text: "number"})
 
   const fms_info = await Survey_Info.create({survey_id: 4, author: "brian.harder@army.mil", title: "Functional Movement Screening", description: "The Functional Movement Screening (FMS) is an assessment\
    tool used by the Army National Guard to evaluate the fundamental movement patterns of its service members. It is designed to identify functional limitations and asymmetries in the body which can increase\
     the risk of injury. The FMS consists of a series of specific exercises that challenge an individual's ability to perform basic movement patterns without compensation. Each exercise is scored on a scale, and\
      the results provide valuable feedback about an individual's movement quality. The scores can then guide targeted training and corrective exercises, helping to reduce the potential for injury and improve overall\
-     physical performance. This systematic approach is vital for ensuring the readiness and resilience of the troops in the ever-demanding physical environments they encounter.", secure: true, password: "1234"})
+     physical performance. This systematic approach is vital for ensuring the readiness and resilience of the troops in the ever-demanding physical environments they encounter.", secure: true, password: "1234", isCore: 3})
 
   const fms_q1    = await Survey_Q.create({survey_id: 4, question_id: 1, prompt: "Grader Name: ", type: "text"})
   const fms_q1_a1 = await Survey_A.create({survey_id: 4, question_id: 1, answer_id: 1, text: "Name"})
