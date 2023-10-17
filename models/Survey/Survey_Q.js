@@ -56,11 +56,11 @@ Survey_Q.init({
         allowNull: true,
         defaultValue: null
     },
-    point_value:
+    core_category: // the core category that the question belongs to (only for core assessments)
     {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: null
+        type: DataTypes.STRING,
+        allowNull: true, 
+        defaultValue: false
     }
 }, {
     sequelize,

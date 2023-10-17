@@ -59,9 +59,9 @@ Survey_Info.init({
     },
     isCore: // checks if the survey is a core survey or not (1 for H2F, 2 for FMS, 3 for CPA)
     {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: 0 // 0 for not a core survey
+        defaultValue: false // 0 for not a core survey
     },
 }, {
     sequelize,
