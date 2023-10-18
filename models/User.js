@@ -40,6 +40,11 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    state:
+    {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     email:
     {
         type: DataTypes.STRING,
