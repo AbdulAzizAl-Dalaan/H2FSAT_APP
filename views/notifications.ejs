@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Home</title>
+    <style>
+      .form-group {
+        margin:10px;
+      }
+
+      .content
+      {
+        max-width: 1000px;
+        margin: auto;
+        margin-top: 20px;
+      }
+    </style>
+</head>
+<body>
+<%- include('header') %>
+<div class="content">
+  <div class="row mb-3" style="padding-top: 10px">
+    <div class="col-12 text-center">
+      <h1 style="text-decoration: underline; padding-bottom: 50px;">Notifications</h1>
+    </div>
+  </div>
+
+  <!-- Notifications tables for H2F, CPA, and FMS Assessments -->
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <h2 style="text-decoration: underline;">Holistic Health and Fitness (H2F) Knowledge Check</h2>
+    </div>
+    <% if (User_Result && User_Result.h2f_results && Object.keys(User_Result.h2f_results).length > 0) { %>
+      <% for(let key in User_Result.h2f_results) { %>
+        <% if(User_Result.h2f_results.hasOwnProperty(key)) { %>
+            <% if(User_Result.h2f_results[key] < 50) { %>
+              <p style="padding-top: 10px;"><strong><%= key %>:</strong></p>
+              <p> <%= category_dict[key] %></p>
+              <% flag = 1 %>
+            <% } %>
+        <% } %>
+    <% } %>
+  <% } else { %>
+      <div class="col-12">
+          <p>You have not taken (or passed) the H2F Knowledge Check Assessment </p>
+      </div>
+  <% } %>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <h2 style="text-decoration: underline;">Cognitive Performance Assessment (CPA)</h2>
+    </div>
+    <% if (User_Result && User_Result.cpa_results && Object.keys(User_Result.cpa_results).length > 0 && User_Result.cpa_flag && User_Result.cpa_flag !== "PASSED") { %>
+      <% for(let key in User_Result.cpa_results) { %>
+        <% if(User_Result.cpa_results.hasOwnProperty(key)) { %>
+            <% if(User_Result.cpa_results[key] < 25) { %>
+              <p style="padding-top: 10px;"><strong><%= key %> - <%= User_Result.cpa_flag %> Alert</strong></p>
+              <p> <%= category_dict[key] %></p>
+            <% } %>
+        <% } %>
+    <% } %>
+  <% } else if (User_Result && User_Result.cpa_flag && User_Result.cpa_flag === "PASSED") { %>
+      <div class="col-12">
+          <p>You have passed the Cognitive Performance Assessment </p>
+      </div>
+  <% } else {%>
+      <div class="col-12">
+          <p>You have not taken the Cognitive Performance Assessment </p>
+      </div>
+  <% } %>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <h2 style="text-decoration: underline;">Functional Movement Screening</h2>
+    </div>
+    <% if (User_Result && User_Result.fms_flag && User_Result.fms_flag !== "PASSED") { %>
+      <p style="padding-top: 10px;"><strong>FMS - <%= User_Result.fms_flag %> Alert</strong></p>
+      <p> <%= category_dict[`${User_Result.fms_flag}`] %></p>
+  <% } else if (User_Result && User_Result.fms_flag && User_Result.fms_flag === "PASSED") { %>
+
+      <div class="col-12">
+          <p>You have passed the Function Movement Screening </p>
+      </div>
+  <% } else {%>
+
+      <div class="col-12">
+          <p>You have not taken the Function Movement Screening </p>
+      </div>  
+  <% } %>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

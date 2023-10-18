@@ -15,6 +15,7 @@ const sessionChecker = (req, res, next) => {
     res.locals.unit = req.session.user.unit;
     res.locals.rank = req.session.user.rank;
     res.locals.email = req.session.user.email;
+    res.locals.state = req.session.user.state;
     res.locals.isAdmin = req.session.user.isAdmin;
     res.locals.isUnitLeader = req.session.user.isUnitLeader;
     next();

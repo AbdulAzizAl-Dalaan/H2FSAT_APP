@@ -15,6 +15,7 @@ const sessionChecker = (req, res, next) => {
     res.locals.unit = req.session.user.unit
     res.locals.rank = req.session.user.rank
     res.locals.email = req.session.user.email
+    res.locals.state = req.session.user.state;
     res.locals.isAdmin = req.session.user.isAdmin
     res.locals.isUnitLeader = req.session.user.isUnitLeader
     next()
@@ -35,7 +36,13 @@ router.get('/', async function(req, res, next) {
   }
   console.log("CURRENT USER:" + req.session.user.email)
   const isAdmin = req.session.user.isAdmin
-  res.render('home', {surveys, isAdmin});
+  let username = req.session.user.email
+  // strip out the second half of the email
+  let usernameArray = username.split("@")
+  username = usernameArray[0].replace(".", "")
+  console.log("USER EMAIL: " + username)
+  // remove the period from the email
+  res.render('home', {surveys, isAdmin, username});
 });
 
 router.get('/:id', async function(req, res, next) {
@@ -186,8 +193,8 @@ router.post('/:id/submit', async function(req, res, next) {
             console.log("SURVEY CORE RESULT: " + survey_core_result)
             switch (result.survey_id) {
               case 1: // H2F
-                if (survey_core_result.h2f_results_percentages === null) {
-                  survey_core_result.update({h2f_results_percentages: core_res})
+                if (survey_core_result.h2f_results === null) {
+                  survey_core_result.update({h2f_results: core_res})
                 }
                 break;
               case 2: // CPA

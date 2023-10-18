@@ -13,6 +13,7 @@ const Survey_A = require('./models/Survey/Survey_A')
 const Survey_R = require('./models/Survey/Survey_R')
 const Survey_D = require('./models/Survey/Survey_D')
 const Core_Result = require('./models/Core_Result')
+const Notification = require('./models/Notification')
 
 Survey_Info.hasMany(Survey_Q) // foreignKey "survey_id"
 Survey_Q.belongsTo(Survey_Info)
@@ -39,6 +40,7 @@ var unitsummaryRouter = require('./routes/unitsummary');
 var resultsRouter = require('./routes/results');
 var uploadRoutes = require('./routes/upload');
 var editDeleteRouter = require('./routes/edit-delete');
+var notificationRouter = require('./routes/notification');
 
 var app = express();
 
@@ -67,7 +69,7 @@ app.use('/create', createRouter);
 app.use('/unitsummary', unitsummaryRouter);
 app.use('/results', resultsRouter);
 app.use('/edit', editDeleteRouter)
-
+app.use('/notification', notificationRouter)
 //excel stuff
  
 app.use('/upload', uploadRoutes);
@@ -96,54 +98,54 @@ app.use(function (err, req, res, next) {
 
 async function setup() {
   // Test Admin User
-  const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "Cpt", password: '1', gender: 'male', isAdmin: true })
+  const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "Cpt", password: '1', gender: 'male', isAdmin: true, state: "WA" })
 
   // SUBU TEST USERS
-  const adminSubu = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "kandaswamy", rank: "Cpt", password: '1234', gender: 'male', isAdmin: true })
-  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "Sgt", gender: 'male' })
-  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "Sgt", gender: 'male' })
+  const adminSubu = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "kandaswamy", rank: "Cpt", password: '1234', gender: 'male', isAdmin: true, state: "WA" })
+  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "Sgt", gender: 'male', state: "WA" })
+  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "Sgt", gender: 'male', state: "WA" })
   
-  const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt" })
-  const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "Sgt" })
-  const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true })
-  const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true })
+  const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt", state: "VA" })
+  const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "Sgt", state: "VA" })
+  const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true, state: "VA" })
+  const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true, state: "VA" })
   // Users for the 1st unit
-  const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt" });
-  const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "Sgt" });
-  const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl" });
-  const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "Pvt" });
-  const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "Sgt" });
-  const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "Pvt" });
-  const user8 = await User.create({ firstname: "Emily", lastname: "Jones", unit: "1st", email: "emily.jones@army.mil", rank: "Pvt" });
-  const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "Sgt" });
+  const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt", state: "VA" });
+  const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "Sgt", state: "VA" });
+  const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl", state: "VA" });
+  const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "Pvt", state: "VA" });
+  const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "Sgt", state: "VA" });
+  const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "Pvt", state: "VA" });
+  const user8 = await User.create({ firstname: "Emily", lastname: "Jones", unit: "1st", email: "emily.jones@army.mil", rank: "Pvt", state: "VA" });
+  const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "Sgt", state: "VA" });
 
   // Users for the 2nd unit
-  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", rank: "Pvt" });
-  const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "2nd", email: "mark.taylor@army.mil", rank: "Pvt" });
-  const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "2nd", email: "karen.anderson@army.mil", rank: "Sgt" });
-  const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "2nd", email: "chris.lee@army.mil", rank: "Pvt" });
-  const user14 = await User.create({ firstname: "Lisa", lastname: "Kim", unit: "2nd", email: "lisa.kim@army.mil", rank: "Pvt" });
-  const user15 = await User.create({ firstname: "Brian", lastname: "Chen", unit: "2nd", email: "brian.chen@army.mil", rank: "Sgt" });
-  const user16 = await User.create({ firstname: "Jessica", lastname: "Wang", unit: "2nd", email: "jessica.wang@army.mil", rank: "Pvt" });
-  const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "2nd", email: "kevin.zhang@army.mil", rank: "Pvt" });
-  const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "2nd", email: "michelle.li@army.mil", rank: "Sgt" });
+  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", rank: "Pvt", state: "NC" });
+  const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "2nd", email: "mark.taylor@army.mil", rank: "Pvt", state: "NC" });
+  const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "2nd", email: "karen.anderson@army.mil", rank: "Sgt", state: "NC" });
+  const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "2nd", email: "chris.lee@army.mil", rank: "Pvt", state: "NC" });
+  const user14 = await User.create({ firstname: "Lisa", lastname: "Kim", unit: "2nd", email: "lisa.kim@army.mil", rank: "Pvt", state: "NC" });
+  const user15 = await User.create({ firstname: "Brian", lastname: "Chen", unit: "2nd", email: "brian.chen@army.mil", rank: "Sgt", state: "NC" });
+  const user16 = await User.create({ firstname: "Jessica", lastname: "Wang", unit: "2nd", email: "jessica.wang@army.mil", rank: "Pvt", state: "NC" });
+  const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "2nd", email: "kevin.zhang@army.mil", rank: "Pvt", state: "NC" });
+  const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "2nd", email: "michelle.li@army.mil", rank: "Sgt", state: "NC" });
 
   // Users for the 3rd unit
-  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", rank: "Pvt" });
-  const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "3rd", email: "stephanie.chang@army.mil", rank: "Pvt" });
-  const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "3rd", email: "jason.chen@army.mil", rank: "Sgt" });
-  const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "3rd", email: "rachel.liu@army.mil", rank: "Pvt" });
-  const user23 = await User.create({ firstname: "Eric", lastname: "Wang", unit: "3rd", email: "eric.wang@army.mil", rank: "Pvt" });
-  const user24 = await User.create({ firstname: "Catherine", lastname: "Zhang", unit: "3rd", email: "catherine.zhang@army.mil", rank: "Sgt" });
-  const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "Pvt" });
-  const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "Pvt" });
-  const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "Sgt" });
+  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", rank: "Pvt", state: "PA" });
+  const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "3rd", email: "stephanie.chang@army.mil", rank: "Pvt", state: "PA" });
+  const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "3rd", email: "jason.chen@army.mil", rank: "Sgt", state: "PA" });
+  const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "3rd", email: "rachel.liu@army.mil", rank: "Pvt", state: "PA" });
+  const user23 = await User.create({ firstname: "Eric", lastname: "Wang", unit: "3rd", email: "eric.wang@army.mil", rank: "Pvt", state: "PA" });
+  const user24 = await User.create({ firstname: "Catherine", lastname: "Zhang", unit: "3rd", email: "catherine.zhang@army.mil", rank: "Sgt", state: "PA" });
+  const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "Pvt", state: "PA" });
+  const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "Pvt", state: "PA" });
+  const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "Sgt", state: "PA" });
 
 
 
   const h2f_info = await Survey_Info.create({author: "brian.harder@army.mil", title: "Holistic Health and Fitness (H2F) Knowledge Check", description: "H2F is designed to optimize Soldier personal readiness,\
   reduce injury rates, improve rehabilitation after injury, and increase the overall effectiveness of the Total Army. These assessment tools are designed to help you identify your strengths\
-   and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of the Army National Guard along with the PHA.", isCore: true})
+   and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of the Army National Guard along with the PHA.", isCore: true, card_img: "/images/default_imgs/img3.png"})
 
   const h2f_q1    = await Survey_Q.create({survey_id: 1, question_id: 1, prompt: "How long should you cool down after a workout?", type: "multiple_choice", core_category: "Physical"})
   const h2f_q1_a1 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 1, text: "30 minutes"})
@@ -203,7 +205,8 @@ async function setup() {
   const h2f_q10_a1 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 1, text: "True", is_correct: true}) // correct
   const h2f_q10_a2 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 2, text: "False"})
 
-  const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cogntive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", isCore: true})
+  const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cogntive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
+  isCore: true, card_img: "/images/default_imgs/img1.png"})
   
   const cpa_q1    = await Survey_Q.create({survey_id: 2, question_id: 1, header: "Motivation to live a healthy lifestyle in each category", prompt: "Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1, core_category: "Motivation"})
   const cpa_q1_a1 = await Survey_A.create({survey_id: 2, question_id: 1, answer_id: 1, text: "number"})
@@ -242,7 +245,7 @@ async function setup() {
    tool used by the Army National Guard to evaluate the fundamental movement patterns of its service members. It is designed to identify functional limitations and asymmetries in the body which can increase\
     the risk of injury. The FMS consists of a series of specific exercises that challenge an individual's ability to perform basic movement patterns without compensation. Each exercise is scored on a scale, and\
      the results provide valuable feedback about an individual's movement quality. The scores can then guide targeted training and corrective exercises, helping to reduce the potential for injury and improve overall\
-     physical performance. This systematic approach is vital for ensuring the readiness and resilience of the troops in the ever-demanding physical environments they encounter.", secure: true, password: "1234", isCore: true})
+     physical performance. This systematic approach is vital for ensuring the readiness and resilience of the troops in the ever-demanding physical environments they encounter.", secure: true, password: "1234", isCore: true, card_img: "/images/default_imgs/img2.png"})
 
   const fms_q1    = await Survey_Q.create({survey_id: 3, question_id: 1, prompt: "Grader Name: ", type: "text"})
   const fms_q1_a1 = await Survey_A.create({survey_id: 3, question_id: 1, answer_id: 1, text: "Name"})
@@ -308,9 +311,20 @@ async function setup() {
   const res26 = await Survey_R.create({survey_id: 4, email: "grace.wu@army.mil", results: {"1": "Olympia", "2": "Grace Wu", "3": "7", "4": ["CPT_S 360", "CPT_S 421"], "5": "No"}})
   const res27 = await Survey_R.create({survey_id: 4, email: "steven.liu@army.mil", results: {"1": "Seattle", "2": "Steven Liu", "3": "6", "4": ["CPT_S 302", "CPT_S 360"], "5": "Yes"}})
 
-
+  const core_res = await Core_Result.create({user_email: "user", h2f_results: {"Sleep": 100, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 25, "Current": 15, "Motivation": 50}, cpa_flag: "BH", fms_flag: "PT" })
   
+  const notification1 = await Notification.create({notification_id: 1, state: "VA", core_assessment_id: 1, category: "Physical", description: "You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
+  const notification2 = await Notification.create({notification_id: 2, state: "VA", core_assessment_id: 1, category: "Nutrition",description: "You have scores significantly lower than your peers in the Nutrition domain of the assessment specified above. Please contact your unit's nutritionist to schedule a consultation."})
+  const notification3 = await Notification.create({notification_id: 3, state: "VA", core_assessment_id: 1, category: "Spiritual",description: "You have scores significantly lower than your peers in the Spiritual domain of the assessment specified above. Please contact your unit's Spiritul Specialist to schedule a consultation."})
+  const notification4 = await Notification.create({notification_id: 4, state: "VA", core_assessment_id: 1, category: "Mental",description: "You have scores significantly lower than your peers in the Mental domain of the assessment specified above. Please contact your unit's mental health specialist to schedule a consultation."})
+  const notification5 = await Notification.create({notification_id: 5, state: "VA", core_assessment_id: 1, category: "Sleep",description: "You have scores significantly lower than your peers in the Sleep domain of the assessment specified above. Please contact your unit's sleep specialist to schedule a consultation."})
 
+  const notification6 = await Notification.create({notification_id: 6, state: "VA", core_assessment_id: 2, category: "Motivation",description: "You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
+  const notification7 = await Notification.create({notification_id: 7, state: "VA", core_assessment_id: 2, category: "Ability",description: "You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
+  const notification8 = await Notification.create({notification_id: 8, state: "VA", core_assessment_id: 2, category: "Current",description: "You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
+
+  const notification9 = await Notification.create({notification_id: 9, state: "VA", core_assessment_id: 3, category: "PT", description: "You have score a 0 on a specifc exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation."})
+  const notification10 = await Notification.create({notification_id: 10, state: "VA", core_assessment_id: 3, category: "MFT", description: "You have score a 1 on a specifc exercise within the assessment specified above. Please contact your unit's master fitness trainer at john.smith@army.mil to schedule a consultation."})
 
 
   console.log("Data Entered")
