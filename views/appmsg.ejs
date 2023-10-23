@@ -68,6 +68,80 @@
     aria-label="Close"
   ></button>
 </div>
+<% break; case "h2f":%>
+<% if (User_Result.h2f_flag === "PASSED") { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>You have successfully completed the Holistic Health Assessment</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+<% } else { %>
+  <% for (const category of User_Result.h2f_flag.split('-')) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong><%= category_dict[category] %></strong>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-l  abel="Close"
+      ></button>
+    </div>
+  <% } %>
+<% } %>
+<% break; case "cpa":%>
+<% if (User_Result.cpa_flag === "PASSED") { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>You have successfully completed the Cognitive Performance Assessment</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+<% } else { %>
+  <% for(let key in User_Result.cpa_results) { %>
+    <% if(User_Result.cpa_results.hasOwnProperty(key)) { %>
+        <% if(User_Result.cpa_results[key] < 25) { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong><%= category_dict[key] %></strong>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-l  abel="Close"
+            ></button>
+          </div>
+        <% } %>
+    <% } %>
+<% } %>
+<% } %>
+<% break; case "fms":%>
+<% if (User_Result.fms_flag === "PASSED") { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>You have successfully completed the Movement Screening Assessment</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+<% } else { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong><%= category_dict[User_Result.fms_flag] %></strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-l  abel="Close"
+    ></button>
+  </div>
+<% } %>
 <% break; default: %>
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
   <strong></strong> can not be added/deleted/found due to the errors below.

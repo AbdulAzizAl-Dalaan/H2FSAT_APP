@@ -28,6 +28,11 @@ Notification.init({
     description: { // Will be the description of the notification for each of the notification id types
         type: DataTypes.STRING,
         allowNull: false
+    },
+    resource_email:
+    {
+        type: DataTypes.STRING,
+        allowNull: true  
     }
 }, {
     sequelize,

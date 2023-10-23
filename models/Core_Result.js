@@ -27,6 +27,12 @@ Core_Result.init({
         allowNull: true,
         defaultValue: null
     },
+    h2f_flag: // Either PASSED or Concatnated string of sections that are below 50%
+    {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
     cpa_flag: // flag for the CPA survey (null for not taken, "BH" any section is lower than 25, "MFT" if 1 at any point, "PASSED" otherwise)
     {
         type: DataTypes.STRING,

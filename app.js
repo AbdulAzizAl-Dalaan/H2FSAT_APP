@@ -40,7 +40,7 @@ var unitsummaryRouter = require('./routes/unitsummary');
 var resultsRouter = require('./routes/results');
 var uploadRoutes = require('./routes/upload');
 var editDeleteRouter = require('./routes/edit-delete');
-var notificationRouter = require('./routes/notification');
+
 
 var app = express();
 
@@ -69,7 +69,6 @@ app.use('/create', createRouter);
 app.use('/unitsummary', unitsummaryRouter);
 app.use('/results', resultsRouter);
 app.use('/edit', editDeleteRouter)
-app.use('/notification', notificationRouter)
 //excel stuff
  
 app.use('/upload', uploadRoutes);
@@ -143,7 +142,7 @@ async function setup() {
 
 
 
-  const h2f_info = await Survey_Info.create({author: "brian.harder@army.mil", title: "Holistic Health and Fitness (H2F) Knowledge Check", description: "H2F is designed to optimize Soldier personal readiness,\
+  const h2f_info = await Survey_Info.create({author: "brian.harder@army.mil", title: "Holistic Health Assessment", description: "H2F is designed to optimize Soldier personal readiness,\
   reduce injury rates, improve rehabilitation after injury, and increase the overall effectiveness of the Total Army. These assessment tools are designed to help you identify your strengths\
    and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of the Army National Guard along with the PHA.", isCore: true, card_img: "/images/default_imgs/img3.png"})
 
@@ -241,7 +240,7 @@ async function setup() {
   const cpa_q15    = await Survey_Q.create({survey_id: 2, question_id: 15, prompt: "Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1, core_category: "Current"})
   const cpa_q15_a1 = await Survey_A.create({survey_id: 2, question_id: 15, answer_id: 1, text: "number"})
 
-  const fms_info = await Survey_Info.create({survey_id: 3, author: "brian.harder@army.mil", title: "Functional Movement Screening", description: "The Functional Movement Screening (FMS) is an assessment\
+  const fms_info = await Survey_Info.create({survey_id: 3, author: "brian.harder@army.mil", title: "Movement Screening Assessment", description: "The  Movement Screening is an assessment\
    tool used by the Army National Guard to evaluate the fundamental movement patterns of its service members. It is designed to identify functional limitations and asymmetries in the body which can increase\
     the risk of injury. The FMS consists of a series of specific exercises that challenge an individual's ability to perform basic movement patterns without compensation. Each exercise is scored on a scale, and\
      the results provide valuable feedback about an individual's movement quality. The scores can then guide targeted training and corrective exercises, helping to reduce the potential for injury and improve overall\
@@ -311,7 +310,7 @@ async function setup() {
   const res26 = await Survey_R.create({survey_id: 4, email: "grace.wu@army.mil", results: {"1": "Olympia", "2": "Grace Wu", "3": "7", "4": ["CPT_S 360", "CPT_S 421"], "5": "No"}})
   const res27 = await Survey_R.create({survey_id: 4, email: "steven.liu@army.mil", results: {"1": "Seattle", "2": "Steven Liu", "3": "6", "4": ["CPT_S 302", "CPT_S 360"], "5": "Yes"}})
 
-  const core_res = await Core_Result.create({user_email: "user", h2f_results: {"Sleep": 100, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 25, "Current": 15, "Motivation": 50}, cpa_flag: "BH", fms_flag: "PT" })
+  const core_res = await Core_Result.create({user_email: "user", h2f_results: {"Sleep": 100, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 25, "Current": 15, "Motivation": 50}, h2f_flag: "Physical-Nutrition", cpa_flag: "BH", fms_flag: "PT" })
   
   const notification1 = await Notification.create({notification_id: 1, state: "VA", core_assessment_id: 1, category: "Physical", description: "You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
   const notification2 = await Notification.create({notification_id: 2, state: "VA", core_assessment_id: 1, category: "Nutrition",description: "You have scores significantly lower than your peers in the Nutrition domain of the assessment specified above. Please contact your unit's nutritionist to schedule a consultation."})
