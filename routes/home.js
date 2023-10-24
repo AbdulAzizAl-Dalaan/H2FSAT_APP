@@ -42,7 +42,7 @@ router.get('/', async function(req, res, next) {
   let usernameArray = username.split("@")
   username = usernameArray[0].replace(".", "")
   console.log("USER EMAIL: " + username)
-  const Notifications = await Notification.findAll({ where: { state: res.locals.state } });
+  const Notifications = await Notification.findAll({ where: { unit: res.locals.unit } });
   // remove the period from the email
   let category_dict = {};
   for (let i = 0; i < Notifications.length; i++) {

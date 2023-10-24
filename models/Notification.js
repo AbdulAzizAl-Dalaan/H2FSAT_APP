@@ -10,7 +10,7 @@ Notification.init({
         primaryKey: true,
         autoIncrement: true
     },
-    state: { // Will be the abbreviation of the state the user is in (should include all states and DC)
+    unit: { // Will be the abbreviation of the state the user is in (should include all states and DC)
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true
