@@ -46,7 +46,7 @@ router.get('/', async function(req, res, next) {
   // remove the period from the email
   let category_dict = {};
   for (let i = 0; i < Notifications.length; i++) {
-    category_dict[Notifications[i].category] = Notifications[i].description;
+    category_dict[Notifications[i].core_category] = [Notifications[i].description, Notifications[i].resource_email, Notifications[i].resource_phone];
   }
   let User_Result = {}
   if (res.locals.msg === "h2f" || res.locals.msg === "cpa" || res.locals.msg === "fms") {
@@ -214,17 +214,20 @@ router.post('/:id/submit', async function(req, res, next) {
             switch (result.survey_id) {
               case 1: // H2F
                 if (survey_core_result.h2f_results === null) {
-                  survey_core_result.update({h2f_results: core_res[0], h2f_flag: core_res[1]})
+                  await survey_core_result.update({h2f_results: core_res[0], h2f_flag: core_res[1]})
+                  await survey_core_result.save()
                 }
                 break;
               case 2: // CPA
                 if (survey_core_result.cpa_flag === null && survey_core_result.cpa_results === null) {
-                  survey_core_result.update({cpa_results: core_res[0], cpa_flag: core_res[1]})
+                  await survey_core_result.update({cpa_results: core_res[0], cpa_flag: core_res[1]})
+                  await survey_core_result.save()
                 }
                 break;
               case 3: // FMS
                 if (survey_core_result.fms_flag === null) {
-                  survey_core_result.update({fms_flag: core_res})
+                  await survey_core_result.update({fms_flag: core_res})
+                  await survey_core_result.save()
                 }
                 break;
               default:

@@ -1,54 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Home</title>
-    <style>
-      .form-group {
-        margin:10px;
-      }
-      .content
-      {
-        max-width: 1000px;
-        margin: auto;
-        margin-top: 20px;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <title>Home</title>
+  <style>
+    .form-group {
+      margin: 10px;
+    }
+
+    .content {
+      max-width: 1000px;
+      margin: auto;
+      margin-top: 20px;
+    }
+  </style>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
+
 <body>
-<%- include('header') %>
-<div class="content">
-  <div class="row mb-3" style="padding-top: 10px">
-    <div class="col-12 text-center">
-      <h1 style="text-decoration: underline; padding-bottom: 50px;">Edit Notifications</h1>
+  <%- include('header') %>
+    <div class="content">
+      <div class="row mb-3" style="padding-top: 10px">
+        <div class="col-12 text-center">
+          <h1 style="text-decoration: underline; padding-bottom: 50px;">Edit Notifications</h1>
+        </div>
+      </div>
+
+      <!-- Notifications tables for H2F, CPA, and FMS Assessments -->
+
+      <form method="post" action="/notification" class="row g-3">
+        <div class="row mb-3">
+          <div class="col-12">
+            <h2 style="text-decoration: underline;">Holistic Health Assessment</h2>
+          </div>
+          <% for( let index = 0; index < h2f_notifications.length; index++ ) { %>
+            <div class="col-12" style="padding-top: 20px;">
+              <div class="form-group">
+                <label for="<%= h2f_notifications[index].core_category %>" style="padding-top: 55px;"><strong>Low <%= h2f_notifications[index].core_category %> Notification:</strong></label>
+                <textarea type="text" class="form-control" id="<%= h2f_notifications[index].core_category %>" required name="<%= h2f_notifications[index].core_category %>"><%= h2f_notifications[index].description %></textarea>
+                <label for="<%= h2f_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong>Low <%= h2f_notifications[index].core_category %> Rosource Email:</strong></label>
+                <% if (h2f_notifications[index].resource_email) { %>
+                  <input type="text" class="form-control" id="<%= h2f_notifications[index].core_category %> Email" name="<%= h2f_notifications[index].core_category %> Email" value="<%= h2f_notifications[index].resource_email %>">
+
+                <% } else { %>
+                  <input type="text" class="form-control" id="<%= h2f_notifications[index].core_category %> Email" name="<%= h2f_notifications[index].core_category %> Email" placeholder="(optional)">
+                <% } %>
+                <label for="<%= h2f_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong>Low <%= h2f_notifications[index].core_category %> Rosource Phone:</strong></label>
+                <% if (h2f_notifications[index].resource_phone) { %>
+                  <input type="text" class="form-control" id="<%= h2f_notifications[index].core_category %> Phone" name="<%= h2f_notifications[index].core_category %> Phone" value="<%= h2f_notifications[index].resource_phone %>">
+                <% } else { %>
+                  <input type="text" class="form-control" id="<%= h2f_notifications[index].core_category %> Phone" name="<%= h2f_notifications[index].core_category %> Phone" placeholder="(optional)">
+                <% } %>
+              </div>
+          <% } %>
+
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-12">
+            <h2 style="text-decoration: underline; padding-top: 50px;">Cognitive Performance Assessment</h2>
+          </div>
+          <% for( let index = 0; index < cpa_notifications.length; index++ ) { %>
+            <div class="col-12" style="padding-top: 20px;">
+              <div class="form-group">
+                <label for="<%= cpa_notifications[index].core_category %>" style="padding-top: 55px;"><strong>Low <%= cpa_notifications[index].core_category %> Notification:</strong></label>
+                <textarea type="text" class="form-control" id="<%= cpa_notifications[index].core_category %>" required name="<%= cpa_notifications[index].core_category %>"><%= cpa_notifications[index].description %></textarea>
+                <label for="<%= cpa_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong>Low <%= cpa_notifications[index].core_category %> Rosource Email:</strong></label>
+                <% if (cpa_notifications[index].resource_email ) { %>
+                  <input type="text" class="form-control" id="<%= cpa_notifications[index].core_category %> Email" name="<%= cpa_notifications[index].core_category %> Email" value="<%= cpa_notifications[index].resource_email %>">
+                <% } else { %>
+                  <input type="text" class="form-control" id="<%= cpa_notifications[index].core_category %> Email" name="<%= cpa_notifications[index].core_category %> Email" placeholder="(optional)">
+                <% } %>
+                <label for="<%= cpa_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong>Low <%= cpa_notifications[index].core_category %> Rosource Phone:</strong></label>
+                <% if (cpa_notifications[index].resource_phone) { %>
+                  <input type="text" class="form-control" id="<%= cpa_notifications[index].core_category %> Phone" name="<%= cpa_notifications[index].core_category %> Phone" value="<%= cpa_notifications[index].resource_phone %>">
+                <% } else { %>
+                  <input type="text" class="form-control" id="<%= cpa_notifications[index].core_category %> Phone" name="<%= cpa_notifications[index].core_category %> Phone" placeholder="(optional)">
+                <% } %>
+              </div>
+          <% } %>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-12">
+            <h2 style="text-decoration: underline; padding-top: 50px;">Movement Screening Screening</h2>
+          </div>
+          <% for( let index = 0; index < fms_notifications.length; index++ ) { %>
+            <div class="col-12" style="padding-top: 20px;">
+              <div class="form-group">
+                <label for="<%= fms_notifications[index].core_category %>" style="padding-top: 55px;"><strong><%= fms_notifications[index].core_category %> Flag Notification:</strong></label>
+                <textarea type="text" class="form-control" id="<%= fms_notifications[index].core_category %>" required name="<%= fms_notifications[index].core_category %>"><%= fms_notifications[index].description %></textarea>
+                <label for="<%= fms_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong><%= fms_notifications[index].core_category %> Flag Rosource Email:</strong></label>
+                <% if (fms_notifications[index].resource_email) { %>
+                  <input type="text" class="form-control" id="<%= fms_notifications[index].core_category %> Email" name="<%= fms_notifications[index].core_category %> Email" value="<%= fms_notifications[index].resource_email %>">
+                <% } else { %>
+                  <input type="text" class="form-control" id="<%= fms_notifications[index].core_category %> Email" name="<%= fms_notifications[index].core_category %> Email" placeholder="(optional)">
+                <% } %>
+                <label for="<%= fms_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong><%= fms_notifications[index].core_category %> Flag Rosource Phone:</strong></label>
+                <% if (fms_notifications[index].resource_phone) { %>
+                  <input type="text" class="form-control" id="<%= fms_notifications[index].core_category %> Phone" name="<%= fms_notifications[index].core_category %> Phone" value="<%= fms_notifications[index].resource_phone %>">
+                <% } else { %>
+                  <input type="text" class="form-control" id="<%= fms_notifications[index].core_category %> Phone" name="<%= fms_notifications[index].core_category %> Phone" placeholder="(optional)">
+                <% } %>
+              </div>
+          <% } %>
+        </div>
+
+        <div class="form-group row mb-3" style="padding-top: 10px">
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-success">Save Notifications</button>
+          </div>
+        </div>
+
+      </form>
+
+
     </div>
-  </div>
 
-  <!-- Notifications tables for H2F, CPA, and FMS Assessments -->
-
-  <div class="row mb-3">
-    <div class="col-12">
-      <h2 style="text-decoration: underline;">Holistic Health and Fitness (H2F) Knowledge Check</h2>
-    </div>
-
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-12">
-      <h2 style="text-decoration: underline;">Cognitive Performance Assessment (CPA)</h2>
-    </div>
-    
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-12">
-      <h2 style="text-decoration: underline;">Functional Movement Screening</h2>
-    </div>
-
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>

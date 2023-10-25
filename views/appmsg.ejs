@@ -82,7 +82,10 @@
 <% } else { %>
   <% for (const category of User_Result.h2f_flag.split('-')) { %>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <strong><%= category_dict[category] %></strong>
+      <strong><%= category_dict[category][0] %></strong>
+      <% if (category_dict[category][1]) { %> <!-- mailto email -->
+        Please email <a href="mailto:<%= category_dict[category][1] %>"><%= category_dict[category][1] %></a> about your issue
+      <% } %>
       <button
         type="button"
         class="btn-close"
@@ -108,7 +111,10 @@
     <% if(User_Result.cpa_results.hasOwnProperty(key)) { %>
         <% if(User_Result.cpa_results[key] < 25) { %>
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong><%= category_dict[key] %></strong>
+            <strong><%= category_dict[key][0] %></strong>
+            <% if (category_dict[key][1]) { %> <!-- mailto email -->
+              Please email <a href="mailto:<%= category_dict[key][1] %>"><%= category_dict[key][1] %></a> about your issue
+            <% } %>
             <button
               type="button"
               class="btn-close"
@@ -133,7 +139,10 @@
   </div>
 <% } else { %>
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong><%= category_dict[User_Result.fms_flag] %></strong>
+    <strong><%= category_dict[User_Result.fms_flag][0] %></strong>
+    <% if (category_dict[User_Result.fms_flag][1]) { %> <!-- mailto email -->
+      Please email <a href="mailto:<%= category_dict[User_Result.fms_flag][1] %>"><%= category_dict[User_Result.fms_flag][1] %></a> about your issue
+    <% } %>
     <button
       type="button"
       class="btn-close"
