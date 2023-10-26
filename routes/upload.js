@@ -9,9 +9,10 @@ const Survey_Info = require('../models/Survey/Survey_Info');
 const Survey_Q = require('../models/Survey/Survey_Q');
 
 const router = express.Router();
+//used for memory storage stores the excel files as bufferes
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-
+//make sure user is an admin or unitleader
 router.get('/', (req, res) => {
     const isAdmin = true;  
     const isUnitLeader = true;
@@ -23,9 +24,10 @@ router.get('/', (req, res) => {
     res.render('upload', { isAdmin, isUnitLeader });
 });
 
+//handles the file uploads
 router.post('/handle-upload', upload.single('file'), async (req, res) => {
     try {
-
+        //getting the uploaders email
         const uploaderEmail = req.session.user.email;
 
         if (!uploaderEmail) {
@@ -47,7 +49,7 @@ router.post('/handle-upload', upload.single('file'), async (req, res) => {
         }
 
         
-
+        //parsing the uploaded excel file
         const buffer = req.file.buffer;
         const workbook = xlsx.read(buffer, { type: 'buffer' });
 
@@ -58,10 +60,10 @@ router.post('/handle-upload', upload.single('file'), async (req, res) => {
         console.log("Excel Data:", xlData);//see the data
 
         
-
-        const title = req.file.originalname.split('.').slice(0, -1).join('.');
+        
+        const title = req.file.originalname.split('.').slice(0, -1).join('.');//making the survey name everything before .
         const headers = Object.keys(xlData[0]);
-        let emailHeader = headers.find(header => header.toLowerCase() === 'email');
+        let emailHeader = headers.find(header => header.toLowerCase() === 'email');//finding the email key column
 
         // Search for a survey with the same title
         const existingSurvey = await Survey_Info.findOne({ where: { title: title } });
@@ -89,6 +91,7 @@ router.post('/handle-upload', upload.single('file'), async (req, res) => {
             const newSurvey = await Survey_Info.create(surveyData);
             surveyId = newSurvey.survey_id;
 
+            //this covers row one where everything but the email is a question
             let questionId = 0;
             for (let header of headers) {
                 if (header !== emailHeader) {
@@ -107,7 +110,7 @@ router.post('/handle-upload', upload.single('file'), async (req, res) => {
         }
 
 
-
+        //creating the survey responses
         for (let i = 0; i < xlData.length; i++) {
             const row = xlData[i];
             const email = row[emailHeader];  
