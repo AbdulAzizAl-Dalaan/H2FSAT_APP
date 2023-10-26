@@ -51,24 +51,18 @@ Survey_Info.init({
         allowNull: true,
         defaultValue: null
     },
-    show_question_numbers: // checks if the user wants to show question numbers
-    {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-    },
-    grade_by_points: // checks if the user wants to grade by points
-    {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-    },
     isCSVdata://**New to Model**
     {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
-    }
+    },
+    isCore: // checks if the survey is a core survey or not (1 for H2F, 2 for FMS, 3 for CPA)
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false // 0 for not a core survey
+    },
 }, {
     sequelize,
     modelName: 'Survey_Info'

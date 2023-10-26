@@ -1,10 +1,8 @@
 var express = require("express");
 var router = express.Router();
-const User = require("../models/User");
 const Survey_Info = require("../models/Survey/Survey_Info");
 const Survey_Q = require("../models/Survey/Survey_Q");
 const Survey_A = require("../models/Survey/Survey_A");
-const Survey_R = require("../models/Survey/Survey_R");
 
 const sessionChecker = (req, res, next) => {
   if (req.session.user) {
@@ -13,6 +11,7 @@ const sessionChecker = (req, res, next) => {
     res.locals.unit = req.session.user.unit;
     res.locals.rank = req.session.user.rank;
     res.locals.email = req.session.user.email;
+    res.locals.state = req.session.user.state;
     res.locals.isAdmin = req.session.user.isAdmin;
     res.locals.isUnitLeader = req.session.user.isUnitLeader;
     next();

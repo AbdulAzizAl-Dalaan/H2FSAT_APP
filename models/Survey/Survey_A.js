@@ -20,10 +20,6 @@ Survey_A.init({
     {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: Survey_Q,
-            key: "question_id"
-        },
         primaryKey: true
     },
     answer_id:

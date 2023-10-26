@@ -1,5 +1,5 @@
 const sequelize = require('../../db');
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, Sequelize } = require('sequelize');
 const User = require('../User');
 const Survey_Info = require('./Survey_Q');
 
@@ -31,11 +31,18 @@ Survey_R.init({
         type: DataTypes.JSON,
         allowNull: false,
     },
-    score:
+    timestamp:
     {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: null
+        type: DataTypes.DATE, 
+        allowNull: false,
+        defaultValue: DataTypes.NOW
+
+    },
+    isOutdated:
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     sequelize,

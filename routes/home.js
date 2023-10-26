@@ -5,7 +5,7 @@ const Survey_Info = require('../models/Survey/Survey_Info')
 const Survey_Q = require('../models/Survey/Survey_Q')
 const Survey_A = require('../models/Survey/Survey_A')
 const Survey_R = require('../models/Survey/Survey_R');
-const { where } = require('sequelize');
+const Core_Result = require('../models/Core_Result');
 
 const sessionChecker = (req, res, next) => {
   if(req.session.user)
@@ -15,6 +15,7 @@ const sessionChecker = (req, res, next) => {
     res.locals.unit = req.session.user.unit
     res.locals.rank = req.session.user.rank
     res.locals.email = req.session.user.email
+    res.locals.state = req.session.user.state;
     res.locals.isAdmin = req.session.user.isAdmin
     res.locals.isUnitLeader = req.session.user.isUnitLeader
     next()
@@ -34,10 +35,18 @@ router.get('/', async function(req, res, next) {
     res.locals.msg = req.query.msg
   }
   console.log("CURRENT USER:" + req.session.user.email)
-  res.render('home', {surveys});
+  const isAdmin = req.session.user.isAdmin
+  let username = req.session.user.email
+  // strip out the second half of the email
+  let usernameArray = username.split("@")
+  username = usernameArray[0].replace(".", "")
+  console.log("USER EMAIL: " + username)
+  // remove the period from the email
+  res.render('home', {surveys, isAdmin, username});
 });
 
 router.get('/:id', async function(req, res, next) {
+  console.log("REQ URL: " + req.url)
   const survey = await Survey_Info.findByPk(req.params.id)
   if (survey !== null)
   {
@@ -77,30 +86,6 @@ router.post('/:id/submit', async function(req, res, next) {
     {
       let result_dict = {}
       const questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
-      if (survey.grade_by_points)
-      {
-        let res_score = 0
-        const correct_answers = await Survey_A.findAll({where: {survey_id: req.params.id, is_correct: true}}) // get all correct texts only
-        const correct_answers_text = correct_answers.map(answer => answer.text)
-        questions.forEach(question => {
-          const answer = req.body[question.question_id]
-          console.log("ANSWER: " + answer) 
-          if (answer !== undefined)
-          {
-            result_dict[question.question_id] = answer
-          }
-          if (correct_answers_text.includes(answer))
-          {
-            res_score += question.point_value
-          }
-        });
-        console.log("RESULT DICT: " + JSON.stringify(result_dict))
-        console.log("SCORE: " + res_score)
-        const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, results: result_dict, score: res_score })
-        res.redirect('/home/?msg=success')
-      }
-      else
-      {
         questions.forEach(question => {
           const answer = req.body[question.question_id]
           console.log("ANSWER: " + answer) 
@@ -111,8 +96,123 @@ router.post('/:id/submit', async function(req, res, next) {
         });
         console.log("RESULT DICT: " + JSON.stringify(result_dict))
         const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, results: result_dict })
+
+
+        if (survey.isCore) {
+          let core_res = null;
+          switch (result.survey_id) { // ASSUME THAT THE SURVEY_ID IS EITHER 1 (H2F), 2 (CPA), OR 3 (FMS)
+            case 1: // H2F
+              const correct_answers = await Survey_A.findAll({where: {survey_id: req.params.id, is_correct: true}}) // get all correct texts only
+
+              let correct_answers_array = []
+              correct_answers.forEach(answer => {
+                correct_answers_array[answer.question_id - 1] = answer.text // question_id 1 is index 0
+              }
+              );
+              console.log(correct_answers_array)
+              const categories = ["Physical", "Nutrition", "Mental", "Spiritual",  "Sleep"]
+              let category_scores = {}
+              categories.forEach(category => {
+                category_scores[category] = 0
+              });
+
+              questions.forEach(question => {
+                const answer = result_dict[question.question_id]
+                if (answer === correct_answers_array[question.question_id - 1]) {
+                  category_scores[question.core_category] += 1
+                }
+              });
+
+              categories.forEach(category => { // NEED TO CHANGE TO ACCOUNT FOR NUMBER OF QUESTIONS FOR EACH CATEGORY ASSUMING 2 FOR NOW
+                category_scores[category] = category_scores[category] / 2 * 100
+              });
+
+              core_res = category_scores;
+              for (const [key, value] of Object.entries(category_scores)) {
+                console.log(`${key}: ${value}`)
+              }
+              break;
+            case 2: // CPA
+              const cpa_categories = ["Motivation", "Ability", "Current"]
+              let cpa_scores = {}
+              cpa_categories.forEach(category => {
+                cpa_scores[category] = 0
+              });
+              let cpa_flag = "PASSED"
+              
+              questions.forEach(question => {
+                const answer = result_dict[question.question_id]
+                cpa_scores[question.core_category] += parseInt(answer)
+              });
+
+              cpa_categories.forEach(category => {
+                if (cpa_scores[category] < 25) {
+                  cpa_flag = "BH"
+                }
+              });
+              core_res = [cpa_scores, cpa_flag]
+              console.log("core_res in cpa: "+ core_res)
+              break;
+            case 3: // FMS
+              let fms_flag = "PASSED"
+
+              questions.forEach(question => {
+                const answer = result_dict[question.question_id]
+                if (answer === '0') {
+                  fms_flag = "PT"
+                }
+                else if (answer === '1' && fms_flag !== "PT") {
+                  fms_flag = "MFT"
+                }
+              });
+              core_res = fms_flag
+              break;  
+            default:
+              break;
+          }
+
+          console.log("CORE RES: " + core_res)
+          const survey_core_result = await Core_Result.findByPk(user.email)
+          if (survey_core_result === null) {
+            switch (result.survey_id) {
+              case 1: // H2F
+                await Core_Result.create({user_email: user.email, h2f_results: core_res})
+                break;
+              case 2: // CPA
+                await Core_Result.create({user_email: user.email, cpa_results: core_res[0], cpa_flag: core_res[1]})
+                break;
+              case 3: // FMS
+                await Core_Result.create({user_email: user.email, fms_flag: core_res})
+                break;
+              default:
+                break;
+            }
+          }
+          else {
+            // only update the results if the user has not taken the survey before
+            console.log("SURVEY CORE RESULT: " + survey_core_result)
+            switch (result.survey_id) {
+              case 1: // H2F
+                if (survey_core_result.h2f_results === null) {
+                  survey_core_result.update({h2f_results: core_res})
+                }
+                break;
+              case 2: // CPA
+                if (survey_core_result.cpa_flag === null && survey_core_result.cpa_results === null) {
+                  survey_core_result.update({cpa_results: core_res[0], cpa_flag: core_res[1]})
+                }
+                break;
+              case 3: // FMS
+                if (survey_core_result.fms_flag === null) {
+                  survey_core_result.update({fms_flag: core_res})
+                }
+                break;
+              default:
+                break;
+            }
+          }
+        }
         res.redirect('/home/?msg=success')
-      }
     }
     else 
     {
