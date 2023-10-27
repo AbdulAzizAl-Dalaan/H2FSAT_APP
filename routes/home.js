@@ -6,6 +6,7 @@ const Survey_Q = require('../models/Survey/Survey_Q')
 const Survey_A = require('../models/Survey/Survey_A')
 const Survey_R = require('../models/Survey/Survey_R');
 const Core_Result = require('../models/Core_Result');
+const Notification = require('../models/Notification');
 
 const sessionChecker = (req, res, next) => {
   if(req.session.user)
@@ -41,8 +42,18 @@ router.get('/', async function(req, res, next) {
   let usernameArray = username.split("@")
   username = usernameArray[0].replace(".", "")
   console.log("USER EMAIL: " + username)
+  const Notifications = await Notification.findAll({ where: { unit: res.locals.unit } });
   // remove the period from the email
-  res.render('home', {surveys, isAdmin, username});
+  let category_dict = {};
+  for (let i = 0; i < Notifications.length; i++) {
+    category_dict[Notifications[i].core_category] = [Notifications[i].description, Notifications[i].resource_email, Notifications[i].resource_phone];
+  }
+  let User_Result = {}
+  if (res.locals.msg === "h2f" || res.locals.msg === "cpa" || res.locals.msg === "fms") {
+    User_Result = await Core_Result.findOne({ where: { user_email: res.locals.email } });
+  }
+
+  res.render('home', {surveys, isAdmin, username, User_Result, category_dict});
 });
 
 router.get('/:id', async function(req, res, next) {
@@ -103,7 +114,7 @@ router.post('/:id/submit', async function(req, res, next) {
           switch (result.survey_id) { // ASSUME THAT THE SURVEY_ID IS EITHER 1 (H2F), 2 (CPA), OR 3 (FMS)
             case 1: // H2F
               const correct_answers = await Survey_A.findAll({where: {survey_id: req.params.id, is_correct: true}}) // get all correct texts only
-
+              let h2f_flag = "PASSED"
               let correct_answers_array = []
               correct_answers.forEach(answer => {
                 correct_answers_array[answer.question_id - 1] = answer.text // question_id 1 is index 0
@@ -125,9 +136,15 @@ router.post('/:id/submit', async function(req, res, next) {
 
               categories.forEach(category => { // NEED TO CHANGE TO ACCOUNT FOR NUMBER OF QUESTIONS FOR EACH CATEGORY ASSUMING 2 FOR NOW
                 category_scores[category] = category_scores[category] / 2 * 100
+                if (category_scores[category] < 50 && h2f_flag === "PASSED") {
+                  h2f_flag = category
+                }
+                else if (category_scores[category] < 50) {
+                  h2f_flag += "-" + category
+                }
               });
 
-              core_res = category_scores;
+              core_res = [category_scores, h2f_flag];
               for (const [key, value] of Object.entries(category_scores)) {
                 console.log(`${key}: ${value}`)
               }
@@ -176,13 +193,16 @@ router.post('/:id/submit', async function(req, res, next) {
           if (survey_core_result === null) {
             switch (result.survey_id) {
               case 1: // H2F
-                await Core_Result.create({user_email: user.email, h2f_results: core_res})
+                await Core_Result.create({user_email: user.email, h2f_results: core_res[0], h2f_flag: core_res[1]})
+                //res.redirect('/home/?msg=h2f')
                 break;
               case 2: // CPA
                 await Core_Result.create({user_email: user.email, cpa_results: core_res[0], cpa_flag: core_res[1]})
+                //res.redirect('/home/?msg=cpa')
                 break;
               case 3: // FMS
                 await Core_Result.create({user_email: user.email, fms_flag: core_res})
+                //res.redirect('/home/?msg=fms')
                 break;
               default:
                 break;
@@ -194,25 +214,46 @@ router.post('/:id/submit', async function(req, res, next) {
             switch (result.survey_id) {
               case 1: // H2F
                 if (survey_core_result.h2f_results === null) {
-                  survey_core_result.update({h2f_results: core_res})
+                  await survey_core_result.update({h2f_results: core_res[0], h2f_flag: core_res[1]})
+                  await survey_core_result.save()
                 }
                 break;
               case 2: // CPA
                 if (survey_core_result.cpa_flag === null && survey_core_result.cpa_results === null) {
-                  survey_core_result.update({cpa_results: core_res[0], cpa_flag: core_res[1]})
+                  await survey_core_result.update({cpa_results: core_res[0], cpa_flag: core_res[1]})
+                  await survey_core_result.save()
                 }
                 break;
               case 3: // FMS
                 if (survey_core_result.fms_flag === null) {
-                  survey_core_result.update({fms_flag: core_res})
+                  await survey_core_result.update({fms_flag: core_res})
+                  await survey_core_result.save()
                 }
                 break;
               default:
                 break;
             }
           }
+
+          console.log("Right before redirect")
+          switch (result.survey_id) {
+            case 1:
+              res.redirect('/home/?msg=h2f')
+              break;
+            case 2:
+              res.redirect('/home/?msg=cpa')
+              break;
+            case 3:
+              res.redirect('/home/?msg=fms')
+              break;
+            default:
+              break;
+          }
         }
-        res.redirect('/home/?msg=success')
+        else {
+          res.redirect('/home/?msg=success')
+        }
+
     }
     else 
     {
