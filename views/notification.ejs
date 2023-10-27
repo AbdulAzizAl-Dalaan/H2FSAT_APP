@@ -43,14 +43,14 @@
               <div class="form-group">
                 <label for="<%= h2f_notifications[index].core_category %>" style="padding-top: 55px;"><strong>Low <%= h2f_notifications[index].core_category %> Notification:</strong></label>
                 <textarea type="text" class="form-control" id="<%= h2f_notifications[index].core_category %>" required name="<%= h2f_notifications[index].core_category %>"><%= h2f_notifications[index].description %></textarea>
-                <label for="<%= h2f_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong>Low <%= h2f_notifications[index].core_category %> Rosource Email:</strong></label>
+                <label for="<%= h2f_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong>Low <%= h2f_notifications[index].core_category %> Resource Email:</strong></label>
                 <% if (h2f_notifications[index].resource_email) { %>
                   <input type="text" class="form-control" id="<%= h2f_notifications[index].core_category %> Email" name="<%= h2f_notifications[index].core_category %> Email" value="<%= h2f_notifications[index].resource_email %>">
 
                 <% } else { %>
                   <input type="text" class="form-control" id="<%= h2f_notifications[index].core_category %> Email" name="<%= h2f_notifications[index].core_category %> Email" placeholder="(optional)">
                 <% } %>
-                <label for="<%= h2f_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong>Low <%= h2f_notifications[index].core_category %> Rosource Phone:</strong></label>
+                <label for="<%= h2f_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong>Low <%= h2f_notifications[index].core_category %> Resource Phone:</strong></label>
                 <% if (h2f_notifications[index].resource_phone) { %>
                   <input type="text" class="form-control" id="<%= h2f_notifications[index].core_category %> Phone" name="<%= h2f_notifications[index].core_category %> Phone" value="<%= h2f_notifications[index].resource_phone %>">
                 <% } else { %>
@@ -70,13 +70,13 @@
               <div class="form-group">
                 <label for="<%= cpa_notifications[index].core_category %>" style="padding-top: 55px;"><strong>Low <%= cpa_notifications[index].core_category %> Notification:</strong></label>
                 <textarea type="text" class="form-control" id="<%= cpa_notifications[index].core_category %>" required name="<%= cpa_notifications[index].core_category %>"><%= cpa_notifications[index].description %></textarea>
-                <label for="<%= cpa_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong>Low <%= cpa_notifications[index].core_category %> Rosource Email:</strong></label>
+                <label for="<%= cpa_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong>Low <%= cpa_notifications[index].core_category %> Resource Email:</strong></label>
                 <% if (cpa_notifications[index].resource_email ) { %>
                   <input type="text" class="form-control" id="<%= cpa_notifications[index].core_category %> Email" name="<%= cpa_notifications[index].core_category %> Email" value="<%= cpa_notifications[index].resource_email %>">
                 <% } else { %>
                   <input type="text" class="form-control" id="<%= cpa_notifications[index].core_category %> Email" name="<%= cpa_notifications[index].core_category %> Email" placeholder="(optional)">
                 <% } %>
-                <label for="<%= cpa_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong>Low <%= cpa_notifications[index].core_category %> Rosource Phone:</strong></label>
+                <label for="<%= cpa_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong>Low <%= cpa_notifications[index].core_category %> Resource Phone:</strong></label>
                 <% if (cpa_notifications[index].resource_phone) { %>
                   <input type="text" class="form-control" id="<%= cpa_notifications[index].core_category %> Phone" name="<%= cpa_notifications[index].core_category %> Phone" value="<%= cpa_notifications[index].resource_phone %>">
                 <% } else { %>
@@ -95,13 +95,13 @@
               <div class="form-group">
                 <label for="<%= fms_notifications[index].core_category %>" style="padding-top: 55px;"><strong><%= fms_notifications[index].core_category %> Flag Notification:</strong></label>
                 <textarea type="text" class="form-control" id="<%= fms_notifications[index].core_category %>" required name="<%= fms_notifications[index].core_category %>"><%= fms_notifications[index].description %></textarea>
-                <label for="<%= fms_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong><%= fms_notifications[index].core_category %> Flag Rosource Email:</strong></label>
+                <label for="<%= fms_notifications[index].core_category %> Email" style="padding-top: 30px;"><strong><%= fms_notifications[index].core_category %> Flag Resource Email:</strong></label>
                 <% if (fms_notifications[index].resource_email) { %>
                   <input type="text" class="form-control" id="<%= fms_notifications[index].core_category %> Email" name="<%= fms_notifications[index].core_category %> Email" value="<%= fms_notifications[index].resource_email %>">
                 <% } else { %>
                   <input type="text" class="form-control" id="<%= fms_notifications[index].core_category %> Email" name="<%= fms_notifications[index].core_category %> Email" placeholder="(optional)">
                 <% } %>
-                <label for="<%= fms_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong><%= fms_notifications[index].core_category %> Flag Rosource Phone:</strong></label>
+                <label for="<%= fms_notifications[index].core_category %> Phone" style="padding-top: 30px;"><strong><%= fms_notifications[index].core_category %> Flag Resource Phone:</strong></label>
                 <% if (fms_notifications[index].resource_phone) { %>
                   <input type="text" class="form-control" id="<%= fms_notifications[index].core_category %> Phone" name="<%= fms_notifications[index].core_category %> Phone" value="<%= fms_notifications[index].resource_phone %>">
                 <% } else { %>
