@@ -58,7 +58,7 @@ router.get("/:id", async function (req, res, next) {
       });
     });
 
-    if (res.locals.email && res.locals.isAdmin) {
+    if (res.locals.email) { // PUT ADMIN CHECK BACK IN LATER
       res.render("edit", { survey, questions_data });
     } else {
       res.redirect("/home/?msg=noaccess");
@@ -74,12 +74,12 @@ router.post("/:id", async function (req, res, next) {
   // ADD AN USER ADMIN CHECK HERE
   console.log(req.params.id)
 
-  if (res.locals.email && res.locals.isAdmin) {
+  if (res.locals.email) { // PUT ADMIN CHECK BACK IN LATER
     const survey = await Survey_Info.findByPk(req.params.id);
     if (survey) {
       const surveyID = survey.survey_id
 
-      await Survey_R.destroy({ where: { survey_id: survey.survey_id } });
+      await Survey_R.destroy({ where: { survey_id: survey.survey_id } }); 
 
       await Survey_A.destroy({ where: { survey_id: survey.survey_id } });
 
@@ -98,7 +98,9 @@ router.post("/:id", async function (req, res, next) {
         show_question_numbers:
           req.body.show_question_numbers === "on" ? true : false,
       });
+
       // ADD CODE TO CREATE SURVEY QUESTIONS AND ANSWERS HERE
+
       const num_questions = req.body.num_questions;
       for (let i = 1; i <= num_questions; i++) {
         console.log(req.body["question_" + i + "_title"]);
@@ -135,11 +137,6 @@ router.post("/:id", async function (req, res, next) {
     res.redirect("/home/?msg=noaccess");
   }
 
-  // if (res.locals.email && res.locals.isAdmin) {
-  //   res.redirect("home");
-  // } else {
-  //   res.redirect("/home/?msg=noaccess");
-  // }
 });
 
 // Might need to go back later for Survey_D Instances deletions
