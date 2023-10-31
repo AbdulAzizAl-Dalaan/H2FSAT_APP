@@ -205,6 +205,49 @@ async function setup() {
   const h2f_q10_a1 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 1, text: "True", is_correct: true}) // correct
   const h2f_q10_a2 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 2, text: "False"})
 
+  //Test answer for h2f*****************
+  // const surveyResponse = async () => {
+  //   try {
+  //     
+  //     const userEmail = 'test.user@email.com';
+  
+  //     
+  //     const results = {
+  //       1: 4, 
+  //       2: 3, 
+  //       3: 2, 
+  //       4: 2, 
+  //       5: 1, 
+  //       6: 3, 
+  //       7: 4, 
+  //       8: 3, 
+  //       9: 3, 
+  //       10: 1, 
+  //     };
+  
+  //     
+  //     const surveyResult = await Survey_R.create({
+  //       survey_id: 1,
+  //       email: userEmail,
+  //       results: results, // storing the results JSON object
+  //       timestamp: new Date(),
+  //       isOutdated: false
+  //     });
+  
+  //     console.log('Survey response saved:', surveyResult);
+  //     return surveyResult;
+  //   } catch (error) {
+  //     console.error('Error saving survey response:', error);
+  //   }
+  // };
+  
+  
+  // surveyResponse();
+  
+  //Test answer for h2f*****************^^^^^
+
+
+
   const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cogntive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
   isCore: true, card_img: "/images/default_imgs/img1.png"})
   
