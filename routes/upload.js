@@ -95,13 +95,35 @@ router.post('/handle-upload', upload.single('file'), async (req, res) => {
                 }
             }
 
-            const responseData = {
-                survey_id: surveyId,
-                email: email,
-                results: results
-            };
-            console.log(responseData);
-            await Survey_D.create(responseData);
+            const existingResponse = await Survey_D.findOne({
+                where: {
+                    survey_id: surveyId,
+                    email: email
+                }
+            });
+        
+            if (existingResponse) {
+                //updating the results for person with new results
+                existingResponse.results = { ...existingResponse.results, ...results };
+                await existingResponse.save();
+            } else {
+                //creating a new entry if no existing one
+                const responseData = {
+                    survey_id: surveyId,
+                    email: email,
+                    results: results
+                };
+                console.log(responseData);
+                await Survey_D.create(responseData);
+            }
+
+            // const responseData = {
+            //     survey_id: surveyId,
+            //     email: email,
+            //     results: results
+            // };
+            // console.log(responseData);
+            // await Survey_D.create(responseData);
         }
 
         res.redirect("/home/?msg=uploaded");
