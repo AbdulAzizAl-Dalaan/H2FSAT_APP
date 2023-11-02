@@ -22,8 +22,6 @@ Survey_Info.hasMany(Survey_A) // foreignKey "survey_id"
 Survey_A.belongsTo(Survey_Info)
 
 User.hasMany(Survey_R)            // foreignKey "user_id"
-Survey_Info.hasMany(Survey_R)   // foreignKey "survey_id"
-Survey_R.belongsTo(Survey_Info)
 Survey_R.belongsTo(User)
 
 Survey_Info.hasMany(Survey_D)   // foreignKey "survey_id"

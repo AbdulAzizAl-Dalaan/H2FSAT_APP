@@ -50,13 +50,13 @@ router.get("/:id", async function (req, res, next) {
       };
     });
 
-    console.log(questions_data);
-    questions_data.forEach((question) => {
-      console.log("Question:", question.prompt);
-      question.answers.forEach((answer) => {
-        console.log("    Answer:", answer.text);
-      });
-    });
+    // console.log(questions_data);
+    // questions_data.forEach((question) => {
+    //   console.log("Question:", question.prompt);
+    //   question.answers.forEach((answer) => {
+    //     console.log("    Answer:", answer.text);
+    //   });
+    // });
 
     if (res.locals.email) { // PUT ADMIN CHECK BACK IN LATER
       res.render("edit", { survey, questions_data });
@@ -79,25 +79,19 @@ router.post("/:id", async function (req, res, next) {
     if (survey) {
       const surveyID = survey.survey_id
 
-      await Survey_R.destroy({ where: { survey_id: survey.survey_id } }); 
+      await Survey_R.update({ isOutdated: true }, { where: { survey_id: survey.survey_id } });
 
       await Survey_A.destroy({ where: { survey_id: survey.survey_id } });
 
       await Survey_Q.destroy({ where: { survey_id: survey.survey_id } });
 
-      await survey.destroy();
-
-      const new_survey = await Survey_Info.create({
-        survey_id: surveyID,
+      await Survey_Info.update({
         title: req.body.title,
         author: req.session.user.email,
         description: req.body.description,
         secure: req.body.secure === "on" ? true : false,
-        password: req.body.secure === "on" ? req.body.password : null,
-        grade_by_points: req.body.grade_by_points === "on" ? true : false,
-        show_question_numbers:
-          req.body.show_question_numbers === "on" ? true : false,
-      });
+        password: req.body.secure === "on" ? req.body.password : null
+      }, { where: { survey_id: survey.survey_id } });
 
       // ADD CODE TO CREATE SURVEY QUESTIONS AND ANSWERS HERE
 
