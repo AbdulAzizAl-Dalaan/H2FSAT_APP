@@ -29,7 +29,7 @@
     <section>
         <h2>Select your Excel for upload:</h2>
         <form action="/upload/handle-upload" method="post" enctype="multipart/form-data">
-            <!-- Dropdown for selecting existing surveys or creating a new one -->
+            <!--dropdown for surveys -->
             <select name="surveySelection">
                 <option value="newSurvey">New Survey</option>
                 <% surveys.forEach(survey => { %>
@@ -38,11 +38,11 @@
             </select>
             <br><br>
 
-            <!-- File input -->
+            <!--file input-->
             <input type="file" name="file" accept=".xlsx, .csv, .xls">
             <br><br>
 
-            <!-- Submit button -->
+            <!--submit button-->
             <input type="submit" value="Upload Excel">
         </form>
     </section>
@@ -51,6 +51,27 @@
 <footer>
     <p>&copy; National Guard.</p>
 </footer>
+
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const fileInput = document.querySelector('input[type="file"]');
+        const dropdown = document.querySelector('select[name="surveySelection"]');
+        const fileName = fileInput.value.split('\\').pop().split('.').slice(0, -1).join('.');
+        const existingSurveys = [<%- surveys.map(survey => `"${survey.title}"`).join(", ") %>];
+
+
+
+
+
+
+        
+        if (dropdown.value === 'newSurvey' && existingSurveys.includes(fileName)) {
+            alert('A survey with this file name already exists. Please choose a different file or rename the current one.');
+            e.preventDefault(); //preventing form submission
+        }
+    });
+</script>
 
 </body>
 </html>
