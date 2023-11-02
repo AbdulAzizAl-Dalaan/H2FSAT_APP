@@ -26,6 +26,12 @@ Survey_D.init({
         type: DataTypes.JSON,
         allowNull: false,
     },
+    timestamp:
+    {
+        type: DataTypes.DATE,
+        allowNull: true
+
+    }
 
 }, {
     sequelize,
