@@ -47,7 +47,10 @@ router.post('/handle-upload', upload.single('file'), async (req, res) => {
             return res.status(400).send("Uploaded file is empty.");
         }
 
-        await processUploadData(req, uploaderEmail, xlData);
+        const dataProcessingResult = await processUploadData(req, uploaderEmail, xlData);
+        if (dataProcessingResult !== true) {
+            return res.status(400).send(dataProcessingResult);
+        }
 
         res.redirect("/home/?msg=uploaded");
     } catch (error) {
@@ -68,6 +71,16 @@ async function processUploadData(req, uploaderEmail, xlData) {
     if (selectedSurvey !== "newSurvey") {
         surveyId = selectedSurvey;
         const existingQuestions = await Survey_Q.findAll({ where: { survey_id: surveyId } });
+        const existingPrompts = existingQuestions.map(q => q.prompt);
+
+        //checking if the questions match
+        for (let header of headers) {
+            if (header !== emailHeader && header.toLowerCase() !== 'timestamp' && !existingPrompts.includes(header)) {
+                
+                return `The questions in the uploaded file do not match with the existing survey. The question "${header}" is not present in the survey. Click back make sure you're uploading into the right survey. Also, check the file being uploaded is right. Otherwise, in the drop down select new survey.`;
+            }
+        }
+
         existingQuestions.forEach(question => {
             questionIdMapping[question.prompt] = question.question_id;
         });
@@ -83,6 +96,7 @@ async function processUploadData(req, uploaderEmail, xlData) {
     }
 
     await saveResponses(xlData, headers, emailHeader, surveyId, questionIdMapping);
+    return true;
 }
 
 async function createQuestions(headers, emailHeader, surveyId) {
@@ -133,3 +147,11 @@ async function saveResponses(xlData, headers, emailHeader, surveyId, questionIdM
 }
 
 module.exports = router;
+
+
+
+
+
+
+
+
