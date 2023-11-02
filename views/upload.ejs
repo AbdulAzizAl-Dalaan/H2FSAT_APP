@@ -6,7 +6,7 @@
     <title>Upload CSV</title>
     <link rel="icon" href="/images/ARNG.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css"> <!-- could possibly add a different file here -->
+    <link rel="stylesheet" href="styles.css">
     <style>
         html, body {
             height: 100%;
@@ -29,9 +29,20 @@
     <section>
         <h2>Select your Excel for upload:</h2>
         <form action="/upload/handle-upload" method="post" enctype="multipart/form-data">
-            <!-- Removed select element and number of questions input -->
-            <input type="file" name="file" accept=".xlsx, .csv, .xls"> <!-- Adjusted the input name to "file" to match upload.single('file') in the router -->
-            <br>
+            <!--dropdown for surveys -->
+            <select name="surveySelection">
+                <option value="newSurvey">New Survey</option>
+                <% surveys.forEach(survey => { %>
+                    <option value="<%= survey.survey_id %>"><%= survey.title %></option>
+                <% }); %>
+            </select>
+            <br><br>
+
+            <!--file input-->
+            <input type="file" name="file" accept=".xlsx, .csv, .xls">
+            <br><br>
+
+            <!--submit button-->
             <input type="submit" value="Upload Excel">
         </form>
     </section>
@@ -40,6 +51,27 @@
 <footer>
     <p>&copy; National Guard.</p>
 </footer>
+
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const fileInput = document.querySelector('input[type="file"]');
+        const dropdown = document.querySelector('select[name="surveySelection"]');
+        const fileName = fileInput.value.split('\\').pop().split('.').slice(0, -1).join('.');
+        const existingSurveys = [<%- surveys.map(survey => `"${survey.title}"`).join(", ") %>];
+
+
+
+
+
+
+        
+        if (dropdown.value === 'newSurvey' && existingSurveys.includes(fileName)) {
+            alert('A survey with this file name already exists. Please choose a different file or rename the current one.');
+            e.preventDefault(); //preventing form submission
+        }
+    });
+</script>
 
 </body>
 </html>
