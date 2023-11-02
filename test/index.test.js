@@ -49,6 +49,7 @@ describe('Routes', () => {
     });
 
     it('GET /passlogin', async () => {
+        //this.timeout(5000);
         const response = await request(app).get('/passlogin');
         assert.strictEqual(response.status, 200);
     });
