@@ -29,42 +29,46 @@ router.get("/:id", async function (req, res, next) {
   if (req.query.msg) {
     res.locals.msg = req.query.msg;
   }
-  const survey = await Survey_Info.findByPk(req.params.id);
-  if (survey) {
-    const survey_questions = await Survey_Q.findAll({
-      where: { survey_id: survey.survey_id },
-    });
-    const survey_answers = await Survey_A.findAll({
-      where: { survey_id: survey.survey_id },
-    });
 
-    let questions_data = survey_questions.map((question) => {
-      return {
-        ...question.dataValues,
-        answers:
-          question.type === "multiple_choice" || question.type === "checkbox"
-            ? survey_answers
-                .filter((answer) => answer.question_id === question.question_id)
-                .map((answer) => answer.dataValues)
-            : [], 
-      };
-    });
+  if (res.locals.email && res.locals.isAdmin) {
+    // PUT ADMIN CHECK BACK IN LATER
 
-    console.log(questions_data);
-    questions_data.forEach((question) => {
-      console.log("Question:", question.prompt);
-      question.answers.forEach((answer) => {
-        console.log("    Answer:", answer.text);
+    const survey = await Survey_Info.findByPk(req.params.id);
+    if (survey) {
+      const survey_questions = await Survey_Q.findAll({
+        where: { survey_id: survey.survey_id },
       });
-    });
+      const survey_answers = await Survey_A.findAll({
+        where: { survey_id: survey.survey_id },
+      });
 
-    if (res.locals.email && res.locals.isAdmin) {
+      let questions_data = survey_questions.map((question) => {
+        return {
+          ...question.dataValues,
+          answers:
+            question.type === "multiple_choice" || question.type === "checkbox"
+              ? survey_answers
+                  .filter(
+                    (answer) => answer.question_id === question.question_id
+                  )
+                  .map((answer) => answer.dataValues)
+              : [],
+        };
+      });
+
+      // console.log(questions_data);
+      // questions_data.forEach((question) => {
+      //   console.log("Question:", question.prompt);
+      //   question.answers.forEach((answer) => {
+      //     console.log("    Answer:", answer.text);
+      //   });
+      // });
       res.render("edit", { survey, questions_data });
     } else {
-      res.redirect("/home/?msg=noaccess");
+      res.redirect("home/?msg=notfound");
     }
   } else {
-    res.redirect("home/?msg=notfound");
+    res.redirect("/home/?msg=noaccess");
   }
 });
 
@@ -72,33 +76,84 @@ router.post("/:id", async function (req, res, next) {
   console.log("BODY CONTENTS:");
   console.log(req.body);
   // ADD AN USER ADMIN CHECK HERE
-  console.log(req.params.id)
+  console.log(req.params.id);
+
+  let passFlag = false;
+  let newPassword = null;
 
   if (res.locals.email && res.locals.isAdmin) {
+    // PUT ADMIN CHECK BACK IN LATER
     const survey = await Survey_Info.findByPk(req.params.id);
     if (survey) {
-      const surveyID = survey.survey_id
+      if (req.body.num_questions == 0) {
+        res.redirect("/edit/" + req.params.id + "/?msg=zeroquestions");
+        return;
+      }
 
-      await Survey_R.destroy({ where: { survey_id: survey.survey_id } });
+      dubplicateSurvey = await Survey_Info.findAll({where : {title : req.body.title}});
+      if (dubplicateSurvey.length > 0 && dubplicateSurvey[0].survey_id != req.params.id) {
+        res.redirect("/edit/" + req.params.id + "/?msg=samename");
+        return;
+      }
+
+      const surveyID = survey.survey_id;
+
+      // console.log(req.body.secure)
+      // console.log(req.body.oldPassword)
+      // console.log(survey.secure)
+      // console.log(req.body.newPassword)
+      // console.log(req.body.confirmNewPassword)
+
+      // NOT FULLY COMPLETED YET
+      if (req.body.secure !== undefined) {
+        //  user has changed change password or added one
+        if (
+          req.body.secure === "on" &&
+          req.body.oldPassword !== undefined &&
+          survey.secure === true &&
+          req.body.oldPassword === survey.password &&
+          req.body.newPassword !== undefined &&
+          req.body.newPassword === req.body.confirmNewPassword
+        ) {
+          passFlag = true;
+        } else if (
+          req.body.secure !== undefined &&
+          req.body.secure === "on" &&
+          req.body.newPassword !== undefined &&
+          survey.secure === false &&
+          req.body.newPassword === req.body.confirmNewPassword
+        ) {
+          passFlag = true;
+        } else {
+          res.redirect("/edit/" + req.params.id + "/?msg=editpass");
+          return;
+        }
+      } else {
+        passFlag = true;
+      }
+
+      await Survey_R.update(
+        { isOutdated: true },
+        { where: { survey_id: survey.survey_id } }
+      );
 
       await Survey_A.destroy({ where: { survey_id: survey.survey_id } });
 
       await Survey_Q.destroy({ where: { survey_id: survey.survey_id } });
 
-      await survey.destroy();
+      await Survey_Info.update(
+        {
+          title: req.body.title,
+          author: req.session.user.email,
+          description: req.body.description,
+          secure: req.body.secure === "on" ? true : false,
+          password: req.body.secure === "on" ? req.body.newPassword : null,
+        },
+        { where: { survey_id: survey.survey_id } }
+      );
 
-      const new_survey = await Survey_Info.create({
-        survey_id: surveyID,
-        title: req.body.title,
-        author: req.session.user.email,
-        description: req.body.description,
-        secure: req.body.secure === "on" ? true : false,
-        password: req.body.secure === "on" ? req.body.password : null,
-        grade_by_points: req.body.grade_by_points === "on" ? true : false,
-        show_question_numbers:
-          req.body.show_question_numbers === "on" ? true : false,
-      });
       // ADD CODE TO CREATE SURVEY QUESTIONS AND ANSWERS HERE
+
       const num_questions = req.body.num_questions;
       for (let i = 1; i <= num_questions; i++) {
         console.log(req.body["question_" + i + "_title"]);
@@ -112,7 +167,10 @@ router.post("/:id", async function (req, res, next) {
           bottom_range: req.body["question_" + i + "_number_range_bottom"],
           point_value: req.body["question_" + i + "_point_value"],
         });
-        if (question.type === "checkbox" || question.type === "multiple_choice") {
+        if (
+          question.type === "checkbox" ||
+          question.type === "multiple_choice"
+        ) {
           let j = 1;
           while (req.body["question_" + i + "_option_" + j] !== undefined) {
             await Survey_A.create({
@@ -126,20 +184,12 @@ router.post("/:id", async function (req, res, next) {
         }
       }
       res.redirect("/home");
-    }
-    else {
+    } else {
       res.redirect("/home/?msg=notfound");
     }
-  }
-  else {
+  } else {
     res.redirect("/home/?msg=noaccess");
   }
-
-  // if (res.locals.email && res.locals.isAdmin) {
-  //   res.redirect("home");
-  // } else {
-  //   res.redirect("/home/?msg=noaccess");
-  // }
 });
 
 // Might need to go back later for Survey_D Instances deletions

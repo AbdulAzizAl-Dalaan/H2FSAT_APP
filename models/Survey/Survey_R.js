@@ -10,10 +10,6 @@ Survey_R.init({
     {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: Survey_Info,
-            key: "survey_id"
-        },
         primaryKey: true
     },
     email: // the user who took the survey

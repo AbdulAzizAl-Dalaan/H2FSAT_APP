@@ -94,6 +94,7 @@
                         <a href="/home/<%= survey.survey_id %>" class="btn btn-warning">Start Assessment</a>
                       </div>
                       <% } %>
+                        <!-- PUT ALL THIS BACK INTO AN ADMIN ONLY BLOCK LATER -->
                         <% if (isAdmin) { %>
                           <div class="form-group button-group" style="margin-top: 25px;">
                             <a href="/edit/<%= survey.survey_id %>" class="btn btn-primary"
@@ -105,6 +106,7 @@
 
                           </div>
                           <% } %>
+                        <!-- END ADMIN ONLY BLOCK -->
                 </div>
               </div>
 

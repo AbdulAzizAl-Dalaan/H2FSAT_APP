@@ -44,7 +44,8 @@
 </head>
 
 <body>
-  <%- include('header') %> <%- include("appmsg") %>
+  <%- include('header') %> 
+    <%- include("appmsg") %>
 
       <div class="content">
         <div class="row mb-3" style="padding-top: 10px">
@@ -63,13 +64,29 @@
             <textarea class="form-control" id="description" name="description"
               rows="3"><%= survey.description %></textarea>
           </div>
+          
           <div class="form-group">
-            <label for="secure">Require Password:</label>
-            <input type="checkbox" class="form-check-input" id="secure" name="secure"
-              onchange="togglePasswordInput()" />
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" name="password" disabled />
+            <% if (survey.secure) { %>
+              <label for="secure">Change Password:</label>
+            <% } else { %>
+            <label for="secure">Add Password:</label>
+            <% } %>
+            <input type="checkbox" class="form-check-input" id="secure" name="secure" onchange="togglePasswordInput()" />
+            <div id="passwordFields" style="display: none;">
+              <% if (survey.secure) { %>
+                <div class="form-group">
+                  <label for="oldPassword">Old Password:</label>
+                  <input type="password" class="form-control" id="oldPassword" name="oldPassword" disabled />
+                </div>
+              <% } %>
+              <div class="form-group">
+                <label for="newPassword">New Password:</label>
+                <input type="password" class="form-control" id="newPassword" name="newPassword" disabled />
+              </div>
+              <div class="form-group">
+                <label for="confirmNewPassword">Confirm New Password:</label>
+                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" disabled />
+              </div>
             </div>
           </div>
 
@@ -92,20 +109,93 @@
           </div>
         </form>
       </div>
+</body>
 
       <script>
         let questionCount = 0;
 
         let current_survey_questions = <%- JSON.stringify(questions_data) %>; // AUTO FORMATTING WILL BREAK THE - IN THE EJS TAG
-        current_survey_questions.forEach((question, index) => {
+        current_survey_questions.forEach((question, index) => { // repopulate the questions for the first time
           addQuestion(question, index)
         });
 
-        function togglePasswordInput() { // handles the password input field
-          var passwordInput = document.getElementById("password");
-          var secureCheckbox = document.getElementById("secure");
-          passwordInput.disabled = !secureCheckbox.checked;
+        function repopulateQuestions() {
+          // delete everything in the questions div
+          questionCount = 0
+          const questionsDiv = document.getElementById('questions');
+          questionsDiv.innerHTML = "";
+          current_survey_questions.forEach((question, index) => {
+            addQuestion(question, index)
+          });
+          if (current_survey_questions.length === 0) {
+            questionCount = 0;
+            document.getElementById('num_questions').value = questionCount;
+          }
         }
+
+        function deleteQuestion(questionNumber) {
+          // delete from current_survey_questions
+          saveQuestionsState();
+          current_survey_questions.splice(questionNumber - 1, 1);
+        }
+
+        function changeQuestionType(questionNumber) {
+          // change question type in current_survey_questions
+          const questionTypeSelect = document.querySelector(`select[name="question_${questionNumber}_type"]`);
+          const questionType = questionTypeSelect.value;
+          current_survey_questions[questionNumber - 1].type = questionType;
+          saveQuestionsState();
+          repopulateQuestions();
+        }
+
+        function saveQuestionsState() {
+          // clear the current_survey_questions array
+          current_survey_questions = [];
+
+          const questionsDiv = document.getElementById('questions');
+          const questionDivs = questionsDiv.children;
+
+          // iterate through the question divs and save the state into current_survey_questions
+          for (let i = 0; i < questionDivs.length; i += 2) {
+            const questionTypeFormGroup = questionDivs[i];
+            const questionFieldsDiv = questionDivs[i + 1];
+          
+            const questionTitle = questionTypeFormGroup.querySelector('input[type="text"]');
+            const questionTypeSelect = questionTypeFormGroup.querySelector('select');
+            const questionType = questionTypeSelect.value;
+            const questionTitleValue = questionTitle.value;
+          
+            // create a new question object
+            const question = {
+              prompt: questionTitleValue,
+              type: questionType,
+              answers: []
+            };
+          
+            if (questionType === "checkbox" || questionType === "multiple_choice") {
+              // get all the options
+              const options = questionFieldsDiv.querySelectorAll('input[type="text"]');
+              options.forEach(option => {
+                const optionValue = option.value;
+                const optionObj = {
+                  text: optionValue
+                };
+                question.answers.push(optionObj);
+              });
+            } else if (questionType === "number_range") {
+              const topRangeInput = questionFieldsDiv.querySelector('input[name*="top"]');
+              const bottomRangeInput = questionFieldsDiv.querySelector('input[name*="bottom"]');
+              const topRangeValue = topRangeInput.value;
+              const bottomRangeValue = bottomRangeInput.value;
+              question.top_range = topRangeValue;
+              question.bottom_range = bottomRangeValue;
+            }
+          
+            // push the question into current_survey_questions
+            current_survey_questions.push(question);
+            console.log(current_survey_questions);
+          }
+        }       
 
         function addQuestion(question = null, index = null) { // handles the question input fields
           questionCount++;
@@ -170,11 +260,11 @@
           deleteButton.classList.add("btn", "btn-danger", "ml-2", "button-space");
           deleteButton.textContent = "Delete Question";
           deleteButton.addEventListener("click", function () {
-            questionTypeFormGroup.remove();
-            questionFieldsDiv.remove();
-            questionCount--; // decrease the question count when a question is removed
-            document.getElementById('num_questions').value = questionCount;
-            updateQuestionNumbers(); // question, questionNumber, questionTypeSelect
+            // get the question number from the id of the questionTypeFormGroup
+            const questionNumber = questionTypeFormGroup.firstChild.name.split("_")[1]
+            console.log("Deleting question " + questionNumber)
+            deleteQuestion(questionNumber);
+            repopulateQuestions();
           });
 
           const questionsDiv = document.getElementById("questions");
@@ -184,23 +274,24 @@
 
           questionTypeSelect.addEventListener("change", function () {
             console.log("in change: " + questionTypeSelect.value)
-            toggleQuestionFields(null, questionCount, questionTypeSelect);
+            const questionTypeNumber = questionTypeFormGroup.firstChild.name.split("_")[1]
+            toggleQuestionFields(null, questionTypeNumber, questionTypeSelect);
           });
 
           if (question !== null) {
 
             questionTitle.value = question.prompt;
             questionTypeSelect.value = question.type;
-            console.log("in question: " + questionTypeSelect.value)
             toggleQuestionFields(question, questionCount, questionTypeSelect)
           }
           else {
             questionTypeSelect.value = "checkbox";
-            console.log("in null question: " + questionTypeSelect.value)
             toggleQuestionFields(null, questionCount, questionTypeSelect);
           }
           document.getElementById('num_questions').value = questionCount;
+          console.log(questionTypeSelect)
         }
+
 
         function toggleQuestionFields(question = null, questionNumber, questionTypeSelect) {
           const questionType = questionTypeSelect.value;
@@ -361,46 +452,6 @@
           }
         }
 
-        // WILL BE UPDATED LATER FOR STORING PRESENT VALUES FOR CHECKBOX, MULTIPLE CHOICE, AND NUMBER RANGE QUESTIONS
-        function updateQuestionNumbers() {
-          const questionsDiv = document.getElementById('questions');
-          const questionDivs = questionsDiv.children;
-          let newQuestionCount = 0; // initialize new question number
-
-          // for loop to loop for the question {questionCount} fields
-          for (let i = 0; i < questionDivs.length; i += 2) {
-            const questionTypeFormGroup = questionDivs[i];
-            const questionFieldsDiv = questionDivs[i + 1];
-
-            // New index for the question
-            newQuestionCount++;
-
-            // Updating question title placeholder and name attribute
-            const questionTitle = questionTypeFormGroup.querySelector('input[type="text"]');
-            questionTitle.placeholder = `Question ${newQuestionCount} Title`;
-            questionTitle.name = `question_${newQuestionCount}_title`;
-
-            // Updating select name attribute
-            const questionTypeSelect = questionTypeFormGroup.querySelector('select');
-            questionTypeSelect.name = `question_${newQuestionCount}_type`;
-            questionTypeSelect.setAttribute(
-              "onchange",
-              `toggleQuestionFields(${newQuestionCount})`
-            );
-
-            // Updating div id
-            questionFieldsDiv.id = `question_${newQuestionCount}_fields`;
-
-            // Update other fields within questionFieldsDiv by using regex among all similiar divs
-            [...questionFieldsDiv.querySelectorAll('input, select, textarea')].forEach(inputElem => {
-              inputElem.name = inputElem.name.replace(/\d+/g, newQuestionCount);
-            });
-
-            toggleQuestionFields(newQuestionCount);
-          }
-
-        }
-
         function validateNumberRange(topInput, bottomInput, questionNumber) {
           const topValue = parseFloat(topInput.value);
           const bottomValue = parseFloat(bottomInput.value);
@@ -412,7 +463,25 @@
           }
         }
 
+        function togglePasswordInput() {
+          const passwordFields = document.getElementById('passwordFields');
+          const inputs = passwordFields.getElementsByTagName('input');
+          if (document.getElementById('secure').checked) {
+            passwordFields.style.display = 'block';
+            for (let i = 0; i < inputs.length; i++) {
+              inputs[i].disabled = false;
+            }
+          } else {
+            passwordFields.style.display = 'none';
+            for (let i = 0; i < inputs.length; i++) {
+              inputs[i].disabled = true;
+            }
+          }
+        }
+
       </script>
-</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>

@@ -22,8 +22,6 @@ Survey_Info.hasMany(Survey_A) // foreignKey "survey_id"
 Survey_A.belongsTo(Survey_Info)
 
 User.hasMany(Survey_R)            // foreignKey "user_id"
-Survey_Info.hasMany(Survey_R)   // foreignKey "survey_id"
-Survey_R.belongsTo(Survey_Info)
 Survey_R.belongsTo(User)
 
 Survey_Info.hasMany(Survey_D)   // foreignKey "survey_id"
@@ -101,9 +99,9 @@ async function setup() {
   const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "Cpt", password: '1', gender: 'male', isAdmin: true, state: "WA" })
 
   // SUBU TEST USERS
-  const adminSubu = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "kandaswamy", rank: "Cpt", password: '1234', gender: 'male', isAdmin: true, state: "WA" })
-  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "Sgt", gender: 'male', state: "WA" })
-  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "Sgt", gender: 'male', state: "WA" })
+  const adminSubu = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "kandaswamy", rank: "Cpt", password: '1234', gender: 'male', isAdmin: true, state: "VA" })
+  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "Sgt", gender: 'male', state: "VA" })
+  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "Sgt", gender: 'male', state: "VA" })
   
   const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt", state: "VA" })
   const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "Sgt", state: "VA" })
