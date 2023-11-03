@@ -64,12 +64,27 @@
               rows="3"><%= survey.description %></textarea>
           </div>
           <div class="form-group">
-            <label for="secure">Require Password:</label>
-            <input type="checkbox" class="form-check-input" id="secure" name="secure"
-              onchange="togglePasswordInput()" />
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" name="password" disabled />
+            <% if (survey.secure) { %>
+              <label for="secure">Change Password:</label>
+            <% } else { %>
+            <label for="secure">Add Password:</label>
+            <% } %>
+            <input type="checkbox" class="form-check-input" id="secure" name="secure" onchange="togglePasswordInput()" />
+            <div id="passwordFields" style="display: none;">
+              <% if (survey.secure) { %>
+                <div class="form-group">
+                  <label for="oldPassword">Old Password:</label>
+                  <input type="password" class="form-control" id="oldPassword" name="oldPassword" disabled />
+                </div>
+              <% } %>
+              <div class="form-group">
+                <label for="newPassword">New Password:</label>
+                <input type="password" class="form-control" id="newPassword" name="newPassword" disabled />
+              </div>
+              <div class="form-group">
+                <label for="confirmNewPassword">Confirm New Password:</label>
+                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" disabled />
+              </div>
             </div>
           </div>
 
@@ -109,6 +124,10 @@
           current_survey_questions.forEach((question, index) => {
             addQuestion(question, index)
           });
+          if (current_survey_questions.length === 0) {
+            questionCount = 0;
+            document.getElementById('num_questions').value = questionCount;
+          }
         }
 
         function deleteQuestion(questionNumber) {
@@ -174,10 +193,6 @@
             console.log(current_survey_questions);
           }
         }       
-
-
-
-
 
         function addQuestion(question = null, index = null) { // handles the question input fields
           questionCount++;
@@ -445,10 +460,20 @@
           }
         }
 
-        function togglePasswordInput() { // handles the password input field
-          var passwordInput = document.getElementById("password");
-          var secureCheckbox = document.getElementById("secure");
-          passwordInput.disabled = !secureCheckbox.checked;
+        function togglePasswordInput() {
+          const passwordFields = document.getElementById('passwordFields');
+          const inputs = passwordFields.getElementsByTagName('input');
+          if (document.getElementById('secure').checked) {
+            passwordFields.style.display = 'block';
+            for (let i = 0; i < inputs.length; i++) {
+              inputs[i].disabled = false;
+            }
+          } else {
+            passwordFields.style.display = 'none';
+            for (let i = 0; i < inputs.length; i++) {
+              inputs[i].disabled = true;
+            }
+          }
         }
 
       </script>
