@@ -44,6 +44,19 @@ router.post("/", async function (req, res, next) {
   console.log(res.locals.isAdmin);
 
   if (res.locals.email && res.locals.isAdmin) {
+
+    dublicate = await Survey_Info.findOne({where : {title : req.body.title}});
+    if(dublicate){
+      res.redirect("/create/?msg=samename");
+      return;
+    }
+
+    console.log("FIRST QUESTION: " + req.body["question_1_title"])
+
+    if (req.body["question_1_title"] === undefined) {
+      res.redirect("/create/?msg=zeroquestions");
+      return;
+    }
     const survey = await Survey_Info.create({
       title: req.body.title,
       author: req.session.user.email,

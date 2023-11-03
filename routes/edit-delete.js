@@ -90,6 +90,12 @@ router.post("/:id", async function (req, res, next) {
         return;
       }
 
+      dubplicateSurvey = await Survey_Info.findAll({where : {title : req.body.title}});
+      if (dubplicateSurvey.length > 0 && dubplicateSurvey[0].survey_id != req.params.id) {
+        res.redirect("/edit/" + req.params.id + "/?msg=samename");
+        return;
+      }
+
       const surveyID = survey.survey_id;
 
       // console.log(req.body.secure)

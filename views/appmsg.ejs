@@ -48,6 +48,16 @@
     aria-label="Close"
   ></button>
 </div>
+<% break; case "samename": %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>The name you have choosen for this Assessment matches one which already exists, please selected another</strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
 <% break; case "zeroquestions": %>
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
   <strong>Assessments must have at least one question</strong>
