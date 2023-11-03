@@ -30,7 +30,27 @@
 </div>
 <% break; case "wrongpass": %>
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <strong>Incorrect Survey Password</strong>
+  <strong>Incorrect Assessment Password</strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; case "editpass": %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>The Assessment's original password is incorrect or new passwords do not match</strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; case "zeroquestions": %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Assessments must have at least one question</strong>
   <button
     type="button"
     class="btn-close"

@@ -95,6 +95,7 @@
                       </div>
                       <% } %>
                         <!-- PUT ALL THIS BACK INTO AN ADMIN ONLY BLOCK LATER -->
+                        <% if (isAdmin) { %>
                           <div class="form-group button-group" style="margin-top: 25px;">
                             <a href="/edit/<%= survey.survey_id %>" class="btn btn-primary"
                               style="display:inline-block;">Edit</a>
@@ -104,6 +105,7 @@
                             </button>
 
                           </div>
+                          <% } %>
                         <!-- END ADMIN ONLY BLOCK -->
                 </div>
               </div>
