@@ -6,12 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/images/ARNG.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    
+    
+    <script>
+      $(document).ready(function() {
+
+          $('#myTable').DataTable();
+      });
+      </script>
+
     <script src="https://d3js.org/d3.v5.min.js"></script>
+
+
     <title>Unit Summary</title>
+
+    
+
     <style>
       .form-group {
         margin:10px;
@@ -22,7 +35,66 @@
         margin: auto;
       }
 
-      /* Add style for tooltip */
+      .button-container #export-btn {
+        padding: 12px 25px;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        font-size: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+        outline: none;
+      }
+
+      .button-container #export-btn:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .button-container #export-btn:active {
+        transform: translateY(1px);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+      }
+
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+
+      #questionSelector {
+        width: 100%;
+        max-width: 400px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    
+      #questionSelector option {
+        white-space: normal;
+      }
+
+      #bar-chart {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+        margin-top: 100px;
+        margin-bottom: 250px;
+        transform: translateX(-100px);
+      }
+
+
+      #bar-chart h2 {
+        margin-top: 0;
+      }
+
       .d3-tooltip {
         position: absolute;
         background-color: #ffffff;
@@ -31,24 +103,112 @@
         z-index: 1000;
         pointer-events: none; 
         display: none;
-        border-radius: 5px; /* Rounded corners */
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-        font-size: 0.9em; /* Adjust font size if needed */
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        font-size: 0.9em;
       }
 
+      .chart-controls {
+        text-align: left;
+        padding-left: 10px;
+        margin-bottom: 20px;
+      }
 
-      /* Table styling */
+      #line-chart {
+        width: calc(100% - 20px);
+        margin-top: -20px;
+        display: block;
+      }
+
+      #line-chart svg {
+        max-width: 100%;
+      }
+
+      #line-chart h2 {
+        position: relative;
+        top: -10px;
+        bottom: 20px;
+        text-align: center;
+      }
+
+      .linetooltip {
+        opacity: 0;
+        text-align: center;
+        padding: 8px;
+        font: 12px sans-serif;
+        background: lightsteelblue;
+        border: 0;
+        border-radius: 8px;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+
+/* Common button styles */
+      .chart-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 12px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 10px 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .chart-button:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      .chart-button:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      .date-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-left: -10px;
+  
+      }
+
+      .date-label {
+        min-width: 90px;
+        margin-right: 0px;
+        display: inline-block;
+      }
+
+      
       #d3-table {
+        width: 100%;
+        overflow-x: auto;
         font-family: Arial, sans-serif;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s; /* Smooth transition for shadow and transform */
+        transition: all 0.3s;
+        margin-top: 200px;
+        margin-bottom: 50px;
       }
 
       #d3-table thead th:hover {
-        cursor: pointer;  /* Changes the mouse cursor to a hand, indicating clickability */
-        background-color: #f0f0f0;  /* A subtle shade to indicate hover */
+        cursor: pointer;
+        background-color: #f0f0f0;
       }
 
+      #d3-table thead th {
+        position: sticky;
+        top: 0;
+        background-color: #f5f5f5;
+        z-index: 10;
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+      }
 
       #d3-table thead {
         background-color: #f5f5f5;
@@ -61,6 +221,10 @@
       #d3-table tbody tr:hover {
         background-color: #e9ecef;
       }
+
+
+
+      
     </style>
 </head>
 <body>
@@ -73,29 +237,49 @@
     </div>
 
 
-    <select id="questionSelector">
-      <!-- Options will be populated dynamically -->
-    </select>
+    
     <div id="d3-visualization">
-      <div id="bar-chart" style="float: left; width: 50%; padding-right: 0px; margin-left: -200px;">   
-        <h2 class="text-center">Questions</h2>
+      <div id="bar-chart">   
+        <h2 class="text-center"><%= survey.title %> Answers</h2>
+        <select id="questionSelector">
+        </select>
       </div>
-      <div id="pie-chart" style="float: left; width: 50%; margin-left: 200px;">
-          <h2 class="text-center">Top Answer</h2>
+      <div id="linetooltip" class="linetooltip" style="opacity: 0;"></div> 
+      <div id="line-chart">
+        <div class="chart-controls">
+          <div class="date-inputs">
+            <label for="start-date" class="date-label">Start Date:</label>
+            <input type="date" id="start-date" name="start-date" class="date-input">
+      
+            <label for="end-date" class="date-label">End Date:</label>
+            <input type="date" id="end-date" name="end-date" class="date-input">
+          </div>
+      
+          <div class="chart-buttons">
+            <button id="filter-btn" class="chart-button">Apply Date Filter</button>
+            <button id="reset-btn" class="chart-button">Reset Chart</button>
+          </div>
+        </div>
+      
+        <h2 class="text-center"><%= survey.title %> Participation Over Time</h2>
       </div>
-      <div id="detail-chart"></div>
-    
-      <div style="clear:both;"></div>
+      
+        
+      
       <div id="d3-table" style="margin-top: 200px;">
-        <h2 class="text-center">Survey Table</h2>
-          <button id="resetTable">Show All Questions</button>
-        <table class="table table-hover">
-            <!-- Rest of the table code -->
-        </table>
+        <div class="table-top-bar">
+          
+          <h2 class="text-center"><%= survey.title %> Table</h2>
+        </div>
+        <div class="button-container">
+          <button id="export-btn" class="button-common-style">Export to CSV</button>
+        </div>
+        <table class="table table-hover" id="myTable"></table>
       </div>
+      
     
-    </div>
-  
+    
+  </div>
 
 
     <% if (survey_results.length === 0) { %>
@@ -107,13 +291,21 @@
     <% } %>
 </div>
 
-<!-- Extracting and Processing the Data for Visualization -->
 <script>
 
-  // Extract question #3 responses
   const raw_data = <%- JSON.stringify(survey_results) %>;
-  const allResponses = {};
+  const core_data = <%- JSON.stringify(core_results) %>;
+  const user_data = <%- JSON.stringify(user_results) %>;
+  const question_data = <%- JSON.stringify(survey_questions) %>;
+  let surveyID = (raw_data[0] && raw_data[0].survey_id) ? raw_data[0].survey_id : null;
 
+
+
+  console.log("user_results", user_data);
+  console.log("question_data", question_data);
+
+  const allResponses = {};
+  
   raw_data.forEach(entry => {
     for (const question in entry.results) {
         if (!allResponses[question]) {
@@ -124,67 +316,68 @@
     }
   });
 
-// Setting up a tooltip for detailed info
   const tooltip = d3.select("body")
     .append("div")
     .attr("class", "d3-tooltip")
     .style("opacity", 0.8)
     .style("display", "none");
 
-// Dimensions and margins for the bar chart
-  const width = 1000;
-  const height = 400;
-  const margin = { top: 50, right: 30, bottom: 50, left: 70 };
+  const width = 1200;
+  const height = 650;
+  const margin = { top: 50, right: 30, bottom: 140, left: 70 };
 
-  // Bar Chart drawing function
-  function drawBarChart(questionKey) {
-    // Data based on selected question
-    const data = Object.entries(allResponses[questionKey]).map(([answer, count]) => {
-        // Extracting emails associated with the answers
-        const emails = raw_data.filter(d => d.results[questionKey] === answer).map(d => d.email);
-        return {
-            answer,
-            count,
-            emails: emails
-        };
-    });
+  function drawBarChart(questionPrompt) {
+  const data = Object.entries(allResponses[questionPrompt] || {}).map(([answer, count]) => {
+    const emails = filteredRawData.filter(d => d.results[questionPrompt] === answer).map(d => d.email);
+    return {
+      answer,
+      count,
+      emails: emails
+    };
+  });
 
-    // Clear previous SVG if it exists
     d3.select("#bar-chart svg").remove();
 
-    // Define SVG container
     const svg = d3.select("#bar-chart").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // Define scales
     const x = d3.scaleBand()
         .domain(data.map(d => d.answer))
         .range([0, width])
         .padding(0.1);
+
+    const maxCount = d3.max(data, d => d.count);
+
     const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.count)])
+        .domain([0, maxCount + (maxCount * 0.1)])
         .range([height, 0]);
 
 
-    // X Axis
     svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", ".15em")
+      .transition()
+      .duration(1000)
+      .attr("transform", "rotate(-45)");
 
-    // X Axis Label
+// ...rest of your code...
+
+
     svg.append("text")
         .attr("transform", `translate(${width / 2}, ${height + margin.bottom - 10})`)
         .style("text-anchor", "middle")
         .text("Answers");
 
-    // Y Axis
     svg.append("g")
         .call(d3.axisLeft(y));
 
-    // Y Axis Label
     svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left + 20)
@@ -197,161 +390,276 @@
         .domain([0, d3.max(data, d => d.count)]);
 
         
-// Draw bars
-const bars = svg.selectAll("rect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("x", d => x(d.answer))
-    .attr("y", height) // start at the base
-    .attr("width", x.bandwidth())
-    .attr("height", 0) // initial height is 0
-    .attr("fill", d => colorScale(d.count))
-    .on("mouseover", function(event, i) {
-        d3.select(this).attr("fill", "darkblue");
-        const d = data[i];
-        const emailsList = d.emails && d.emails.length ? d.emails.join(', ') : 'No users';
-        tooltip
-            .style("left", (d3.event.pageX + 10) + "px")
-            .style("top", (d3.event.pageY +10) + "px")
-            .html(`Answer: ${d.answer}<br>Users: ${emailsList}`)
-            .style("display", "block");
-    })
-    .on("mouseout", function() {
-        d3.select(this).attr("fill", d => colorScale(d.count));
-        tooltip.style("display", "none");
-    });
+    const totalResponses = data.reduce((acc, currentItem) => acc + currentItem.count, 0);
 
-// Animation from bottom to up
-bars.transition()
-    .duration(800)
-    .attr("y", d => y(d.count))
-    .attr("height", d => height - y(d.count))
-    .delay((d, i) => i * 50);
+    const bars = svg.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x", d => x(d.answer))
+        .attr("y", height)
+        .attr("width", x.bandwidth())
+        .attr("height", 0)
+        .attr("fill", d => colorScale(d.count))
+        .on("mouseover", function(event, i) {
+            d3.select(this).attr("fill", "darkblue");
+            const d = data[i];
+            const emailsList = d.emails && d.emails.length ? d.emails.join(', ') : 'No users';
+            console.log("emailsList", (d.count));
+            console.log("countList", (data[i].count));
+            const percentage = ((d.count / totalResponses) * 100).toFixed(2);
+            console.log("percentage", percentage);
+            //const percentage = 
+            tooltip
+                .style("left", (d3.event.pageX + 10) + "px")
+                .style("top", (d3.event.pageY +10) + "px")
+                .html(`Answer: ${d.answer}<br>Total Soldiers: ${d.count}<br>Percentage from Total: ${percentage}%`)
+                .style("display", "block");
+        })
+        .on("mouseout", function() {
+            d3.select(this).attr("fill", d => colorScale(d.count));
+            tooltip.style("display", "none");
+        });
+
+        bars.transition()
+            .duration(800)
+            .attr("y", d => y(d.count))
+            .attr("height", d => height - y(d.count))
+            .delay((d, i) => i * 50);
 
 
-}
+        }
 
-// Dropdown for question selection
-const select = d3.select("#questionSelector")
-  .on("change", function() { drawBarChart(this.value); });
+        if (surveyID == 3) {
+          question_data.shift();
+        }
 
-select.selectAll("option")
-  .data(Object.keys(allResponses))
-  .enter()
-  .append("option")
-  .attr("value", d => d)
-  .text(d => "Question " + d);
+        const questionIdToPrompt = {};
+        question_data.forEach(question => {
+          questionIdToPrompt[question.question_id] = question.prompt;
+        });
 
-// Initialize with the first question
-drawBarChart(Object.keys(allResponses)[0]);
+        const filteredRawData = raw_data.filter(d => d.survey_id === surveyID).map(entry => {
+          if (surveyID == 3) {
+            const {[Object.keys(entry.results)[0]]: _, ...rest} = entry.results;
+            return {...entry, results: rest};
+          }
+          return entry;
+        });
+
+        filteredRawData.forEach(entry => {
+          for (const questionId in entry.results) {
+            const response = entry.results[questionId];
+            const prompt = questionIdToPrompt[questionId];
+
+            if (!allResponses[prompt]) {
+              allResponses[prompt] = {};
+            }
+            allResponses[prompt][response] = (allResponses[prompt][response] || 0) + 1;
+          }
+        });
+
+        const select = d3.select("#questionSelector")
+          .on("change", function() {
+            drawBarChart(questionIdToPrompt[this.value]);
+          });
+
+        select.selectAll("option")
+          .data(question_data)
+          .enter()
+          .append("option")
+          .attr("value", d => d.question_id)
+          .text(d => d.prompt);
+
+        if (question_data.length > 0) {
+          const initialValue = question_data[0].question_id;
+          select.property("value", initialValue);
+          drawBarChart(questionIdToPrompt[initialValue]);
+        }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-//end of the question 3
+//end of the bar graph
 
 
 
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+//Start of the line graph
 
-  ////////////////////////////////////////////////////////////////////////////////////////////
-  /*This is for question 1, with pie chart*/
-  // Grouping data for pie chart
-// Grouping data for question #1 and pie chart
+      const parseDate = d3.timeParse("%Y-%m-%d");
 
-const totalWidth = 1600;
-const piewidth = totalWidth / 2;
+      raw_data.forEach(d => {
+        const dateString = d.timestamp.split("T")[0];
+        const parsedDate = parseDate(dateString);
+        console.log('each parse', parsedDate);
+        if (parsedDate === null) {
+          console.error("Failed to parse date:", dateString);
+        }
+      });
 
-const aggregateResponses = {};
-const pieEmailGroup = {};
 
-raw_data.forEach(entry => {
-  for (const question in entry.results) {
-    const response = entry.results[question];
-    const email = entry.email;
+      const countByDate = d3.nest()
+        .key(function(d) {
+          return d.timestamp.split("T")[0];
+        })
+        .rollup(function(v) { return v.length; })
+        .entries(raw_data)
+        .map(function(group) {
+          return {
+            date: parseDate(group.key),
+            count: group.value
+          };
+        });
+      countByDate.sort((a, b) => a.date - b.date);
+      console.log('count', countByDate);
+      const validDataByDate = countByDate.filter(d => d.date);
+
+      console.log('valid', validDataByDate);
+      const marginLine = { top: 20, right: 840, bottom: 70, left: 35 };
+      const widthLine = 2000 - marginLine.left - marginLine.right;
+      const heightLine = 700 - marginLine.top - marginLine.bottom;
+
+      const formatTime = d3.timeFormat("%B %d, %Y");
+
+      const xLine = d3.scaleTime().range([0, widthLine]);
+      const yLine = d3.scaleLinear().range([heightLine, 0]);
+
+      const lineFunction = d3.line()
+        .x(d => xLine(d.date))
+        .y(d => yLine(d.count))
+        .curve(d3.curveMonotoneX);
+
+      const svgLine = d3.select("#line-chart").append("svg")
+        .attr("width", widthLine + marginLine.left + marginLine.right)
+        .attr("height", heightLine + marginLine.top + marginLine.bottom)
+        .append("g")
+        .attr("transform", "translate(" + marginLine.left + "," + marginLine.top + ")");
+
+      svgLine.append("g").attr("class", "x axis").attr("transform", "translate(0," + heightLine + ")");
+      svgLine.append("g").attr("class", "y axis");
+
+      function drawAxes(data) {
+        xLine.domain(d3.extent(data, d => d.date));
+        yLine.domain([0, d3.max(data, d => d.count) * 1.1]);
+
+        svgLine.select(".x.axis")
+          .transition().duration(1000)
+          .call(d3.axisBottom(xLine))
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .transition().duration(1000)
+          .attr("transform", "rotate(-45)");
+
+        svgLine.select(".y.axis")
+          .transition().duration(1000)
+          .call(d3.axisLeft(yLine));
+      }
+
+      const linetooltip = d3.select("#line-chart").append("div")
+        .attr("class", "linetooltip")
+        .style("opacity", 0);
+
+      function initializeLineGraph(data) {
+        drawAxes(data);
+
+        svgLine.append("path")
+          .datum(data)
+          .attr("class", "line")
+          .attr("d", lineFunction)
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5);
+
+        const dots = svgLine.selectAll(".dot")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("class", "dot")
+          .attr("cx", d => xLine(d.date))
+          .attr("cy", d => yLine(d.count))
+          .attr("r", 3)
+          .attr("fill", "steelblue")
+          .on("mouseover", function(event, d) {
+            linetooltip.transition()
+              .duration(200)
+              .style("opacity", .9);
+            linetooltip.html("Date: " + formatTime(event.date) + "<br/>Count: " + event.count)
+              .style("left", (event.pageX + 5) + "px")
+              .style("top", (event.pageY + 28) + "px");
+          })
+          .on("mouseout", function(d) {
+            linetooltip.transition()
+              .duration(500)
+              .style("opacity", 0);
+          });
+      }
+
+
+      initializeLineGraph(validDataByDate);
+
+      d3.select("#filter-btn").on("click", function() {
+        const startDate = new Date(document.getElementById('start-date').value);
+        const endDate = new Date(document.getElementById('end-date').value);
+
+        const filteredData = validDataByDate.filter(d => d.date >= startDate && d.date <= endDate);
+        updateChart(filteredData);
+      });
+
+      d3.select("#reset-btn").on("click", function() {
+        updateChart(validDataByDate);
+      });
+
+      function updateChart(data) {
+        drawAxes(data);
+  
+
+        const path = svgLine.select(".line").datum(data);
+        path.transition().duration(1000).attr("d", lineFunction);
+
+        const dots = svgLine.selectAll(".dot").data(data);
+        dots.enter().append("circle").attr("class", "dot")
+          .merge(dots)
+          .transition().duration(1000)
+          .attr("cx", d => xLine(d.date))
+          .attr("cy", d => yLine(d.count))
+          .attr("r", 3);
+
     
-    if (!aggregateResponses[question]) {
-      aggregateResponses[question] = {};
-    }
-
-    if (aggregateResponses[question][response]) {
-      aggregateResponses[question][response]++;
-    } else {
-      aggregateResponses[question][response] = 1;
-    }
-
-    if (!pieEmailGroup[response]) {
-      pieEmailGroup[response] = [];
-    }
-    pieEmailGroup[response].push(email);
-  }
-});
-
-// Find the most common answer for each question
-const mostCommonResponses = [];
-for (const question in aggregateResponses) {
-  let maxCount = 0;
-  let mostCommonAnswer = null;
-  for (const answer in aggregateResponses[question]) {
-    if (aggregateResponses[question][answer] > maxCount) {
-      maxCount = aggregateResponses[question][answer];
-      mostCommonAnswer = answer;
-    }
-  }
-  mostCommonResponses.push({answer: mostCommonAnswer, count: maxCount, emails: pieEmailGroup[mostCommonAnswer] || []});
-}
-
-const totalResponses = mostCommonResponses.reduce((sum, entry) => sum + entry.count, 0);
+        svgLine.selectAll(".dot").remove();
+      svgLine.selectAll(".dot")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("class", "dot")
+        .attr("cx", d => xLine(d.date))
+        .attr("cy", d => yLine(d.count))
+        .attr("r", 3)
+        .attr("fill", "steelblue")
+        .on("mousemove", function(event, d) {
+          linetooltip.style("opacity", 0.9)
+              .html("Date: " + formatTime(event.date) + "<br/>Count: " + event.count)
+              .style("left", (event.pageX + 15) + "px")
+              .style("top", (event.pageY - 15) + "px");
+        })
+        .on("mouseout", function() {
+          linetooltip.style("opacity", 0);
+        });
 
 
-// Drawing the pie chart
-const pieSvg = d3.select("#pie-chart").append("svg")
-    .attr("width", piewidth)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-const pie = d3.pie().value(d => d.count)(mostCommonResponses);
-const arc = d3.arc().innerRadius(0).outerRadius(Math.min(width, height) / 2 - 40);
+      }
 
 
-pieSvg.selectAll("path")
-    .data(pie)
-    .enter().append("path")
-    .attr("d", arc)
-    .attr("fill", (d, i) => d3.schemeCategory10[i])
-    .attr("data-index", (d, i) => i)   // Assign index as a custom attribute
-    .on("mouseover", function(event, d) {
-    d3.select(this)
-      .attr("opacity", 0.7)
-      .transition()
-      .duration(200)
-      .attr("d", d3.arc().innerRadius(0).outerRadius(Math.min(width, height) / 2 - 30)); // Increased outer radius
-      const dataIndex = this.getAttribute("data-index");
-      const currentData = mostCommonResponses[dataIndex];
-      const percentage = ((currentData.count / totalResponses) * 100).toFixed(2);
-      
-      tooltip
-        .style("left", (d3.event.pageX + 10) + "px")
-        .style("top", (d3.event.pageY +10) + "px")
-        .html(`Question: ${dataIndex + 1}<br>Top Answer: ${currentData.answer} (${percentage}%)`)
-        .style("display", "block");
-    })
+
+  
+
+      console.log('data by date', validDataByDate);
 
 
-    .on("mouseout", function(d) {
-      d3.select(this)
-      .attr("opacity", 1)
-      .transition()
-      .duration(200)
-      .attr("d", arc);
-      tooltip.style("display", "none");
-    });
-
-    
-//////////////////////////////////////////////////////////////////////////////////////
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -359,76 +667,231 @@ pieSvg.selectAll("path")
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //Start of table
-function resetTable() {
-    d3.selectAll("#d3-table tbody tr td").style("display", "table-cell");
-    d3.selectAll("#d3-table thead th").style("display", "table-cell");
-}
 
 const tableDiv = d3.select("#d3-table");
 
-// Create table
 const table = tableDiv.append("table")
-    .attr("class", "table table-bordered"); // Using Bootstrap classes for styling
-
-$(function () {
+    .attr("class", "table table-bordered");
+    $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
-let questionKeys = Object.keys(raw_data[0].results);
-// Create table header
+
+const getUserData = (userEmail) => {
+    return user_data.find(user => user.email === userEmail);
+};
+
+
+let headerData;
+function headTable() {
+switch (surveyID) {
+    case 1: 
+        headerData = core_data[0] && core_data[0].h2f_results ? 
+            ["Email"].concat(Object.keys(core_data[0].h2f_results), "h2f_flag") : 
+            ["Email", "h2f_flag"];
+        break;
+    case 2: 
+        headerData = core_data[0] && core_data[0].cpa_results ? 
+            ["Email"].concat(Object.keys(core_data[0].cpa_results), "cpa_flag") : 
+            ["Email", "cpa_flag"];
+        break;
+    case 3: 
+        headerData = ["Email", "MS Grader", "fms_flag"];
+        break;
+    default:
+        let questionHeaders = question_data.map(q => q.prompt);
+
+        if (raw_data[0] && raw_data[0].results) {
+            let questionKeys = Object.keys(raw_data[0].results);
+            if (questionHeaders.length !== questionKeys.length) {
+                console.error("Mismatch in question_data prompts and raw_data results!");
+            }
+            headerData = ["Email"].concat(questionHeaders);
+        } else {
+            headerData = ["Email"];
+        }
+
+}
+
+headerData = ["Date", "Unit", "State", "Rank"].concat(headerData);
+
+
+
+const fixedColumns = ["Date", "Unit", "State", "Rank", "Email"];
+let questionColumns = headerData.filter(col => !fixedColumns.includes(col));
+
+
+
 const thead = table.append("thead");
-const headerData = ["Email"].concat(questionKeys.map(key => "Question " + key));
-
-thead.append("tr")
-    .selectAll("th")
-    .data(headerData)
-    .enter()
-    .append("th")
-    .text(d => d)
-    .attr("data-toggle", "tooltip")  // Enable Bootstrap tooltips
-    .attr("title", "Click to view responses");  // Tooltip content
 
 
-// Create table body
+
+    thead.append("tr")
+        .selectAll("th")
+        .data(headerData)
+        .enter()
+        .append("th")
+        .text(d => d)
+        .attr("data-toggle", "tooltip")
+        .attr("title", "Click to view responses");
+
+
+
+}
+
+
+
+
+function formatDate(isoString) {
+    const date = new Date(isoString);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+}
+
+
 const tbody = table.append("tbody");
 
-// Add rows based on data
-raw_data.forEach(entry => {
-    const row = tbody.append("tr");
-    row.append("td").text(entry.email);
-    questionKeys.forEach(key => {
-        let cellData = entry.results[key];
-        if (Array.isArray(cellData)) {
-            cellData = cellData.join(", ");
+function rowTable() {
+if ([1, 2, 3].includes(surveyID)) {
+    core_data.forEach((entry, idx) => { 
+        const row = tbody.append("tr");
+    
+        const userData = getUserData(entry.user_email || entry.email);
+    
+    
+        const timestamp = raw_data[idx] ? formatDate(raw_data[idx].timestamp) : "N/A";
+
+        row.append("td").text(timestamp);
+        row.append("td").text(userData.unit);
+        row.append("td").text(userData.state);
+        row.append("td").text(userData.rank);
+        row.append("td").text(entry.user_email || entry.email);
+        
+        const checkValue = (value) => (value === null) ? "N/A" : value;
+        
+        switch (surveyID) {
+            case 1:
+                if (entry.h2f_results) {
+                    Object.values(entry.h2f_results).forEach(value => row.append("td").text(checkValue(value)));
+                    row.append("td").text(checkValue(entry.h2f_flag));
+                } else {
+                    headerData.slice(5).forEach(() => row.append("td").text("N/A"));
+                }
+                break;
+
+            case 2:
+                if (entry.cpa_results) {
+                    Object.values(entry.cpa_results).forEach(value => row.append("td").text(checkValue(value)));
+                    row.append("td").text(checkValue(entry.cpa_flag));
+                } else {
+                    headerData.slice(5).forEach(() => row.append("td").text("N/A"));
+                }
+                break;
+
+            case 3:
+                if (raw_data[idx] && raw_data[idx].results) {
+                    row.append("td").text(checkValue(raw_data[idx].results["1"]));
+                } else {
+                    row.append("td").text("N/A"); 
+                }
+                row.append("td").text(checkValue(entry.fms_flag));
+                break;
+
         }
-        row.append("td").text(cellData);
     });
-});
+} else {
+    raw_data.forEach(entry => {
 
+        const row = tbody.append("tr");
+    
+        const userData = getUserData(entry.email);
+    
+        row.append("td").text(formatDate(entry.timestamp) || "N/A");
+        row.append("td").text(userData ? userData.unit : "N/A");
+        row.append("td").text(userData ? userData.state : "N/A");
+        row.append("td").text(userData ? userData.rank : "N/A");
+        row.append("td").text(entry.email);
+        
+        if (entry.results) {
+            Object.keys(entry.results).forEach(key => {
+                let cellData = entry.results[key];
+                if (Array.isArray(cellData)) {
+                    cellData = cellData.join(", ");
+                }
+                row.append("td").text(cellData);
+            });
+        }
+    });
+}
 
-//$('#d3-table table').DataTable();
+}
 
-
-d3.selectAll("#d3-table thead th").on("click", function(d, i) {
-    if (i === 0) {  // If the "Email" column is clicked
-        resetTable();
-        return;
+function initializeDataTable() {
+    if ($.fn.dataTable.isDataTable('.table')) {
+        $('.table').DataTable().draw();
+    } else {
+      $('.table').DataTable({
+    "autoWidth": false,
+    });
     }
-    
-    // Hide all columns initially
-    d3.selectAll("#d3-table tbody tr td").style("display", "none");
-    d3.selectAll("#d3-table thead th").style("display", "none");
-    
-    // Display only the 'Email' column and the clicked column
-    d3.selectAll(`#d3-table tbody tr td:nth-child(1)`).style("display", "table-cell");  // Email
-    d3.selectAll(`#d3-table tbody tr td:nth-child(${i + 1})`).style("display", "table-cell");  // Clicked Column
-    
-    d3.select(`#d3-table thead th:nth-child(1)`).style("display", "table-cell");  // Email Header
-    d3.select(`#d3-table thead th:nth-child(${i + 1})`).style("display", "table-cell");  // Clicked Column Header
+}
+
+function getTableData(tableId) {
+    const table = document.getElementById(tableId);
+    const rows = Array.from(table.querySelectorAll("tbody tr"));
+    const data = rows.map(row => {
+        const cells = Array.from(row.querySelectorAll("td"));
+        return cells.map(cell => cell.textContent);
+    });
+    return data;
+}
+
+function downloadCSV(csv, filename) {
+    const csvFile = new Blob([csv], { type: "text/csv" });
+    const downloadLink = document.createElement("a");
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+}
+
+
+function convertToCSV(arr) {
+    let csv = '';
+    for (let i = 0; i < arr.length; i++) {
+        let row = arr[i];
+        let line = row.map(item => '"' + String(item).replace(/"/g, '""') + '"').join(',');
+        csv += line + '\r\n';
+    }
+    return csv;
+}
+
+document.getElementById("export-btn").addEventListener("click", function() {
+    const tableData = getTableData("d3-table");
+    const headers = Array.from(document.querySelectorAll("#d3-table thead th")).map(th => th.textContent);
+    tableData.unshift(headers);
+    const csv = convertToCSV(tableData); 
+
+    let filename = prompt("Please enter the filename:", "export.csv");
+    if (filename === null) {
+        return;
+    } else if (filename.trim() === "") {
+        filename = "export.csv";
+    } else if (!filename.endsWith(".csv")) {
+        filename += ".csv";
+    }
+
+    downloadCSV(csv, filename);
 });
 
 
-document.getElementById("resetTable").addEventListener("click", resetTable);
 
+
+$(document).ready(function() {
+  
+    headTable();
+    rowTable();
+    initializeDataTable();
+});
 
 </script>
 

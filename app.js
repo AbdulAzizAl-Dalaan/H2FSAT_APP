@@ -203,48 +203,6 @@ async function setup() {
   const h2f_q10_a1 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 1, text: "True", is_correct: true}) // correct
   const h2f_q10_a2 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 2, text: "False"})
 
-  //Test answer for h2f*****************
-  // const surveyResponse = async () => {
-  //   try {
-  //     
-  //     const userEmail = 'test.user@email.com';
-  
-  //     
-  //     const results = {
-  //       1: 4, 
-  //       2: 3, 
-  //       3: 2, 
-  //       4: 2, 
-  //       5: 1, 
-  //       6: 3, 
-  //       7: 4, 
-  //       8: 3, 
-  //       9: 3, 
-  //       10: 1, 
-  //     };
-  
-  //     
-  //     const surveyResult = await Survey_R.create({
-  //       survey_id: 1,
-  //       email: userEmail,
-  //       results: results, // storing the results JSON object
-  //       timestamp: new Date(),
-  //       isOutdated: false
-  //     });
-  
-  //     console.log('Survey response saved:', surveyResult);
-  //     return surveyResult;
-  //   } catch (error) {
-  //     console.error('Error saving survey response:', error);
-  //   }
-  // };
-  
-  
-  // surveyResponse();
-  
-  //Test answer for h2f*****************^^^^^
-
-
 
   const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cogntive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
   isCore: true, card_img: "/images/default_imgs/img1.png"})
@@ -324,35 +282,155 @@ async function setup() {
   const survey_one_q6_a1 = await Survey_A.create({survey_id: 4, question_id: 5, answer_id: 1, text: "Yes"})
   const survey_one_q6_a2 = await Survey_A.create({survey_id: 4, question_id: 5, answer_id: 2, text: "No"})
 
-  const res1 = await Survey_R.create({survey_id: 4, email: "user", results: {"1": "Seattle", "2": "de", "3": "10", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}})
-  const res2 = await Survey_R.create({survey_id: 4, email: "jill.shawn@army.mil", results: {"1": "Pullman", "2": "Jill Shawn", "3": "7", "4": ["CPT_S 350", "CPT_S 360"], "5": "No"}})
-  const res3 = await Survey_R.create({survey_id: 4, email: "joe.johnson@army.mil", results: {"1": "Olympia", "2": "Joe Johnson", "3": "5", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}})
-  const res4 = await Survey_R.create({survey_id: 4, email: "adam.smith@army.mil", results: {"1": "Vancouver", "2": "Adam Smith", "3": "8", "4": ["CPT_S 302"], "5": "No"}})
-  const res5 = await Survey_R.create({survey_id: 4, email: "john.don@army.mil", results: {"1": "Pullman", "2": "John Don", "3": "6", "4": ["CPT_S 350", "CPT_S 421"], "5": "Yes"}})
-  const res6 = await Survey_R.create({survey_id: 4, email: "jane.jackson@army.mil", results: {"1": "Seattle", "2": "Jane Jackson", "3": "4", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 421"], "5": "No"}})
-  const res7 = await Survey_R.create({survey_id: 4, email: "mike.smith@army.mil", results: {"1": "Olympia", "2": "Mike Smith", "3": "2", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "No"}})
-  const res8 = await Survey_R.create({survey_id: 4, email: "emily.jones@army.mil", results: {"1": "Seattle", "2": "Emily Jones", "3": "9", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}})
-  const res9 = await Survey_R.create({survey_id: 4, email: "david.brown@army.mil", results: {"1": "Olympia", "2": "David Brown", "3": "1", "4": ["CPT_S 302", "CPT_S 350"], "5": "No"}})
-  const res10 = await Survey_R.create({survey_id: 4, email: "amy.wilson@army.mil", results: {"1": "Pullman", "2": "Amy Wilson", "3": "6", "4": ["CPT_S 302", "CPT_S 421"], "5": "No"}})
-  const res11 = await Survey_R.create({survey_id: 4, email: "mark.taylor@army.mil", results: {"1": "Olympia", "2": "Mark Taylor", "3": "5", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 421"], "5": "No"}})
-  const res12 = await Survey_R.create({survey_id: 4, email: "karen.anderson@army.mil", results: {"1": "Olympia", "2": "Karen Anderson", "3": "7", "4": ["CPT_S 350"], "5": "Yes"}})
-  const res13 = await Survey_R.create({survey_id: 4, email: "chris.lee@army.mil", results: {"1": "Olympia", "2": "Chris Lee", "3": "4", "4": ["CPT_S 302", "CPT_S 360"], "5": "Yes"}})
-  const res14 = await Survey_R.create({survey_id: 4, email: "lisa.kim@army.mil", results: {"1": "Olympia", "2": "Lisa Kim", "3": "9", "4": ["CPT_S 360", "CPT_S 421"], "5": "Yes"}})
-  const res15 = await Survey_R.create({survey_id: 4, email: "brian.chen@army.mil", results: {"1": "Olympia", "2": "Brian Chen", "3": "8", "4": ["CPT_S 350", "CPT_S 360"], "5": "No"}})
-  const res16 = await Survey_R.create({survey_id: 4, email: "jessica.wang@army.mil", results: {"1": "Olympia", "2": "Jessica Wang", "3": "6", "4": ["CPT_S 302", "CPT_S 421"], "5": "No"}})
-  const res17 = await Survey_R.create({survey_id: 4, email: "kevin.zhang@army.mil", results: {"1": "Olympia", "2": "Kevin Zhang", "3": "2", "4": ["CPT_S 350", "CPT_S 421"], "5": "No"}})
-  const res18 = await Survey_R.create({survey_id: 4, email: "michelle.li@army.mil", results: {"1": "Olympia", "2": "Michelle Li", "3": "5", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}})
-  const res19 = await Survey_R.create({survey_id: 4, email: "andrew.wu@army.mil", results: {"1": "Vancouver", "2": "Andrew Wu", "3": "7", "4": ["CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "No"}})
-  const res20 = await Survey_R.create({survey_id: 4, email: "stephanie.chang@army.mil", results: {"1": "Pullman", "2": "Stephanie Chang", "3": "3", "4": ["CPT_S 421"], "5": "No"}})
-  const res21 = await Survey_R.create({survey_id: 4, email: "jason.chen@army.mil", results: {"1": "Olympia", "2": "Jason Chen", "3": "4", "4": ["CPT_S 350", "CPT_S 421"], "5": "No"}})
-  const res22 = await Survey_R.create({survey_id: 4, email: "rachel.liu@army.mil", results: {"1": "Olympia", "2": "Rachel Liu", "3": "9", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "Yes"}})
-  const res23 = await Survey_R.create({survey_id: 4, email: "eric.wang@army.mil", results: {"1": "Vancouver", "2": "Eric Wang", "3": "1", "4": ["CPT_S 360", "CPT_S 421"], "5": "Yes"}})
-  const res24 = await Survey_R.create({survey_id: 4, email: "catherine.zhang@army.mil", results: {"1": "Olympia", "2": "Catherine Zhang", "3": "8", "4": ["CPT_S 302", "CPT_S 360", "CPT_S 421"], "5": "No"}})
-  const res25 = await Survey_R.create({survey_id: 4, email: "justin.chen@army.mil", results: {"1": "Vancouver", "2": "Justin Chen", "3": "2", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}})
-  const res26 = await Survey_R.create({survey_id: 4, email: "grace.wu@army.mil", results: {"1": "Olympia", "2": "Grace Wu", "3": "7", "4": ["CPT_S 360", "CPT_S 421"], "5": "No"}})
-  const res27 = await Survey_R.create({survey_id: 4, email: "steven.liu@army.mil", results: {"1": "Seattle", "2": "Steven Liu", "3": "6", "4": ["CPT_S 302", "CPT_S 360"], "5": "Yes"}})
+  const res1 = await Survey_R.create({survey_id: 4, email: "user", results: {"1": "Seattle", "2": "de", "3": "10", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}, timestamp: "2023-01-12T08:20:30.000Z"})
+  const res2 = await Survey_R.create({survey_id: 4, email: "jill.shawn@army.mil", results: {"1": "Pullman", "2": "Jill Shawn", "3": "7", "4": ["CPT_S 350", "CPT_S 360"], "5": "No"}, timestamp: "2023-01-12T10:15:45.000Z"})
+  const res3 = await Survey_R.create({survey_id: 4, email: "joe.johnson@army.mil", results: {"1": "Olympia", "2": "Joe Johnson", "3": "5", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}, timestamp: "2023-02-18T13:00:00.000Z"})
+  const res4 = await Survey_R.create({survey_id: 4, email: "adam.smith@army.mil", results: {"1": "Vancouver", "2": "Adam Smith", "3": "8", "4": ["CPT_S 302"], "5": "No"}, timestamp: "2023-03-22T18:30:00.000Z"})
+  const res5 = await Survey_R.create({survey_id: 4, email: "john.don@army.mil", results: {"1": "Pullman", "2": "John Don", "3": "6", "4": ["CPT_S 350", "CPT_S 421"], "5": "Yes"}, timestamp: "2023-03-22T20:45:00.000Z"})
+  const res6 = await Survey_R.create({survey_id: 4, email: "jane.jackson@army.mil", results: {"1": "Seattle", "2": "Jane Jackson", "3": "4", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 421"], "5": "No"}, timestamp: "2023-04-15T07:15:15.000Z"})
+  const res7 = await Survey_R.create({survey_id: 4, email: "mike.smith@army.mil", results: {"1": "Olympia", "2": "Mike Smith", "3": "2", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "No"}, timestamp: "2023-05-19T06:22:11.000Z"})
+  const res8 = await Survey_R.create({survey_id: 4, email: "emily.jones@army.mil", results: {"1": "Seattle", "2": "Emily Jones", "3": "9", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}, timestamp: "2023-06-30T16:45:25.000Z"})
+  const res9 = await Survey_R.create({survey_id: 4, email: "david.brown@army.mil", results: {"1": "Olympia", "2": "David Brown", "3": "1", "4": ["CPT_S 302", "CPT_S 350"], "5": "No"}, timestamp: "2023-06-30T19:05:35.000Z"})
+  const res10 = await Survey_R.create({survey_id: 4, email: "amy.wilson@army.mil", results: {"1": "Pullman", "2": "Amy Wilson", "3": "6", "4": ["CPT_S 302", "CPT_S 421"], "5": "No"}, timestamp: "2023-07-04T00:00:00.000Z"})
+  const res11 = await Survey_R.create({survey_id: 4, email: "mark.taylor@army.mil", results: {"1": "Olympia", "2": "Mark Taylor", "3": "5", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 421"], "5": "No"}, timestamp: "2023-08-24T23:59:59.000Z"})
+  const res12 = await Survey_R.create({survey_id: 4, email: "karen.anderson@army.mil", results: {"1": "Olympia", "2": "Karen Anderson", "3": "7", "4": ["CPT_S 350"], "5": "Yes"}, timestamp: "2023-10-13T05:05:05.000Z"})
+  const res13 = await Survey_R.create({survey_id: 4, email: "chris.lee@army.mil", results: {"1": "Olympia", "2": "Chris Lee", "3": "4", "4": ["CPT_S 302", "CPT_S 360"], "5": "Yes"}, timestamp: "2023-11-02T00:14:38.000Z"})
+  const res14 = await Survey_R.create({survey_id: 4, email: "lisa.kim@army.mil", results: {"1": "Olympia", "2": "Lisa Kim", "3": "9", "4": ["CPT_S 360", "CPT_S 421"], "5": "Yes"}, timestamp: "2023-12-25T18:00:00.000Z"})
+  const res15 = await Survey_R.create({survey_id: 4, email: "brian.chen@army.mil", results: {"1": "Olympia", "2": "Brian Chen", "3": "8", "4": ["CPT_S 350", "CPT_S 360"], "5": "No"}, timestamp: "2024-01-01T00:00:00.000Z"})
+  const res16 = await Survey_R.create({survey_id: 4, email: "jessica.wang@army.mil", results: {"1": "Olympia", "2": "Jessica Wang", "3": "6", "4": ["CPT_S 302", "CPT_S 421"], "5": "No"}, timestamp: "2024-03-01T09:30:30.000Z"})
+  const res17 = await Survey_R.create({survey_id: 4, email: "kevin.zhang@army.mil", results: {"1": "Olympia", "2": "Kevin Zhang", "3": "2", "4": ["CPT_S 350", "CPT_S 421"], "5": "No"}, timestamp: "2024-05-16T15:45:15.000Z"})
+  const res18 = await Survey_R.create({survey_id: 4, email: "michelle.li@army.mil", results: {"1": "Olympia", "2": "Michelle Li", "3": "5", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}, timestamp: "2024-05-16T17:20:20.000Z"})
+  const res19 = await Survey_R.create({survey_id: 4, email: "andrew.wu@army.mil", results: {"1": "Vancouver", "2": "Andrew Wu", "3": "7", "4": ["CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "No"}, timestamp: "2024-07-20T08:20:20.000Z"})
+  const res20 = await Survey_R.create({survey_id: 4, email: "stephanie.chang@army.mil", results: {"1": "Pullman", "2": "Stephanie Chang", "3": "3", "4": ["CPT_S 421"], "5": "No"}, timestamp: "2024-08-15T12:12:12.000Z"})
+  const res21 = await Survey_R.create({survey_id: 4, email: "jason.chen@army.mil", results: {"1": "Olympia", "2": "Jason Chen", "3": "4", "4": ["CPT_S 350", "CPT_S 421"], "5": "No"}, timestamp: "2024-09-10T14:40:40.000Z"})
+  const res22 = await Survey_R.create({survey_id: 4, email: "rachel.liu@army.mil", results: {"1": "Olympia", "2": "Rachel Liu", "3": "9", "4": ["CPT_S 302", "CPT_S 350", "CPT_S 360", "CPT_S 421"], "5": "Yes"}, timestamp: "2024-10-30T11:11:11.000Z"})
+  const res23 = await Survey_R.create({survey_id: 4, email: "eric.wang@army.mil", results: {"1": "Vancouver", "2": "Eric Wang", "3": "1", "4": ["CPT_S 360", "CPT_S 421"], "5": "Yes"}, timestamp: "2024-10-30T13:13:13.000Z"})
+  const res24 = await Survey_R.create({survey_id: 4, email: "catherine.zhang@army.mil", results: {"1": "Olympia", "2": "Catherine Zhang", "3": "8", "4": ["CPT_S 302", "CPT_S 360", "CPT_S 421"], "5": "No"}, timestamp: "2024-11-02T00:14:38.000Z"})
+  const res25 = await Survey_R.create({survey_id: 4, email: "justin.chen@army.mil", results: {"1": "Vancouver", "2": "Justin Chen", "3": "2", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}, timestamp: "2024-12-31T23:59:59.000Z"})
+  const res26 = await Survey_R.create({survey_id: 4, email: "grace.wu@army.mil", results: {"1": "Olympia", "2": "Grace Wu", "3": "7", "4": ["CPT_S 360", "CPT_S 421"], "5": "No"}, timestamp: "2024-12-31T23:59:59.000Z"})
+  const res27 = await Survey_R.create({survey_id: 4, email: "steven.liu@army.mil", results: {"1": "Seattle", "2": "Steven Liu", "3": "6", "4": ["CPT_S 302", "CPT_S 360"], "5": "Yes"}, timestamp: "2024-12-31T23:59:59.000Z"})
 
-  const core_res = await Core_Result.create({user_email: "user", h2f_results: {"Sleep": 100, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 25, "Current": 15, "Motivation": 50}, h2f_flag: "Physical-Nutrition", cpa_flag: "BH", fms_flag: "PT" })
+
+
+
+
+  const h2f_res1 = await Survey_R.create({survey_id: 1, email: "user", results: {"1": "150 minutes", "2": "Slowly reducing heart rate", "3": "Rice", "4": "White Bread", "5": "Empathy", "6": "Attention", "7": "Mindfulness", "8": "Reconciliation", "9": "7-8 Hours", "10": "True"}, timestamp: "2023-01-12T08:20:30.000Z"})
+  const h2f_res2 = await Survey_R.create({survey_id: 1, email: "jill.shawn@army.mil", results: {"1": "30 minutes", "2": "Preventing blood pooling in the extremities", "3": "Fruits", "4": "Brown Rice", "5": "Sympathy", "6": "Centralizing", "7": "Inner Peace", "8": "Engagement", "9": "6-7 Hours", "10": "False"}, timestamp: "2023-01-12T10:15:45.000Z"})
+  const h2f_res3 = await Survey_R.create({survey_id: 1, email: "joe.johnson@army.mil", results: {"1": "75 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Grains", "4": "Popcorn", "5": "Mind Reading", "6": "Details", "7": "Serenity", "8": "Compatibility", "9": "5-6 Hours", "10": "True"}, timestamp: "2023-02-18T13:00:00.000Z"})
+  const h2f_res4 = await Survey_R.create({survey_id: 1, email: "adam.smith@army.mil", results: {"1": "30 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Fruits", "4": "Oatmeal", "5": "Kinesis", "6": "Processing", "7": "Inner Peace", "8": "Compatibility", "9": "4-5 Hours", "10": "False"}, timestamp: "2023-03-22T18:30:00.000Z"})
+  const h2f_res5 = await Survey_R.create({survey_id: 1, email: "john.don@army.mil", results: {"1": "150 minutes", "2": "Slowly reducing heart rate", "3": "Protein", "4": "Brown Rice", "5": "Empathy", "6": "Attention", "7": "Serenity", "8": "Reconciliation", "9": "7-8 Hours", "10": "True"}, timestamp: "2023-03-22T20:45:00.000Z"})
+  const h2f_res6 = await Survey_R.create({survey_id: 1, email: "jane.jackson@army.mil", results: {"1": "75 minutes", "2": "Preventing blood pooling in the extremities", "3": "Grains", "4": "Popcorn", "5": "Sympathy", "6": "Details", "7": "Mindfulness", "8": "Engagement", "9": "5-6 Hours", "10": "False"}, timestamp: "2023-04-15T07:15:15.000Z"})
+  const h2f_res7 = await Survey_R.create({survey_id: 1, email: "mike.smith@army.mil", results: {"1": "300 minutes", "2": "Increase the body's ability to burn fat", "3": "Rice", "4": "White Bread", "5": "Mind Reading", "6": "Centralizing", "7": "Inner Peace", "8": "Compatibility", "9": "6-7 Hours", "10": "True"}, timestamp: "2023-05-19T06:22:11.000Z"})
+  const h2f_res8 = await Survey_R.create({survey_id: 1, email: "emily.jones@army.mil", results: {"1": "150 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Fruits", "4": "Brown Rice", "5": "Empathy", "6": "Processing", "7": "Serenity", "8": "Reconciliation", "9": "7-8 Hours", "10": "False"}, timestamp: "2023-06-30T16:45:25.000Z"})
+  const h2f_res9 = await Survey_R.create({survey_id: 1, email: "david.brown@army.mil", results: {"1": "30 minutes", "2": "Slowly reducing heart rate", "3": "Protein", "4": "Popcorn", "5": "Kinesis", "6": "Attention", "7": "Mindfulness", "8": "Engagement", "9": "4-5 Hours", "10": "True"}, timestamp: "2023-06-30T19:05:35.000Z"})
+  const h2f_res10 = await Survey_R.create({survey_id: 1, email: "amy.wilson@army.mil", results: {"1": "75 minutes", "2": "Preventing blood pooling in the extremities", "3": "Grains", "4": "Oatmeal", "5": "Sympathy", "6": "Details", "7": "Inner Peace", "8": "Compatibility", "9": "5-6 Hours", "10": "False"}, timestamp: "2023-07-04T00:00:00.000Z"})
+  const h2f_res11 = await Survey_R.create({survey_id: 1, email: "mark.taylor@army.mil", results: {"1": "300 minutes", "2": "Increase the body's ability to burn fat", "3": "Rice", "4": "White Bread", "5": "Mind Reading", "6": "Centralizing", "7": "Serenity", "8": "Reconciliation", "9": "6-7 Hours", "10": "True"}, timestamp: "2023-08-24T23:59:59.000Z"})
+  const h2f_res12 = await Survey_R.create({survey_id: 1, email: "karen.anderson@army.mil", results: {"1": "150 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Fruits", "4": "Brown Rice", "5": "Empathy", "6": "Processing", "7": "Mindfulness", "8": "Engagement", "9": "7-8 Hours", "10": "False"}, timestamp: "2023-10-13T05:05:05.000Z"})
+  const h2f_res13 = await Survey_R.create({survey_id: 1, email: "chris.lee@army.mil", results: {"1": "30 minutes", "2": "Slowly reducing heart rate", "3": "Protein", "4": "Popcorn", "5": "Kinesis", "6": "Attention", "7": "Inner Peace", "8": "Compatibility", "9": "4-5 Hours", "10": "True"}, timestamp: "2023-11-02T00:14:38.000Z"})
+  const h2f_res14 = await Survey_R.create({survey_id: 1, email: "lisa.kim@army.mil", results: {"1": "75 minutes", "2": "Preventing blood pooling in the extremities", "3": "Grains", "4": "Oatmeal", "5": "Sympathy", "6": "Details", "7": "Serenity", "8": "Reconciliation", "9": "5-6 Hours", "10": "False"}, timestamp: "2023-12-25T18:00:00.000Z"})
+  const h2f_res15 = await Survey_R.create({survey_id: 1, email: "brian.chen@army.mil", results: {"1": "300 minutes", "2": "Increase the body's ability to burn fat", "3": "Rice", "4": "White Bread", "5": "Mind Reading", "6": "Centralizing", "7": "Mindfulness", "8": "Engagement", "9": "6-7 Hours", "10": "True"}, timestamp: "2024-01-01T00:00:00.000Z"})
+  const h2f_res16 = await Survey_R.create({survey_id: 1, email: "jessica.wang@army.mil", results: {"1": "150 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Fruits", "4": "Brown Rice", "5": "Empathy", "6": "Processing", "7": "Inner Peace", "8": "Compatibility", "9": "7-8 Hours", "10": "False"}, timestamp: "2024-03-01T09:30:30.000Z"})
+  const h2f_res17 = await Survey_R.create({survey_id: 1, email: "kevin.zhang@army.mil", results: {"1": "30 minutes", "2": "Slowly reducing heart rate", "3": "Protein", "4": "Popcorn", "5": "Kinesis", "6": "Attention", "7": "Serenity", "8": "Reconciliation", "9": "4-5 Hours", "10": "True"}, timestamp: "2024-05-16T15:45:15.000Z"})
+  const h2f_res18 = await Survey_R.create({survey_id: 1, email: "michelle.li@army.mil", results: {"1": "75 minutes", "2": "Preventing blood pooling in the extremities", "3": "Grains", "4": "Oatmeal", "5": "Sympathy", "6": "Details", "7": "Mindfulness", "8": "Engagement", "9": "5-6 Hours", "10": "False"}, timestamp: "2024-05-16T17:20:20.000Z"})
+  const h2f_res19 = await Survey_R.create({survey_id: 1, email: "andrew.wu@army.mil", results: {"1": "75 minutes", "2": "Slowly reducing heart rate", "3": "Fruits", "4": "Popcorn", "5": "Sympathy", "6": "Attention", "7": "Mindfulness", "8": "Engagement", "9": "6-7 Hours", "10": "False"}, timestamp: "2024-07-20T08:20:20.000Z"})
+  const h2f_res20 = await Survey_R.create({survey_id: 1, email: "stephanie.chang@army.mil", results: {"1": "30 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Protein", "4": "Brown Rice", "5": "Empathy", "6": "Processing", "7": "Inner Peace", "8": "Compatibility", "9": "7-8 Hours", "10": "True"}, timestamp: "2024-08-15T12:12:12.000Z"})
+  const h2f_res21 = await Survey_R.create({survey_id: 1, email: "jason.chen@army.mil", results: {"1": "150 minutes", "2": "Preventing blood pooling in the extremities", "3": "Grains", "4": "White Bread", "5": "Mind Reading", "6": "Details", "7": "Serenity", "8": "Reconciliation", "9": "5-6 Hours", "10": "False"}, timestamp: "2024-09-10T14:40:40.000Z"})
+  const h2f_res22 = await Survey_R.create({survey_id: 1, email: "rachel.liu@army.mil", results: {"1": "300 minutes", "2": "Slowly reducing heart rate", "3": "Rice", "4": "Oatmeal", "5": "Kinesis", "6": "Centralizing", "7": "Empathy", "8": "Engagement", "9": "4-5 Hours", "10": "True"}, timestamp: "2024-10-30T11:11:11.000Z"})
+  const h2f_res23 = await Survey_R.create({survey_id: 1, email: "eric.wang@army.mil", results: {"1": "30 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Protein", "4": "Popcorn", "5": "Empathy", "6": "Attention", "7": "Inner Peace", "8": "Compatibility", "9": "6-7 Hours", "10": "False"}, timestamp: "2024-10-30T13:13:13.000Z"})
+  const h2f_res24 = await Survey_R.create({survey_id: 1, email: "catherine.zhang@army.mil", results: {"1": "150 minutes", "2": "Preventing blood pooling in the extremities", "3": "Grains", "4": "Brown Rice", "5": "Sympathy", "6": "Details", "7": "Mindfulness", "8": "Reconciliation", "9": "7-8 Hours", "10": "True"}, timestamp: "2024-11-02T00:14:38.000Z"})
+  const h2f_res25 = await Survey_R.create({survey_id: 1, email: "justin.chen@army.mil", results: {"1": "75 minutes", "2": "Increase the body's ability to burn fat", "3": "Fruits", "4": "White Bread", "5": "Mind Reading", "6": "Processing", "7": "Serenity", "8": "Engagement", "9": "5-6 Hours", "10": "False"}, timestamp: "2024-12-31T23:59:59.000Z"})
+  const h2f_res26 = await Survey_R.create({survey_id: 1, email: "grace.wu@army.mil", results: {"1": "300 minutes", "2": "Slowly reducing heart rate", "3": "Rice", "4": "Oatmeal", "5": "Kinesis", "6": "Centralizing", "7": "Empathy", "8": "Compatibility", "9": "4-5 Hours", "10": "True"}, timestamp: "2024-12-31T23:59:59.000Z"})
+  const h2f_res27 = await Survey_R.create({survey_id: 1, email: "steven.liu@army.mil", results: {"1": "30 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Protein", "4": "Popcorn", "5": "Empathy", "6": "Attention", "7": "Inner Peace", "8": "Reconciliation", "9": "6-7 Hours", "10": "False"}, timestamp: "2024-12-31T23:59:59.000Z"})
+  
+
+
+  const survey_res1 = await Survey_R.create({survey_id: 2, email: "user", results: {"1": 7, "2": 6, "3": 8, "4": 5, "5": 7, "6": 6, "7": 8, "8": 5, "9": 7, "10": 6, "11": 8, "12": 5, "13": 7, "14": 6, "15": 8}, timestamp: "2023-01-12T08:20:30.000Z"})
+  const survey_res2 = await Survey_R.create({survey_id: 2, email: "jill.shawn@army.mil", results: {"1": 9, "2": 7, "3": 8, "4": 6, "5": 8, "6": 7, "7": 5, "8": 7, "9": 8, "10": 6, "11": 4, "12": 6, "13": 7, "14": 8, "15": 9}, timestamp: "2023-01-12T10:15:45.000Z"})
+  const survey_res3 = await Survey_R.create({survey_id: 2, email: "joe.johnson@army.mil", results: {"1": 6, "2": 7, "3": 5, "4": 7, "5": 6, "6": 8, "7": 9, "8": 6, "9": 4, "10": 8, "11": 7, "12": 6, "13": 5, "14": 7, "15": 8}, timestamp: "2023-02-18T13:00:00.000Z"})
+  const survey_res4 = await Survey_R.create({survey_id: 2, email: "adam.smith@army.mil", results: {"1": 8, "2": 7, "3": 6, "4": 8, "5": 7, "6": 6, "7": 5, "8": 7, "9": 8, "10": 7, "11": 6, "12": 5, "13": 7, "14": 8, "15": 9}, timestamp: "2023-03-22T18:30:00.000Z"})
+  const survey_res5 = await Survey_R.create({survey_id: 2, email: "john.don@army.mil", results: {"1": 8, "2": 6, "3": 9, "4": 5, "5": 7, "6": 7, "7": 6, "8": 8, "9": 5, "10": 7, "11": 8, "12": 6, "13": 5, "14": 7, "15": 6}, timestamp: "2023-03-22T20:45:00.000Z"})
+  const survey_res6 = await Survey_R.create({survey_id: 2, email: "jane.jackson@army.mil", results: {"1": 5, "2": 7, "3": 6, "4": 4, "5": 6, "6": 8, "7": 9, "8": 7, "9": 5, "10": 8, "11": 7, "12": 5, "13": 6, "14": 7, "15": 9}, timestamp: "2023-04-15T07:15:15.000Z"})
+  const survey_res7 = await Survey_R.create({survey_id: 2, email: "mike.smith@army.mil", results: {"1": 6, "2": 8, "3": 5, "4": 7, "5": 7, "6": 5, "7": 6, "8": 8, "9": 9, "10": 6, "11": 5, "12": 7, "13": 6, "14": 8, "15": 5}, timestamp: "2023-05-19T06:22:11.000Z"})
+  const survey_res8 = await Survey_R.create({survey_id: 2, email: "emily.jones@army.mil", results: {"1": 9, "2": 8, "3": 7, "4": 5, "5": 8, "6": 7, "7": 6, "8": 5, "9": 7, "10": 8, "11": 9, "12": 8, "13": 7, "14": 6, "15": 5}, timestamp: "2023-06-30T16:45:25.000Z"})
+  const survey_res9 = await Survey_R.create({survey_id: 2, email: "david.brown@army.mil", results: {"1": 7, "2": 5, "3": 6, "4": 8, "5": 9, "6": 7, "7": 5, "8": 6, "9": 7, "10": 8, "11": 6, "12": 5, "13": 7, "14": 8, "15": 9}, timestamp: "2023-06-30T19:05:35.000Z"})
+  const survey_res10 = await Survey_R.create({survey_id: 2, email: "amy.wilson@army.mil", results: {"1": 6, "2": 7, "3": 8, "4": 9, "5": 6, "6": 5, "7": 7, "8": 6, "9": 8, "10": 7, "11": 9, "12": 8, "13": 7, "14": 6, "15": 5}, timestamp: "2023-07-04T00:00:00.000Z"})
+  const survey_res11 = await Survey_R.create({survey_id: 2, email: "mark.taylor@army.mil", results: {"1": 8, "2": 6, "3": 5, "4": 7, "5": 6, "6": 8, "7": 9, "8": 7, "9": 5, "10": 6, "11": 8, "12": 7, "13": 6, "14": 5, "15": 7}, timestamp: "2023-08-24T23:59:59.000Z"})
+  const survey_res12 = await Survey_R.create({survey_id: 2, email: "karen.anderson@army.mil", results: {"1": 9, "2": 7, "3": 8, "4": 6, "5": 5, "6": 7, "7": 6, "8": 8, "9": 9, "10": 7, "11": 5, "12": 6, "13": 7, "14": 8, "15": 6}, timestamp: "2023-10-13T05:05:05.000Z"})
+  const survey_res13 = await Survey_R.create({survey_id: 2, email: "chris.lee@army.mil", results: {"1": 7, "2": 8, "3": 9, "4": 7, "5": 6, "6": 5, "7": 4, "8": 6, "9": 7, "10": 8, "11": 9, "12": 7, "13": 6, "14": 5, "15": 7}, timestamp: "2023-11-02T00:14:38.000Z"})
+  const survey_res14 = await Survey_R.create({survey_id: 2, email: "lisa.kim@army.mil", results: {"1": 6, "2": 5, "3": 7, "4": 8, "5": 9, "6": 7, "7": 8, "8": 6, "9": 5, "10": 7, "11": 6, "12": 8, "13": 9, "14": 7, "15": 5}, timestamp: "2023-12-25T18:00:00.000Z"})
+  const survey_res15 = await Survey_R.create({survey_id: 2, email: "brian.chen@army.mil", results: {"1": 5, "2": 6, "3": 7, "4": 8, "5": 9, "6": 7, "7": 6, "8": 5, "9": 4, "10": 6, "11": 7, "12": 8, "13": 9, "14": 7, "15": 6}, timestamp: "2024-01-01T00:00:00.000Z"})
+  const survey_res16 = await Survey_R.create({survey_id: 2, email: "jessica.wang@army.mil", results: {"1": 8, "2": 9, "3": 7, "4": 6, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 7, "11": 6, "12": 5, "13": 7, "14": 8, "15": 9}, timestamp: "2024-03-01T09:30:30.000Z"})
+  const survey_res17 = await Survey_R.create({survey_id: 2, email: "kevin.zhang@army.mil", results: {"1": 7, "2": 5, "3": 6, "4": 7, "5": 8, "6": 9, "7": 7, "8": 5, "9": 6, "10": 7, "11": 8, "12": 9, "13": 7, "14": 5, "15": 6}, timestamp: "2024-05-16T15:45:15.000Z"})
+  const survey_res18 = await Survey_R.create({survey_id: 2, email: "michelle.li@army.mil", results: {"1": 6, "2": 7, "3": 8, "4": 9, "5": 7, "6": 5, "7": 6, "8": 7, "9": 8, "10": 9, "11": 7, "12": 5, "13": 6, "14": 7, "15": 8}, timestamp: "2024-05-16T17:20:20.000Z"})
+  const survey_res19 = await Survey_R.create({survey_id: 2, email: "andrew.wu@army.mil", results: {"1": 3, "2": 4, "3": 6, "4": 5, "5": 4, "6": 3, "7": 5, "8": 6, "9": 3, "10": 4, "11": 5, "12": 6, "13": 3, "14": 4, "15": 5}, timestamp: "2024-07-20T08:20:20.000Z"})
+  const survey_res20 = await Survey_R.create({survey_id: 2, email: "stephanie.chang@army.mil", results: {"1": 6, "2": 5, "3": 4, "4": 3, "5": 6, "6": 5, "7": 4, "8": 3, "9": 6, "10": 5, "11": 4, "12": 3, "13": 6, "14": 5, "15": 4}, timestamp: "2024-08-15T12:12:12.000Z"})
+  const survey_res21 = await Survey_R.create({survey_id: 2, email: "jason.chen@army.mil", results: {"1": 5, "2": 3, "3": 4, "4": 6, "5": 5, "6": 3, "7": 4, "8": 6, "9": 5, "10": 3, "11": 4, "12": 6, "13": 5, "14": 3, "15": 4}, timestamp: "2024-09-10T14:40:40.000Z"})
+  const survey_res22 = await Survey_R.create({survey_id: 2, email: "rachel.liu@army.mil", results: {"1": 4, "2": 6, "3": 5, "4": 4, "5": 3, "6": 6, "7": 5, "8": 4, "9": 3, "10": 6, "11": 5, "12": 4, "13": 3, "14": 6, "15": 5}, timestamp: "2024-10-30T11:11:11.000Z"})
+  const survey_res23 = await Survey_R.create({survey_id: 2, email: "eric.wang@army.mil", results: {"1": 3, "2": 5, "3": 6, "4": 4, "5": 3, "6": 5, "7": 6, "8": 4, "9": 3, "10": 5, "11": 6, "12": 4, "13": 3, "14": 5, "15": 6}, timestamp: "2024-10-30T13:13:13.000Z"})
+  const survey_res24 = await Survey_R.create({survey_id: 2, email: "catherine.zhang@army.mil", results: {"1": 6, "2": 4, "3": 3, "4": 5, "5": 6, "6": 4, "7": 3, "8": 5, "9": 6, "10": 4, "11": 3, "12": 5, "13": 6, "14": 4, "15": 3}, timestamp: "2024-11-02T00:14:38.000Z"})
+  const survey_res25 = await Survey_R.create({survey_id: 2, email: "justin.chen@army.mil", results: {"1": 5, "2": 3, "3": 6, "4": 4, "5": 5, "6": 3, "7": 6, "8": 4, "9": 5, "10": 3, "11": 6, "12": 4, "13": 5, "14": 3, "15": 6}, timestamp: "2024-12-31T23:59:59.000Z"})
+  const survey_res26 = await Survey_R.create({survey_id: 2, email: "grace.wu@army.mil", results: {"1": 4, "2": 5, "3": 3, "4": 6, "5": 4, "6": 5, "7": 3, "8": 6, "9": 4, "10": 5, "11": 3, "12": 6, "13": 4, "14": 5, "15": 3}, timestamp: "2024-12-31T23:59:59.000Z"})
+  const survey_res27 = await Survey_R.create({survey_id: 2, email: "steven.liu@army.mil", results: {"1": 7, "2": 5, "3": 6, "4": 8, "5": 7, "6": 5, "7": 7, "8": 6, "9": 8, "10": 7, "11": 6, "12": 8, "13": 5, "14": 7, "15": 6}, timestamp: "2024-12-31T23:59:59.000Z"})
+
+  
+
+
+  const fms1 = await Survey_R.create({survey_id: 3, email: "user", results: {"1": "Alice", "2": 2, "3": 3, "4": 1, "5": 3, "6": 2, "7": 2, "8": 1}, timestamp: "2023-01-12T08:20:30.000Z"})
+  const fms2 = await Survey_R.create({survey_id: 3, email: "jill.shawn@army.mil", results: {"1": "Brandon", "2": 3, "3": 2, "4": 2, "5": 2, "6": 3, "7": 3, "8": 2}, timestamp: "2023-01-12T10:15:45.000Z"})
+  const fms3 = await Survey_R.create({survey_id: 3, email: "joe.johnson@army.mil", results: {"1": "Cameron", "2": 1, "3": 2, "4": 3, "5": 0, "6": 1, "7": 2, "8": 3}, timestamp: "2023-02-18T13:00:00.000Z"})
+  const fms4 = await Survey_R.create({survey_id: 3, email: "adam.smith@army.mil", results: {"1": "Diana", "2": 2, "3": 2, "4": 2, "5": 3, "6": 2, "7": 2, "8": 2}, timestamp: "2023-03-22T18:30:00.000Z"})
+  const fms5 = await Survey_R.create({survey_id: 3, email: "john.don@army.mil", results: {"1": "Edward", "2": 2, "3": 2, "4": 3, "5": 2, "6": 3, "7": 3, "8": 2}, timestamp: "2023-03-22T20:45:00.000Z"})
+  const fms6 = await Survey_R.create({survey_id: 3, email: "jane.jackson@army.mil", results: {"1": "Fiona", "2": 0, "3": 0, "4": 3, "5": 1, "6": 2, "7": 3, "8": 1}, timestamp: "2023-04-15T07:15:15.000Z"})
+  const fms7 = await Survey_R.create({survey_id: 3, email: "mike.smith@army.mil", results: {"1": "George", "2": 3, "3": 2, "4": 2, "5": 2, "6": 3, "7": 2, "8": 3}, timestamp: "2023-05-19T06:22:11.000Z"})
+  const fms8 = await Survey_R.create({survey_id: 3, email: "emily.jones@army.mil", results: {"1": "Hannah", "2": 2, "3": 3, "4": 2, "5": 0, "6": 3, "7": 3, "8": 2}, timestamp: "2023-06-30T16:45:25.000Z"})
+  const fms9 = await Survey_R.create({survey_id: 3, email: "david.brown@army.mil", results: {"1": "Ian", "2": 1, "3": 1, "4": 1, "5": 3, "6": 3, "7": 2, "8": 3}, timestamp: "2023-06-30T19:05:35.000Z"})
+  const fms10 = await Survey_R.create({survey_id: 3, email: "amy.wilson@army.mil", results: {"1": "Jessica", "2": 2, "3": 3, "4": 2, "5": 1, "6": 2, "7": 0, "8": 3}, timestamp: "2023-07-04T00:00:00.000Z"})
+  const fms11 = await Survey_R.create({survey_id: 3, email: "mark.taylor@army.mil", results: {"1": "Kyle", "2": 3, "3": 3, "4": 2, "5": 2, "6": 3, "7": 2, "8": 3}, timestamp: "2023-08-24T23:59:59.000Z"})
+  const fms12 = await Survey_R.create({survey_id: 3, email: "karen.anderson@army.mil", results: {"1": "Laura", "2": 2, "3": 2, "4": 3, "5": 3, "6": 2, "7": 2, "8": 2}, timestamp: "2023-10-13T05:05:05.000Z"})
+  const fms13 = await Survey_R.create({survey_id: 3, email: "chris.lee@army.mil", results: {"1": "Miguel", "2": 1, "3": 3, "4": 2, "5": 2, "6": 3, "7": 2, "8": 1}, timestamp: "2023-11-02T00:14:38.000Z"})
+  const fms14 = await Survey_R.create({survey_id: 3, email: "lisa.kim@army.mil", results: {"1": "Nancy", "2": 0, "3": 1, "4": 2, "5": 3, "6": 2, "7": 3, "8": 3}, timestamp: "2023-12-25T18:00:00.000Z"})
+  const fms15 = await Survey_R.create({survey_id: 3, email: "brian.chen@army.mil", results: {"1": "Oliver", "2": 2, "3": 3, "4": 2, "5": 2, "6": 2, "7": 3, "8": 2}, timestamp: "2024-01-01T00:00:00.000Z"})
+  const fms16 = await Survey_R.create({survey_id: 3, email: "jessica.wang@army.mil", results: {"1": "Pamela", "2": 1, "3": 2, "4": 2, "5": 3, "6": 1, "7": 2, "8": 3}, timestamp: "2024-03-01T09:30:30.000Z"})
+  const fms17 = await Survey_R.create({survey_id: 3, email: "kevin.zhang@army.mil", results: {"1": "Quentin", "2": 3, "3": 0, "4": 1, "5": 2, "6": 3, "7": 2, "8": 0}, timestamp: "2024-05-16T15:45:15.000Z"})
+  const fms18 = await Survey_R.create({survey_id: 3, email: "michelle.li@army.mil", results: {"1": "Rachel", "2": 2, "3": 1, "4": 3, "5": 2, "6": 2, "7": 1, "8": 3}, timestamp: "2024-05-16T17:20:20.000Z"})
+  const fms19 = await Survey_R.create({survey_id: 3, email: "andrew.wu@army.mil", results: {"1": "Steven", "2": 3, "3": 2, "4": 3, "5": 2, "6": 3, "7": 2, "8": 2}, timestamp: "2024-07-20T08:20:20.000Z"})
+  const fms20 = await Survey_R.create({survey_id: 3, email: "stephanie.chang@army.mil", results: {"1": "Travis", "2": 2, "3": 3, "4": 2, "5": 2, "6": 2, "7": 3, "8": 2}, timestamp: "2024-08-15T12:12:12.000Z"})
+  const fms21 = await Survey_R.create({survey_id: 3, email: "jason.chen@army.mil", results: {"1": "Ursula", "2": 2, "3": 2, "4": 3, "5": 2, "6": 2, "7": 2, "8": 3}, timestamp: "2024-09-10T14:40:40.000Z"})
+  const fms22 = await Survey_R.create({survey_id: 3, email: "rachel.liu@army.mil", results: {"1": "Victor", "2": 3, "3": 2, "4": 1, "5": 3, "6": 2, "7": 3, "8": 0}, timestamp: "2024-10-30T11:11:11.000Z"})
+  const fms23 = await Survey_R.create({survey_id: 3, email: "eric.wang@army.mil", results: {"1": "Wendy", "2": 0, "3": 1, "4": 2, "5": 3, "6": 2, "7": 1, "8": 2}, timestamp: "2024-10-30T13:13:13.000Z"})
+  const fms24 = await Survey_R.create({survey_id: 3, email: "catherine.zhang@army.mil", results: {"1": "Xavier", "2": 2, "3": 3, "4": 0, "5": 2, "6": 3, "7": 1, "8": 3}, timestamp: "2024-11-02T00:14:38.000Z"})
+  const fms25 = await Survey_R.create({survey_id: 3, email: "justin.chen@army.mil", results: {"1": "Yasmine", "2": 1, "3": 0, "4": 3, "5": 2, "6": 1, "7": 3, "8": 2}, timestamp: "2024-12-31T23:59:59.000Z"})
+  const fms26 = await Survey_R.create({survey_id: 3, email: "grace.wu@army.mil", results: {"1": "Zachary", "2": 3, "3": 2, "4": 1, "5": 3, "6": 2, "7": 2, "8": 2}, timestamp: "2024-12-31T23:59:59.000Z"})
+  const fms27 = await Survey_R.create({survey_id: 3, email: "steven.liu@army.mil", results: {"1": "Alex", "2": 2, "3": 3, "4": 2, "5": 2, "6": 2, "7": 3, "8": 2}, timestamp: "2024-12-31T23:59:59.000Z"})  
+
+  const core_res = await Core_Result.create({user_email: "user", h2f_results: {"Sleep": 100, "Mental": 50, "Physical": 50, "Nutrition": 100, "Spiritual": 100}, cpa_results: {"Ability": 33, "Current": 32, "Motivation": 34}, h2f_flag: "PASSED", cpa_flag: "PASSED", fms_flag: "MFT" })
+  const core_res1 = await Core_Result.create({user_email: "jill.shawn@army.mil", h2f_results: {"Sleep": 0, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 38, "Current": 33, "Motivation": 38}, h2f_flag: "Sleep-Mental-Physical-Nutrition-Spiritual", cpa_flag: "PASSED", fms_flag: "PASSED" })
+  const core_res2 = await Core_Result.create({user_email: "joe.johnson@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 31, "Current": 35, "Motivation": 33}, h2f_flag: "Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "PT" })
+  const core_res3 = await Core_Result.create({user_email: "adam.smith@army.mil", h2f_results: {"Sleep": 0, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 36, "Current": 33, "Motivation": 35}, h2f_flag: "Sleep-Physical-Nutrition-Spiritual", cpa_flag: "PASSED", fms_flag: "PASSED" })
+  const core_res4 = await Core_Result.create({user_email: "john.don@army.mil", h2f_results: {"Sleep": 100, "Mental": 50, "Physical": 50, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 35, "Current": 33, "Motivation": 32}, h2f_flag: "Nutrition", cpa_flag: "PASSED", fms_flag: "PASSED" })
+  const core_res5 = await Core_Result.create({user_email: "jane.jackson@army.mil", h2f_results: {"Sleep": 0, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 28, "Current": 37, "Motivation": 34}, h2f_flag: "Sleep-Mental-Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "PT" })
+  const core_res6 = await Core_Result.create({user_email: "mike.smith@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 50, "Nutrition": 100, "Spiritual": 0}, cpa_results: {"Ability": 33, "Current": 34, "Motivation": 31}, h2f_flag: "Mental-Spiritual", cpa_flag: "PASSED", fms_flag: "PASSED" })
+  const core_res7 = await Core_Result.create({user_email: "emily.jones@army.mil", h2f_results: {"Sleep": 50, "Mental": 100, "Physical": 50, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 37, "Current": 33, "Motivation": 35}, h2f_flag: "Nutrition", cpa_flag: "PASSED", fms_flag: "PT" })
+  const core_res8 = await Core_Result.create({user_email: "david.brown@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 35, "Current": 33, "Motivation": 35}, h2f_flag: "Mental-Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "MFT" })//
+  const core_res9 = await Core_Result.create({user_email: "amy.wilson@army.mil", h2f_results: {"Sleep": 0, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 36, "Current": 33, "Motivation": 35}, h2f_flag: "Sleep-Mental-Physical-Nutrition-Spiritual", cpa_flag: "PASSED", fms_flag: "PT" })
+  const core_res10 = await Core_Result.create({user_email: "mark.taylor@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 50, "Nutrition": 100, "Spiritual": 50}, cpa_results: {"Ability": 32, "Current": 35, "Motivation": 33}, h2f_flag: "Mental", cpa_flag: "PASSED", fms_flag: "PASSED" })
+  const core_res11 = await Core_Result.create({user_email: "karen.anderson@army.mil", h2f_results: {"Sleep": 50, "Mental": 100, "Physical": 50, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 35, "Current": 37, "Motivation": 34}, h2f_flag: "Nutrition", cpa_flag: "PASSED", fms_flag: "PASSED" })
+  const core_res12 = await Core_Result.create({user_email: "chris.lee@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 37, "Current": 30, "Motivation": 34}, h2f_flag: "Mental-Physical-Nutrition-Spiritual", cpa_flag: "PASSED", fms_flag: "MFT" })//
+  const core_res13 = await Core_Result.create({user_email: "lisa.kim@army.mil", h2f_results: {"Sleep": 0, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 35, "Current": 33, "Motivation": 35}, h2f_flag: "Sleep-Mental-Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "PT" })
+  const core_res14 = await Core_Result.create({user_email: "brian.chen@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 50, "Nutrition": 100, "Spiritual": 50}, cpa_results: {"Ability": 35, "Current": 28, "Motivation": 35}, h2f_flag: "Mental", cpa_flag: "PASSED", fms_flag: "PASSED" })
+  const core_res15 = await Core_Result.create({user_email: "jessica.wang@army.mil", h2f_results: {"Sleep": 50, "Mental": 100, "Physical": 50, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 35, "Current": 37, "Motivation": 35}, h2f_flag: "Nutrition-Spiritual", cpa_flag: "PASSED", fms_flag: "MFTT" })//
+  const core_res16 = await Core_Result.create({user_email: "kevin.zhang@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 33, "Current": 34, "Motivation": 35}, h2f_flag: "Mental-Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "PT" })
+  const core_res17 = await Core_Result.create({user_email: "michelle.li@army.mil", h2f_results: {"Sleep": 0, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 37, "Current": 35, "Motivation": 33}, h2f_flag: "Sleep-Mental-Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "MFT" })
+  const core_res18 = await Core_Result.create({user_email: "andrew.wu@army.mil", h2f_results: {"Sleep": 0, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 22, "Current": 21, "Motivation": 23}, h2f_flag: "Sleep-Mental-Physical-Nutrition", cpa_flag: "BH", fms_flag: "PASSED" })//
+  const core_res19 = await Core_Result.create({user_email: "stephanie.chang@army.mil", h2f_results: {"Sleep": 100, "Mental": 100, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 24, "Current": 23, "Motivation": 22}, h2f_flag: "Physical-Nutrition-Spiritual", cpa_flag: "BH", fms_flag: "PASSED" })
+  const core_res20 = await Core_Result.create({user_email: "jason.chen@army.mil", h2f_results: {"Sleep": 0, "Mental": 0, "Physical": 50, "Nutrition": 50, "Spiritual": 50}, cpa_results: {"Ability": 23, "Current": 23, "Motivation": 22}, h2f_flag: "Sleep-Mental", cpa_flag: "BH", fms_flag: "PASSED" })
+  const core_res21 = await Core_Result.create({user_email: "rachel.liu@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 0, "Nutrition": 50, "Spiritual": 0}, cpa_results: {"Ability": 22, "Current": 24, "Motivation": 23}, h2f_flag: "Mental-Physical-Spiritual", cpa_flag: "BH", fms_flag: "PT" })
+  const core_res22 = await Core_Result.create({user_email: "eric.wang@army.mil", h2f_results: {"Sleep": 0, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 21, "Current": 23, "Motivation": 23}, h2f_flag: "Sleep-Physical-Nutrition-Spiritual", cpa_flag: "BH", fms_flag: "PT" })
+  const core_res23 = await Core_Result.create({user_email: "catherine.zhang@army.mil", h2f_results: {"Sleep": 100, "Mental": 0, "Physical": 50, "Nutrition": 0, "Spiritual": 100}, cpa_results: {"Ability": 24, "Current": 22, "Motivation": 23}, h2f_flag: "Mental-Nutrition", cpa_flag: "BH", fms_flag: "PT" })
+  const core_res24 = await Core_Result.create({user_email: "justin.chen@army.mil", h2f_results: {"Sleep": 0, "Mental": 50, "Physical": 50, "Nutrition": 50, "Spiritual": 0}, cpa_results: {"Ability": 23, "Current": 22, "Motivation": 24}, h2f_flag: "Sleep-Spiritual", cpa_flag: "BH", fms_flag: "PT" })
+  const core_res25 = await Core_Result.create({user_email: "grace.wu@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 0, "Nutrition": 50, "Spiritual": 0}, cpa_results: {"Ability": 22, "Current": 24, "Motivation": 22}, h2f_flag: "Mental-Physical-Spiritual", cpa_flag: "BH", fms_flag: "MFTT" })
+  const core_res26 = await Core_Result.create({user_email: "steven.liu@army.mil", h2f_results: {"Sleep": 0, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 33, "Current": 33, "Motivation": 32}, h2f_flag: "Sleep-Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "PASSED" })
+
   
   const notification1 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Physical", description: "You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
   const notification2 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Nutrition",description: "You have scores significantly lower than your peers in the Nutrition domain of the assessment specified above. Please contact your unit's nutritionist to schedule a consultation."})
