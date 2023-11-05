@@ -5,6 +5,7 @@ const Survey_Info = require("../models/Survey/Survey_Info");
 const Survey_Q = require("../models/Survey/Survey_Q");
 const Survey_A = require("../models/Survey/Survey_A");
 const Survey_R = require("../models/Survey/Survey_R");
+const Survey_V = require("../models/Survey/Survey_V");
 const { Op } = require("sequelize");
 
 const sessionChecker = (req, res, next) => {
@@ -80,6 +81,7 @@ router.post("/:id", async function (req, res, next) {
 
   let passFlag = false;
   let newPassword = null;
+  let oldVersionQuestions = {};
 
   if (res.locals.email && res.locals.isAdmin) {
     // PUT ADMIN CHECK BACK IN LATER
@@ -137,6 +139,14 @@ router.post("/:id", async function (req, res, next) {
         { where: { survey_id: survey.survey_id } }
       );
 
+      const questions = await Survey_Q.findAll({ where: { survey_id: surveyID } });
+
+      for (let i = 0; i < questions.length; i++) {
+        oldVersionQuestions[questions[i].question_id] = questions[i].prompt;
+      }
+
+      await Survey_V.create({ survey_id: surveyID, version: survey.version, questions: oldVersionQuestions });
+
       await Survey_A.destroy({ where: { survey_id: survey.survey_id } });
 
       await Survey_Q.destroy({ where: { survey_id: survey.survey_id } });
@@ -146,6 +156,7 @@ router.post("/:id", async function (req, res, next) {
           title: req.body.title,
           author: req.session.user.email,
           description: req.body.description,
+          version: survey.version + 1,
           secure: req.body.secure === "on" ? true : false,
           password: req.body.secure === "on" ? req.body.newPassword : null,
         },
@@ -200,6 +211,8 @@ router.post("/delete/:id", async function (req, res, next) {
   if (res.locals.email && res.locals.isAdmin) {
     const survey = await Survey_Info.findByPk(req.params.id);
     if (survey) {
+      await Survey_V.destroy({ where: { survey_id: survey.survey_id } });
+
       await Survey_R.destroy({ where: { survey_id: survey.survey_id } });
 
       await Survey_A.destroy({ where: { survey_id: survey.survey_id } });

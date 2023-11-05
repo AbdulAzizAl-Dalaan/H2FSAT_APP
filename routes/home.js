@@ -61,7 +61,7 @@ router.get('/:id', async function(req, res, next) {
   const survey = await Survey_Info.findByPk(req.params.id)
   if (survey !== null)
   {
-    const results = await Survey_R.findAll({where: {email: req.session.user.email, survey_id: survey.survey_id}})
+    const results = await Survey_R.findAll({where: {email: req.session.user.email, survey_id: survey.survey_id, version: survey.version}})
     if (results.length === 0)
     {
       const questions = await Survey_Q.findAll({where: {survey_id: survey.survey_id}})
@@ -92,7 +92,7 @@ router.post('/:id/submit', async function(req, res, next) {
     console.log("ID: " + req.params.id)
     console.log("USER: " + user)
     console.log("SURVEY: " + survey)
-    const results = await Survey_R.findAll({where: {email: user.email, survey_id: survey.survey_id}})
+    const results = await Survey_R.findAll({where: {email: user.email, survey_id: survey.survey_id, version: survey.version}})
     if (results.length === 0)
     {
       let result_dict = {}
@@ -106,7 +106,7 @@ router.post('/:id/submit', async function(req, res, next) {
           }
         });
         console.log("RESULT DICT: " + JSON.stringify(result_dict))
-        const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, results: result_dict })
+        const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, version: survey.version, results: result_dict })
 
 
         if (survey.isCore) {

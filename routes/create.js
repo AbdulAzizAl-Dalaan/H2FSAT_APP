@@ -61,6 +61,7 @@ router.post("/", async function (req, res, next) {
       title: req.body.title,
       author: req.session.user.email,
       description: req.body.description,
+      version: 1,
       secure: req.body.secure === "on" ? true : false,
       password: req.body.secure === "on" ? req.body.password : null,
       grade_by_points: req.body.grade_by_points === "on" ? true : false,

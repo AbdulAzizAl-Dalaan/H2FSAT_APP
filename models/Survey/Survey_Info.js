@@ -22,6 +22,12 @@ Survey_Info.init({
         },
         primaryKey: true
     },
+    version:
+    {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+    },
     title:
     {
         type: DataTypes.STRING,
