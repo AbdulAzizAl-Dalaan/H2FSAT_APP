@@ -88,6 +88,7 @@ async function processUploadData(req, uploaderEmail, xlData) {
         const surveyData = {
             author: uploaderEmail,
             title: title,
+            version: 1,
             isCSVdata: true
         };
         const newSurvey = await Survey_Info.create(surveyData);
