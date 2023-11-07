@@ -38,12 +38,14 @@ User.init({
     unit:
     {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: "None"
     },
     state:
     {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: "None"
     },
     email:
     {
@@ -54,7 +56,8 @@ User.init({
     rank:
     {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: "None"
     },
     password: 
     { 
@@ -64,7 +67,14 @@ User.init({
     gender:
     {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false,
+        defaultValue: "None"
+    },
+    dob:
+    {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "None"
     },
     isUnitLeader:
     {
@@ -75,8 +85,8 @@ User.init({
     {
         type: DataTypes.STRING,
         allowNull: true
-    }   
-
+    }
+    
 }, { 
     sequelize, 
     modelName: 'User' 

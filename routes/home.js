@@ -53,7 +53,15 @@ router.get('/', async function(req, res, next) {
     User_Result = await Core_Result.findOne({ where: { user_email: res.locals.email } });
   }
 
-  res.render('home', {surveys, isAdmin, username, User_Result, category_dict});
+  console.log("RES LOCALS UNIT: " + res.locals.unit)
+  console.log("RES LOCALS RANK: " + res.locals.rank)
+  console.log("RES LOCALS STATE: " + res.locals.state)
+  if (res.locals.unit === "None" && res.locals.rank === "None" && res.locals.state === "None") {
+    res.redirect("/profile");
+  }
+  else {
+    res.render('home', {surveys, isAdmin, username, User_Result, category_dict});
+  }
 });
 
 router.get('/:id', async function(req, res, next) {

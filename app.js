@@ -16,23 +16,23 @@ const Survey_V = require('./models/Survey/Survey_V')
 const Core_Result = require('./models/Core_Result')
 const Notification = require('./models/Notification')
 
-Survey_Info.hasMany(Survey_Q) // foreignKey "survey_id"
+Survey_Info.hasMany(Survey_Q)     // foreignKey "survey_id"
 Survey_Q.belongsTo(Survey_Info)
 
-Survey_Info.hasMany(Survey_A) // foreignKey "survey_id"
+Survey_Info.hasMany(Survey_A)     // foreignKey "survey_id"
 Survey_A.belongsTo(Survey_Info)
 
 User.hasMany(Survey_R)            // foreignKey "user_id"
 Survey_R.belongsTo(User)
 
-Survey_Info.hasMany(Survey_D)   // foreignKey "survey_id"
+Survey_Info.hasMany(Survey_D)     // foreignKey "survey_id"
 Survey_D.belongsTo(Survey_Info)
 
-Survey_Info.hasMany(Survey_V)   // foreignKey "survey_id"
+Survey_Info.hasMany(Survey_V)     // foreignKey "survey_id"
 Survey_V.belongsTo(Survey_Info)
 
-User.hasOne(Core_Result)            // foreignKey "user_id"
-Core_Result.belongsTo(User)   // foreignKey "survey_id"
+User.hasOne(Core_Result)          // foreignKey "user_id"
+Core_Result.belongsTo(User)       // foreignKey "survey_id"
 
 var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
@@ -43,6 +43,7 @@ var resultsRouter = require('./routes/results');
 var uploadRoutes = require('./routes/upload');
 var editDeleteRouter = require('./routes/edit-delete');
 var notificationRouter = require('./routes/notification');
+var profileRouter = require('./routes/profile');
 
 var app = express();
 
@@ -72,6 +73,7 @@ app.use('/unitsummary', unitsummaryRouter);
 app.use('/results', resultsRouter);
 app.use('/edit', editDeleteRouter)
 app.use('/notification', notificationRouter)
+app.use('/profile', profileRouter)
 //excel stuff
 
 app.use('/upload', uploadRoutes);
@@ -142,6 +144,8 @@ async function setup() {
   const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "Pvt", state: "PA" });
   const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "Pvt", state: "PA" });
   const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "Sgt", state: "PA" });
+
+  const empty_user = await User.create({ firstname: "John", lastname: "Smith", email: "eu" }) // edit email to be John Smith for walkthrough
 
 
 
