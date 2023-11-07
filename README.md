@@ -17,6 +17,8 @@ In our endeavor to aid Cpt. Brian and his staff, our team has crafted a web appl
 
 Leveraging the robustness of NodeJS and the reliability of MySQL databases, our technology stack is designed to consolidate assessment data into a single repository. Our goal is to empower our sponsor and his team to analyze the results effectively, gauge the wellness of soldiers in different units, and provide necessary aid wherever it's needed.
 
+<img width="428" alt="login ss " src="https://github.com/WSUCapstoneS2023/H2FSAT_APP/assets/63431424/316ca3d1-e2f6-4c27-aa9f-ca93740a7597">
+
 ## Repository
 
 You can find the source code and contribute to our project here:
@@ -25,4 +27,4 @@ You can find the source code and contribute to our project here:
 
 ---
 
-We are committed to continuous improvement and are open to collaboration. Feel free to fork the project, submit issues, and create pull requests.
+We are committed to continuous improvement and are open to collaboration. 
