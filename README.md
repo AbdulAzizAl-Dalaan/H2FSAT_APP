@@ -19,6 +19,8 @@ Leveraging the robustness of NodeJS and the reliability of MySQL databases, our 
 
 <img width="428" alt="login ss " src="https://github.com/WSUCapstoneS2023/H2FSAT_APP/assets/63431424/316ca3d1-e2f6-4c27-aa9f-ca93740a7597">
 
+<img width="923" alt="homepage ss" src="https://github.com/WSUCapstoneS2023/H2FSAT_APP/assets/63431424/3aa35bd4-3524-430f-8d66-3c4f8079e6dd">
+
 ## Repository
 
 You can find the source code and contribute to our project here:
