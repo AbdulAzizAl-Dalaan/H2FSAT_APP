@@ -143,7 +143,7 @@
         transition: opacity 0.3s;
       }
 
-/* Common button styles */
+
       .chart-button {
         background-color: #4CAF50;
         border: none;
@@ -239,11 +239,16 @@
 
     
     <div id="d3-visualization">
-      <div id="bar-chart">   
+      <div id="bar-chart">
         <h2 class="text-center"><%= survey.title %> Answers</h2>
-        <select id="questionSelector">
-        </select>
+          <select id="versionSelector">
+            <!-- Options will be dynamically populated here -->
+          </select>
+          <select id="questionSelector">
+            <!-- Questions will be populated based on the selected version -->
+          </select>
       </div>
+      
       <div id="linetooltip" class="linetooltip" style="opacity: 0;"></div> 
       <div id="line-chart">
         <div class="chart-controls">
@@ -268,6 +273,10 @@
       
       <div id="d3-table" style="margin-top: 200px;">
         <div class="table-top-bar">
+          <select id="version-selector">
+            <option value="latest">Latest Version</option>
+            <!-- Dynamically populate with other versions -->
+          </select>
           
           <h2 class="text-center"><%= survey.title %> Table</h2>
         </div>
@@ -297,10 +306,11 @@
   const core_data = <%- JSON.stringify(core_results) %>;
   const user_data = <%- JSON.stringify(user_results) %>;
   const question_data = <%- JSON.stringify(survey_questions) %>;
+  const version_data = <%- JSON.stringify(version_results) %>;
   let surveyID = (raw_data[0] && raw_data[0].survey_id) ? raw_data[0].survey_id : null;
 
-
-
+  console.log("version_data", version_data);
+  console.log("raw_data", raw_data);
   console.log("user_results", user_data);
   console.log("question_data", question_data);
 
@@ -326,17 +336,29 @@
   const height = 650;
   const margin = { top: 50, right: 30, bottom: 140, left: 70 };
 
-  function drawBarChart(questionPrompt) {
-  const data = Object.entries(allResponses[questionPrompt] || {}).map(([answer, count]) => {
-    const emails = filteredRawData.filter(d => d.results[questionPrompt] === answer).map(d => d.email);
+  function drawBarChart(questionId, selectedVersion) {
+  // Find all the responses for the selected question and version
+  const filteredData = raw_data
+    .filter(d => d.version.toString() === selectedVersion && d.results.hasOwnProperty(questionId));
+
+  const responseCounts = {};
+  filteredData.forEach(d => {
+    const answer = d.results[questionId];
+    responseCounts[answer] = (responseCounts[answer] || 0) + 1;
+  });
+
+  // Now map this to your bar chart data format...
+  const data = Object.keys(responseCounts).map(answer => {
     return {
-      answer,
-      count,
-      emails: emails
+      answer: answer,
+      count: responseCounts[answer],
+      emails: filteredData.filter(d => d.results[questionId] === answer).map(d => d.email)
     };
   });
 
-    d3.select("#bar-chart svg").remove();
+  // Continue with your existing logic to draw the bar chart with this `data`...
+  // Remove the existing SVG if present
+  d3.select("#bar-chart svg").remove();
 
     const svg = d3.select("#bar-chart").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -367,7 +389,6 @@
       .duration(1000)
       .attr("transform", "rotate(-45)");
 
-// ...rest of your code...
 
 
     svg.append("text")
@@ -447,6 +468,18 @@
           return entry;
         });
 
+        if (surveyID === 2) {
+            question_data.forEach((question, index) => {
+            if (index < 5) {
+                question.prompt = 'Motivation ' + question.prompt;
+            } else if (index < 10) {
+                question.prompt = 'Ability ' + question.prompt;
+            } else if (index < 15) {
+                question.prompt = 'Current ' + question.prompt;
+            }
+        });
+    }
+
         filteredRawData.forEach(entry => {
           for (const questionId in entry.results) {
             const response = entry.results[questionId];
@@ -478,6 +511,82 @@
         }
 
 
+        function updateQuestionSelector(questions) {
+            const questionSelector = d3.select("#questionSelector");
+            questionSelector.selectAll("option").remove(); // Clear previous options
+            questions.forEach(question => {
+              questionSelector
+                .append("option")
+                .attr("value", question.question_id)
+                .text(question.prompt);
+            });
+        }
+
+        function updateQuestionSelectorAndBarChart(selectedVersion) {
+            let questionsToDisplay = question_data;
+            if (parseInt(selectedVersion) !== latestVersionFromRawData) {
+              const versionInfo = version_data.find(v => v.version.toString() === selectedVersion);
+              if (versionInfo) {
+                questionsToDisplay = Object.entries(versionInfo.questions).map(([id, prompt]) => ({
+                  question_id: id,
+                  prompt: prompt
+                }));
+              }
+            }
+            updateQuestionSelector(questionsToDisplay);
+  
+            if (questionsToDisplay.length > 0) {
+              drawBarChart(questionsToDisplay[0].question_id, selectedVersion);
+            }
+        }
+
+
+        const latestVersionFromRawData = Math.max(
+            ...raw_data
+            .filter(data => data.survey_id === surveyID)
+            .map(data => data.version)
+        );
+
+        const relevantVersionData = version_data.filter(data => data.survey_id === surveyID);
+
+        const versionSelector = d3.select("#versionSelector");
+
+        versionSelector.selectAll("option").remove();
+
+        if (![1, 2, 3].includes(surveyID)) {
+          relevantVersionData.forEach(version => {
+            versionSelector
+              .append("option")
+              .attr("value", version.version)
+              .text(version.version === latestVersionFromRawData ? "Latest Version" : "Version " + version.version);
+          });
+
+        if (!relevantVersionData.some(v => v.version === latestVersionFromRawData)) {
+          versionSelector
+            .append("option")
+            .attr("value", latestVersionFromRawData)
+            .text("Latest Version");
+        }
+
+        versionSelector.property("value", latestVersionFromRawData);
+
+        versionSelector.on("change", function() {
+          updateQuestionSelectorAndBarChart(this.value);
+        });
+
+        updateQuestionSelectorAndBarChart(latestVersionFromRawData.toString());
+        } else {
+          versionSelector.style("display", "none");
+        updateQuestionSelectorAndBarChart(latestVersionFromRawData.toString());
+      }
+
+
+        select.on("change", function() {
+          const selectedVersion = versionSelector.style("display") !== "none" ? versionSelector.node().value : latestVersionFromRawData.toString();
+          const selectedQuestionId = this.value;
+          drawBarChart(selectedQuestionId, selectedVersion);
+        });
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //end of the bar graph
 
@@ -488,12 +597,12 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 //Start of the line graph
 
+      
       const parseDate = d3.timeParse("%Y-%m-%d");
 
       raw_data.forEach(d => {
         const dateString = d.timestamp.split("T")[0];
         const parsedDate = parseDate(dateString);
-        console.log('each parse', parsedDate);
         if (parsedDate === null) {
           console.error("Failed to parse date:", dateString);
         }
@@ -668,6 +777,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 //Start of table
 
+
+
 const tableDiv = d3.select("#d3-table");
 
 const table = tableDiv.append("table")
@@ -679,6 +790,8 @@ const table = tableDiv.append("table")
 const getUserData = (userEmail) => {
     return user_data.find(user => user.email === userEmail);
 };
+
+const fixedColumns = ["Date", "Unit", "State", "Rank", "Email"];
 
 
 let headerData;
@@ -697,9 +810,12 @@ switch (surveyID) {
     case 3: 
         headerData = ["Email", "MS Grader", "fms_flag"];
         break;
+
     default:
         let questionHeaders = question_data.map(q => q.prompt);
 
+        
+        
         if (raw_data[0] && raw_data[0].results) {
             let questionKeys = Object.keys(raw_data[0].results);
             if (questionHeaders.length !== questionKeys.length) {
@@ -716,7 +832,6 @@ headerData = ["Date", "Unit", "State", "Rank"].concat(headerData);
 
 
 
-const fixedColumns = ["Date", "Unit", "State", "Rank", "Email"];
 let questionColumns = headerData.filter(col => !fixedColumns.includes(col));
 
 
@@ -749,7 +864,7 @@ function formatDate(isoString) {
 
 const tbody = table.append("tbody");
 
-function rowTable() {
+function rowTable(selectedVersion, currentSurveyId) {
 if ([1, 2, 3].includes(surveyID)) {
     core_data.forEach((entry, idx) => { 
         const row = tbody.append("tr");
@@ -797,32 +912,58 @@ if ([1, 2, 3].includes(surveyID)) {
 
         }
     });
-} else {
-    raw_data.forEach(entry => {
 
-        const row = tbody.append("tr");
+  }else{
     
-        const userData = getUserData(entry.email);
-    
-        row.append("td").text(formatDate(entry.timestamp) || "N/A");
-        row.append("td").text(userData ? userData.unit : "N/A");
-        row.append("td").text(userData ? userData.state : "N/A");
-        row.append("td").text(userData ? userData.rank : "N/A");
-        row.append("td").text(entry.email);
-        
-        if (entry.results) {
-            Object.keys(entry.results).forEach(key => {
-                let cellData = entry.results[key];
-                if (Array.isArray(cellData)) {
-                    cellData = cellData.join(", ");
-                }
-                row.append("td").text(cellData);
-            });
+    const latestVersionNumber = selectedVersion === 'latest' ? getLatestVersionNumber(raw_data, currentSurveyId).toString() : null;
+    let versionToUse = latestVersionNumber || selectedVersion;
+
+    let versionInfo = version_data.find(v => v.version.toString() === versionToUse && v.survey_id === currentSurveyId);
+    if (!versionInfo) {
+      console.log(`Fallback to current question_data prompts for version: ${versionToUse}`);
+      versionInfo = {
+        questions: question_data.reduce((obj, item, index) => {
+          obj[index + 1] = item.prompt;
+          return obj;
+        }, {})
+      };
+      if (selectedVersion === 'latest') {
+        versionToUse = latestVersionNumber;
+      }
+    }
+
+
+  
+    const filteredData = raw_data.filter(entry => entry.version.toString() === versionToUse && entry.survey_id === currentSurveyId);
+
+    const $tbody = $('table tbody').empty();
+
+    filteredData.forEach(entry => {
+      const $row = $('<tr></tr>');
+
+      const userData = getUserData(entry.email);
+
+      $row.append($("<td></td>").text(formatDate(entry.timestamp) || "N/A"));
+      $row.append($("<td></td>").text(userData.unit || "N/A"));
+      $row.append($("<td></td>").text(userData.state || "N/A"));
+      $row.append($("<td></td>").text(userData.rank || "N/A"));
+      $row.append($("<td></td>").text(entry.email || "N/A"));
+
+      Object.entries(versionInfo.questions).forEach(([key, _]) => {
+        let answer = entry.results[key];
+        if (Array.isArray(answer)) {
+          answer = answer.join(", ");
         }
-    });
-}
+        $row.append($("<td></td>").text(answer || "N/A"));
+      });
 
-}
+      $tbody.append($row);
+    });
+  }
+
+  }
+
+
 
 function initializeDataTable() {
     if ($.fn.dataTable.isDataTable('.table')) {
@@ -886,12 +1027,88 @@ document.getElementById("export-btn").addEventListener("click", function() {
 
 
 
-$(document).ready(function() {
+function populateVersionDropdown(currentSurveyId) {
+  const $versionSelector = $("#version-selector");
+
+  $versionSelector.find("option:not(:first)").remove();
+
+  const relevantVersionNumbers = version_data
+    .filter(v => v.survey_id === currentSurveyId)
+    .map(v => v.version);
+
+  relevantVersionNumbers
+    .sort((a, b) => a - b)
+    .forEach(versionNumber => {
+      $("<option></option>")
+        .val(versionNumber)
+        .text("Version " + versionNumber)
+        .appendTo($versionSelector);
+    });
+}
+
+
+
+$("#version-selector").change(function() {
+  const selectedVersion = $(this).val();
+  updateHeaderData(selectedVersion, surveyID);
+  rowTable(selectedVersion, surveyID);
+});
+
+
+
+
+
+
+function updateHeaderData(selectedVersion) {
+  let questionColumns;
+  if (selectedVersion === "latest") {
+    selectedVersion = version_data[0].version;
+  }
+
+  const versionInfo = version_data.find(v => v.version.toString() === selectedVersion);
+
+  if (versionInfo) {
+    questionColumns = Object.values(versionInfo.questions);
+  } else {
+    let questionHeaders = question_data.map(q => q.prompt);
+    questionColumns = questionHeaders;
+  }
+
+  headerData = fixedColumns.concat(questionColumns);
+
+  renderTableHeaders();
+  rowTable();
+}
+
+
+function renderTableHeaders() {
+  const $thead = $("table thead");
+  $thead.empty();
+  const $tr = $("<tr></tr>");
   
+  headerData.forEach(header => {
+    $("<th></th>")
+      .text(header)
+      .attr("data-toggle", "tooltip")
+      .attr("title", "Click to view responses")
+      .appendTo($tr);
+  });
+
+  $thead.append($tr);
+}
+
+function getLatestVersionNumber(rawData) {
+  return Math.max(...rawData.map(entry => entry.version));
+}
+
+$(document).ready(function() {
+  const latestVersionNumber = getLatestVersionNumber(raw_data).toString();
+    populateVersionDropdown(surveyID);
     headTable();
-    rowTable();
+    rowTable(latestVersionNumber, surveyID);
     initializeDataTable();
 });
+
 
 </script>
 
