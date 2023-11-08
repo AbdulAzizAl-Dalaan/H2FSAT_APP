@@ -6,6 +6,7 @@ var logger = require('morgan');
 const session = require('express-session')
 const sequelize = require('./db');
 const User = require('./models/User')
+const Unit = require('./models/Unit')
 
 const Survey_Info = require('./models/Survey/Survey_Info')
 const Survey_Q = require('./models/Survey/Survey_Q')
@@ -113,6 +114,12 @@ async function setup() {
   const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "Sgt", state: "VA" })
   const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true, state: "VA" })
   const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true, state: "VA" })
+  const ul1 = await User.create({ firstname: "John", lastname: "Smith", unit: "4th", email: "ul1", rank: "Sgt", password: "1234", isUnitLeader: true, state: "VA" })
+
+  const unit4 = await Unit.create({ uic: "4th", state: "VA", leader: "ul1" })
+  const unit1 = await Unit.create({ uic: "1st", state: "VA", leader: "brian.harder@army.mil" })
+
+
   // Users for the 1st unit
   const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt", state: "VA" });
   const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "Sgt", state: "VA" });
@@ -124,7 +131,7 @@ async function setup() {
   const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "Sgt", state: "VA" });
 
   // Users for the 2nd unit
-  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", rank: "Pvt", state: "NC" });
+  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", isUnitLeader: true, rank: "Pvt", state: "NC" });
   const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "2nd", email: "mark.taylor@army.mil", rank: "Pvt", state: "NC" });
   const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "2nd", email: "karen.anderson@army.mil", rank: "Sgt", state: "NC" });
   const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "2nd", email: "chris.lee@army.mil", rank: "Pvt", state: "NC" });
@@ -134,8 +141,10 @@ async function setup() {
   const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "2nd", email: "kevin.zhang@army.mil", rank: "Pvt", state: "NC" });
   const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "2nd", email: "michelle.li@army.mil", rank: "Sgt", state: "NC" });
 
+  const unit2 = await Unit.create({ uic: "2nd", state: "NC", leader: "amy.wilson@army.mil"})
+
   // Users for the 3rd unit
-  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", rank: "Pvt", state: "PA" });
+  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", isUnitLeader: true, rank: "Pvt", state: "PA" });
   const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "3rd", email: "stephanie.chang@army.mil", rank: "Pvt", state: "PA" });
   const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "3rd", email: "jason.chen@army.mil", rank: "Sgt", state: "PA" });
   const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "3rd", email: "rachel.liu@army.mil", rank: "Pvt", state: "PA" });
@@ -144,6 +153,8 @@ async function setup() {
   const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "Pvt", state: "PA" });
   const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "Pvt", state: "PA" });
   const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "Sgt", state: "PA" });
+
+  const unit3 = await Unit.create({ uic: "3rd", state: "PA", leader: "andrew.wu@army.mil"})
 
   const empty_user = await User.create({ firstname: "John", lastname: "Smith", email: "eu" }) // edit email to be John Smith for walkthrough
 
@@ -212,7 +223,7 @@ async function setup() {
   const h2f_q10_a2 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 2, text: "False"})
 
 
-  const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cogntive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
+  const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cognitive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
   isCore: true, card_img: "/images/default_imgs/img1.png", version: 1})
   
   const cpa_q1    = await Survey_Q.create({survey_id: 2, question_id: 1, header: "Motivation to live a healthy lifestyle in each category", prompt: "Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1, core_category: "Motivation"})
@@ -440,18 +451,45 @@ async function setup() {
   const core_res26 = await Core_Result.create({user_email: "steven.liu@army.mil", h2f_results: {"Sleep": 0, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 50}, cpa_results: {"Ability": 33, "Current": 33, "Motivation": 32}, h2f_flag: "Sleep-Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "PASSED" })
 
   
-  const notification1 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Physical", description: "You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
-  const notification2 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Nutrition",description: "You have scores significantly lower than your peers in the Nutrition domain of the assessment specified above. Please contact your unit's nutritionist to schedule a consultation."})
-  const notification3 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Spiritual",description: "You have scores significantly lower than your peers in the Spiritual domain of the assessment specified above. Please contact your unit's Spiritul Specialist to schedule a consultation."})
-  const notification4 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Mental",description: "You have scores significantly lower than your peers in the Mental domain of the assessment specified above. Please contact your unit's mental health specialist to schedule a consultation."})
-  const notification5 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Sleep",description: "You have scores significantly lower than your peers in the Sleep domain of the assessment specified above. Please contact your unit's sleep specialist to schedule a consultation."})
+  const u1notification1 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Physical", description: "You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
+  const u1notification2 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Nutrition",description: "You have scores significantly lower than your peers in the Nutrition domain of the assessment specified above. Please contact your unit's nutritionist to schedule a consultation."})
+  const u1notification3 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Spiritual",description: "You have scores significantly lower than your peers in the Spiritual domain of the assessment specified above. Please contact your unit's Spiritul Specialist to schedule a consultation."})
+  const u1notification4 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Mental",description: "You have scores significantly lower than your peers in the Mental domain of the assessment specified above. Please contact your unit's mental health specialist to schedule a consultation."})
+  const u1notification5 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Sleep",description: "You have scores significantly lower than your peers in the Sleep domain of the assessment specified above. Please contact your unit's sleep specialist to schedule a consultation."})
 
-  const notification6 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Motivation",description: "You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation.", resource_email: "John.Smith@gmail.com"})
-  const notification7 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Ability",description: "You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
-  const notification8 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Current",description: "You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
+  const u1notification6 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Motivation",description: "You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation.", resource_email: "John.Smith@gmail.com"})
+  const u1notification7 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Ability",description: "You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
+  const u1notification8 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Current",description: "You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
 
-  const notification9 = await Notification.create({unit: "1st", core_assessment_id: 3,  core_category: "PT", description: "You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation.", resource_email: "John.Smith@gmail.com", resource_phone: "555-555-5555"})
-  const notification10 = await Notification.create({unit: "1st", core_assessment_id: 3, core_category: "MFT", description: "You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer at john.smith@army.mil to schedule a consultation.", resource_email: "Jane.Doe@gmail.com", resource_phone: "333-333-3333" })
+  const u1notification9 = await Notification.create({unit: "1st", core_assessment_id: 3,  core_category: "PT", description: "You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation.", resource_email: "John.Smith@gmail.com", resource_phone: "555-555-5555"})
+  const u1notification10 = await Notification.create({unit:"1st", core_assessment_id: 3, core_category: "MFT", description: "You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer at john.smith@army.mil to schedule a consultation.", resource_email: "Jane.Doe@gmail.com", resource_phone: "333-333-3333" })
+
+  const u2notification1 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Physical", description: "2nd You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
+  const u2notification2 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Nutrition",description: "2nd You have scores significantly lower than your peers in the Nutrition domain of the assessment specified above. Please contact your unit's nutritionist to schedule a consultation."})
+  const u2notification3 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Spiritual",description: "2nd You have scores significantly lower than your peers in the Spiritual domain of the assessment specified above. Please contact your unit's Spiritul Specialist to schedule a consultation."})
+  const u2notification4 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Mental",description: "2nd You have scores significantly lower than your peers in the Mental domain of the assessment specified above. Please contact your unit's mental health specialist to schedule a consultation."})
+  const u2notification5 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Sleep",description: "2nd You have scores significantly lower than your peers in the Sleep domain of the assessment specified above. Please contact your unit's sleep specialist to schedule a consultation."})
+
+  const u2notification6 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Motivation",description: "2nd You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation.", resource_email: "John.Smith@gmail.com"})
+  const u2notification7 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Ability",description: "2nd You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
+  const u2notification8 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Current",description: "2nd You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
+
+  const u2notification9 = await Notification.create({unit:  "2nd", core_assessment_id: 3,  core_category: "PT", description: "2nd You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation.", resource_email: "John.Smith@gmail.com", resource_phone: "555-555-5555"})
+  const u2notification10 = await Notification.create({unit: "2nd", core_assessment_id: 3, core_category: "MFT", description: "2nd You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer at john.smith@army.mil to schedule a consultation.", resource_email: "Jane.Doe@gmail.com", resource_phone: "333-333-3333" })
+
+
+  const u4notification1 = await Notification.create({unit: "4th", core_assessment_id: 1, core_category: "Physical", description: "4th You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
+  const u4notification2 = await Notification.create({unit: "4th", core_assessment_id: 1, core_category: "Nutrition",description: "4th You have scores significantly lower than your peers in the Nutrition domain of the assessment specified above. Please contact your unit's nutritionist to schedule a consultation."})
+  const u4notification3 = await Notification.create({unit: "4th", core_assessment_id: 1, core_category: "Spiritual",description: "4th You have scores significantly lower than your peers in the Spiritual domain of the assessment specified above. Please contact your unit's Spiritul Specialist to schedule a consultation."})
+  const u4notification4 = await Notification.create({unit: "4th", core_assessment_id: 1, core_category: "Mental",description: "4th You have scores significantly lower than your peers in the Mental domain of the assessment specified above. Please contact your unit's mental health specialist to schedule a consultation."})
+  const u4notification5 = await Notification.create({unit: "4th", core_assessment_id: 1, core_category: "Sleep",description: "4th You have scores significantly lower than your peers in the Sleep domain of the assessment specified above. Please contact your unit's sleep specialist to schedule a consultation."})
+
+  const u4notification6 = await Notification.create({unit: "4th", core_assessment_id: 2, core_category: "Motivation",description: "4th You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
+  const u4notification7 = await Notification.create({unit: "4th", core_assessment_id: 2, core_category: "Ability",description: "4th You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
+  const u4notification8 = await Notification.create({unit: "4th", core_assessment_id: 2, core_category: "Current",description: "4th You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
+
+  const u4notification9 = await Notification.create({unit: "4th", core_assessment_id: 3,  core_category: "PT", description: "4th You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation."} )
+  const u4notification10 = await Notification.create({unit: "4th", core_assessment_id: 3, core_category: "MFT", description: "4th You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer" })
 
 
   console.log("Data Entered")

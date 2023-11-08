@@ -98,6 +98,26 @@
     aria-label="Close"
   ></button>
 </div>
+<% break; case "delcore":%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>You cannot delete Core Assessments (i.e., Holisitic Health, Cognitive Performance, and Movement Screening) Assessments </strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<% break; case "editcore":%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>You cannot edit the following Core Assessments; Cognitive Performance, and Movement Screening Assessments </strong>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
 <% break; case "h2f":%>
 <% if (User_Result.h2f_flag === "PASSED") { %>
   <div class="alert alert-success alert-dismissible fade show" role="alert">

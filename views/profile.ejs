@@ -60,7 +60,7 @@ h2 {
   background: #20202D;
   padding: 30px;
   width: 90%;
-  max-width: 450px;
+  max-width: 445px;
   position: relative;
   padding: 0px;
   -webkit-box-shadow: 0 20px 20px 0 rgba(218, 4, 4, 0.3);
@@ -271,6 +271,14 @@ a
   font-weight: 400;
 }
 
+label {
+  color: #FEC325;
+}
+
+label[for="rank"] option {
+  font-size: 3px; /* Change this to the size you want */
+}
+
 /* OTHERS */
 
 *:focus {
@@ -301,35 +309,14 @@ a
     </div>
 
     <!-- Login Form -->
-    <form method="post" action="/profile" style="align-items: center;">
-      <div class="form-group">
-          <label for="unit">UIC:</label>
+    <form method="post" action="/profile">
+      <div class="form-group" style="text-align: left;padding-left: 45px;">
+          <label for="unit" style="padding-right: 60px;">UIC:</label>
           <input type="text" id="login" class="form-control" required name="unit" placeholder="unit" maxlength="6">
       </div>
-
-      <div class="form-group">
-        <label for="rank">rank:</label>
-        <select class="form-select" id="rank" required name="rank">
-          <option selected disabled value="">Choose...</option>
-          <option value="PVT">PRIVATE (PVT)</option>
-          <option value="PV2">PRIVATE (PV2)</option>
-          <option value="PFC">PRIVATE FIRST CLASS (PFC)</option>
-          <option value="SPC">SPECIALIST (SPC)</option>
-          <option value="CPL">CORPORAL (CPL)</option>
-          <option value="SGT">SERGEANT (SGT)</option>
-          <option value="SSG">STAFF SERGEANT (SSG)</option>
-          <option value="SFC">SERGEANT FIRST CLASS (SFC)</option>
-          <option value="MSG">MASTER SERGEANT (MSG)</option>
-          <option value="1SG">FIRST SERGEANT (1SG)</option>
-          <option value="SGM">SERGEANT MAJOR (SGM)</option>
-          <option value="CSM">COMMAND SERGEANT MAJOR (CSM)</option>
-          <option value="SMA">SERGEANT MAJOR OF THE ARMY (SMA)</option>
-          <!-- Add the rest of the ranks here -->
-        </select>
-      </div>
         
-      <div class="form-group">
-        <label for="state">State:</label>
+      <div class="form-group"style="text-align: left; padding-left: 45px;">
+        <label for="state" style="padding-right: 50px;">State:</label>
         <select class="form-select" id="state" required name="state">
           <option selected disabled value="">Choose...</option>
           <option value="AL">Alabama</option>
@@ -385,18 +372,42 @@ a
           <!-- Add the rest of the states here -->
         </select>
       </div>
-      <div class="form-group">
-        <label for="gender">Gender:</label>
+      <div class="form-group"style="text-align: left; padding-left: 45px;">
+        <label for="gender" style="padding-right: 35px;">Gender:</label>
         <select class="form-select" id="gender" required name="gender">
           <option selected disabled value="">Choose...</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </select>
       </div>
-      <label for="Date of Birth"> 
-        Date of Birth: 
-        <input type="date" required name="dob"> 
-    </label> 
+      <div class="form-group"style="text-align: left; padding-left: 45px;">
+        <label for="Date of Birth"> 
+          Date of Birth: 
+          <input type="date" required name="dob"> 
+        </label> 
+      </div>
+
+      <div class="form-group"style="text-align: left; padding-left: 45px;">
+        <label for="rank">Rank:</label>
+        <select class="form-select" id="rank" required name="rank">
+          <option selected disabled value="">Choose...</option>
+          <option value="PVT">PRIVATE (PVT)</option>
+          <option value="PV2">PRIVATE (PV2)</option>
+          <option value="PFC">PRIVATE FIRST CLASS (PFC)</option>
+          <option value="SPC">SPECIALIST (SPC)</option>
+          <option value="CPL">CORPORAL (CPL)</option>
+          <option value="SGT">SERGEANT (SGT)</option>
+          <option value="SSG">STAFF SERGEANT (SSG)</option>
+          <option value="SFC">SERGEANT FIRST CLASS (SFC)</option>
+          <option value="MSG">MASTER SERGEANT (MSG)</option>
+          <option value="1SG">FIRST SERGEANT (1SG)</option>
+          <option value="SGM">SERGEANT MAJOR (SGM)</option>
+          <option value="CSM">COMMAND SERGEANT MAJOR (CSM)</option>
+          <option value="SMA">SERGEANT MAJOR OF THE ARMY (SMA)</option>
+          <!-- Add the rest of the ranks here -->
+        </select>
+      </div>
+      
       <input type="submit" class="fadeIn fourth" value="Save Profile Information">
     </form>
 

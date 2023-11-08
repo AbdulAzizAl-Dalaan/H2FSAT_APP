@@ -5,7 +5,7 @@ const User = require('./User');
 class Unit extends Model { }
 
 Unit.init({
-    unit_id: // Unit Identification Code String
+    uic: // Unit Identification Code String
     {
         type: DataTypes.STRING,
         allowNull: false,
