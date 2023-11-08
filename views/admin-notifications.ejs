@@ -35,32 +35,35 @@
         This page should contain information about the unit, including the unit's H2F assessment results.
     </p>
     
-
-    <div class="table-responsive">
-        <table id="example" class="table table-striped table-bordered" style="width:100%">
-
-            <div class="container mt-4">
-                <table id="datatable" class="table">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">Unit Identification Code</th>
-                            <th scope="col">Unit Leader</th>
-                            <th scope="col">Core Notifications</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% state_units.forEach(unit => { %>
+    <% if (state_units.length !== 0) { %>
+        <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <div class="container mt-4">
+                    <table id="datatable" class="table">
+                        <thead class="table-dark">
                             <tr>
-                                <td> <%= unit.uic %> </td>
-                                <td> <%= unit.leader %> </td>
-                                <td><a href="/notification/<%= unit.uic %>">edit</a></td>
+                                <th scope="col">Unit Identification Code</th>
+                                <th scope="col">Unit Leader</th>
+                                <th scope="col">Core Notifications</th>
                             </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            </div>
-        </table>
-    </div>
+                        </thead>
+                        <tbody>
+                            <% state_units.forEach(unit => { %>
+                                <tr>
+                                    <td> <%= unit.uic %> </td>
+                                    <td> <%= unit.leader %> </td>
+                                    <td><a href="/notification/<%= unit.uic %>">edit</a></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </table>
+        </div>
+     
+    <% } else { %>
+        <p style="text-align: center;">There are no units in <%= state %>.</p>
+    <% } %>
 </div>
 
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
