@@ -17,6 +17,12 @@ Survey_D.init({
         allowNull: false, 
         primaryKey: true
     },
+    version: 
+    {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+    },
     results: // should be stored as a JSON object with the question_id as the key and the answer_id as the value
     {
         type: DataTypes.JSON,

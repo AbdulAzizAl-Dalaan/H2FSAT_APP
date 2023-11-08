@@ -55,7 +55,7 @@ router.get('/:id', async function (req, res, next) {
 
   const core_results = await Core_Result.findAll();
 
-  const version_results = await Survey_V.findAll();
+  const version_results = await Survey_V.findAll({ where: { survey_id: req.params.id } });
 
   const user_results = await User.findAll({
     attributes: ['unit', 'state', 'rank', 'email']

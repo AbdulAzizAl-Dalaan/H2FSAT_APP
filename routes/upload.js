@@ -136,10 +136,12 @@ async function saveResponses(xlData, headers, emailHeader, surveyId, questionIdM
             if(row['Timestamp']) existingResponse.timestamp = row['Timestamp'];  //saving timestamp
             await existingResponse.save();
         } else {
+            const survey = await Survey_Info.findOne({ where: { survey_id: surveyId } });
             const responseData = {
                 survey_id: surveyId,
                 email: email,
                 results: results,
+                version: survey.version,
                 timestamp: row['Timestamp']  //saving timestamp
             };
             await Survey_D.create(responseData);
