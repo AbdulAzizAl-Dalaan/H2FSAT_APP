@@ -6,6 +6,7 @@ const Survey_Q = require("../models/Survey/Survey_Q");
 const Survey_A = require("../models/Survey/Survey_A");
 const Survey_R = require("../models/Survey/Survey_R");
 const Survey_V = require("../models/Survey/Survey_V");
+const Survey_D = require("../models/Survey/Survey_D");
 const { Op } = require("sequelize");
 
 const sessionChecker = (req, res, next) => {
@@ -36,6 +37,12 @@ router.get("/:id", async function (req, res, next) {
 
     const survey = await Survey_Info.findByPk(req.params.id);
     if (survey) {
+
+      if (survey.isCore && survey.survey_id != 1) {
+        res.redirect("/home/?msg=editcore");
+        return;
+      }
+
       const survey_questions = await Survey_Q.findAll({
         where: { survey_id: survey.survey_id },
       });
@@ -64,7 +71,12 @@ router.get("/:id", async function (req, res, next) {
       //     console.log("    Answer:", answer.text);
       //   });
       // });
-      res.render("edit", { survey, questions_data });
+      if (survey.isCore && survey.survey_id == 1) {
+        res.render("h2f-edit", { survey, questions_data });
+        
+      } else {
+        res.render("edit", { survey, questions_data });
+      }
     } else {
       res.redirect("home/?msg=notfound");
     }
@@ -211,6 +223,10 @@ router.post("/delete/:id", async function (req, res, next) {
   if (res.locals.email && res.locals.isAdmin) {
     const survey = await Survey_Info.findByPk(req.params.id);
     if (survey) {
+      if (!survey.isCore) {
+
+      await Survey_D.destroy({ where: { survey_id: survey.survey_id } });
+
       await Survey_V.destroy({ where: { survey_id: survey.survey_id } });
 
       await Survey_R.destroy({ where: { survey_id: survey.survey_id } });
@@ -222,6 +238,9 @@ router.post("/delete/:id", async function (req, res, next) {
       await survey.destroy();
 
       res.redirect("/home/?msg=delete");
+      } else {
+        res.redirect("/home/?msg=delcore");
+      }
     } else {
       res.redirect("/home/?msg=notfound");
     }
