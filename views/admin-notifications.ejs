@@ -28,11 +28,11 @@
 <div class="content">
     <div class="row mb-3" style="padding-top: 10px">
         <div class="col-12 text-center">
-          <h1 style="text-decoration: underline;">Results Page</h1>
+          <h1 style="text-decoration: underline;">Admin Notifications</h1>
         </div>
       </div>
     <p>
-        This page should contain information about the unit, including the unit's H2F assessment results.
+        This page allows all admin users to edit the notifications of the core assessments for all units in their respective state.
     </p>
     
     <% if (state_units.length !== 0) { %>
@@ -62,7 +62,7 @@
         </div>
      
     <% } else { %>
-        <p style="text-align: center;">There are no units in <%= state %>.</p>
+        <p style="text-align: center;">There are no units in <strong><%= state %></strong>.</p>
     <% } %>
 </div>
 

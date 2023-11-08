@@ -407,6 +407,18 @@ label[for="rank"] option {
           <!-- Add the rest of the ranks here -->
         </select>
       </div>
+
+      <% if(locals.msg && msg==="profile-date-error") { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <p class="mb-0">You need to be at least 17 years old.</p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">&times</button>
+        </div>
+        <% } else if(locals.msg && msg==="profile-unit-error") { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <p class="mb-0">Your Unit/UIC does not exist within the chosen State.</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">&times</button>
+          </div>
+          <% } %>
       
       <input type="submit" class="fadeIn fourth" value="Save Profile Information">
     </form>
