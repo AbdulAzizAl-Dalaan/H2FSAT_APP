@@ -17,13 +17,13 @@ describe('File Upload Test', function() {
     
     const loginLink = await driver.wait(until.elementLocated(By.xpath("//*[contains(text(), 'Login as Unit Leader or Admin')]")), 100000);
     await driver.executeScript("arguments[0].click();", loginLink);
-    console.log("am I here 1");
+    
 
 
   });
 
   it('should navigate to passlogin and login', async function() {
-    //console.log("Am i getting here at all?");
+    
     await driver.wait(until.urlIs('http://localhost:3000/passlogin'), 100000);
     const currentUrl = await driver.getCurrentUrl();
     expect(currentUrl).to.equal('http://localhost:3000/passlogin');
@@ -37,7 +37,7 @@ describe('File Upload Test', function() {
 
     const passwordInput = await driver.wait(until.elementIsVisible(driver.findElement(By.id('password'))), 10000);
 
-    console.log("did i get here too444");
+    
 
     await emailInput.sendKeys('brian.harder@army.mil');
     
@@ -47,7 +47,7 @@ describe('File Upload Test', function() {
     const submitButton = await driver.findElement(By.css('input[type="submit"]'));
     await submitButton.click();
     
-    console.log("did i get here too333");
+    
   });
 
   
@@ -64,7 +64,7 @@ describe('File Upload Test', function() {
     await uploadLink.click();
 
     const currentUrl = await driver.getCurrentUrl();
-    //console.log(currentUrl);
+    
     expect(currentUrl).to.equal('http://localhost:3000/upload');
   });
 
@@ -98,11 +98,7 @@ describe('File Upload Test', function() {
     //wait for the success message to be displayed
     const successAlert = await driver.wait(until.elementLocated(By.css('.alert.alert-success')), 10000);
     const alertText = await successAlert.getText();
-
-    
     expect(alertText).to.contain('CSV data successfully uploaded');
-
-    
 
     const currentUrl = await driver.getCurrentUrl();
     expect(currentUrl).to.equal('http://localhost:3000/home/?msg=uploaded');
@@ -115,7 +111,7 @@ it('should take me back to upload page', async function() {
   await uploadLink.click();
 
   const currentUrl = await driver.getCurrentUrl();
-  //console.log(currentUrl);
+  
   expect(currentUrl).to.equal('http://localhost:3000/upload');
 });
 
