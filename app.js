@@ -160,7 +160,7 @@ async function setup() {
 
 
 
-  const h2f_info = await Survey_Info.create({author: "brian.harder@army.mil", title: "Holistic Health Assessment", description: "H2F is designed to optimize Soldier personal readiness,\
+  const h2f_info = await Survey_Info.create({author: "brian.harder@army.mil", title: "Knowledge Check", description: "H2F is designed to optimize Soldier personal readiness,\
   reduce injury rates, improve rehabilitation after injury, and increase the overall effectiveness of the Total Army. These assessment tools are designed to help you identify your strengths\
    and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of the Army National Guard along with the PHA.", isCore: true, version: 1,  card_img: "/images/default_imgs/img3.png"})
 

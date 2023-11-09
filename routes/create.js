@@ -30,7 +30,8 @@ router.get("/", async function (req, res, next) {
   console.log(res.locals.email);
   console.log(res.locals.isAdmin);
   if (res.locals.email && res.locals.isAdmin) {
-    res.render("create");
+    questions_data = {};
+    res.render("create", { questions_data });
   } else {
     res.redirect("/home/?msg=noaccess");
   }
