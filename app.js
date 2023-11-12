@@ -103,6 +103,7 @@ app.use(function (err, req, res, next) {
 
 async function setup() {
   // Test Admin User
+  /*
   const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "Cpt", password: '1', gender: 'male', isAdmin: true, state: "WA" })
 
   // SUBU TEST USERS
@@ -490,15 +491,19 @@ async function setup() {
 
   const u4notification9 = await Notification.create({unit: "4th", core_assessment_id: 3,  core_category: "PT", description: "4th You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation."} )
   const u4notification10 = await Notification.create({unit: "4th", core_assessment_id: 3, core_category: "MFT", description: "4th You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer" })
-
+  */
 
   console.log("Data Entered")
 }
 
 
-sequelize.sync({ force: true, alter: true }).then(() => {
-  console.log("Database synced")
-  setup().then(() => console.log("Setup completed"))
-})
+sequelize.sync({ force: false, alter: true }).then(() => {
+  console.log("Database synced");
+  setup().then(() => console.log("Setup completed")).catch(err => {
+    console.error("Setup failed:", err);
+  });
+}).catch(err => {
+  console.error("Database sync failed:", err);
+});
 
 module.exports = app;

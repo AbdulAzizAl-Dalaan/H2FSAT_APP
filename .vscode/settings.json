@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/ee785690-abcb-43c1-9159-d807a3bbcf5a/resourceGroups/h2f-resources/providers/Microsoft.Web/sites/h2f-app",
+    "appService.deploySubpath": "."
+}
