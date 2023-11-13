@@ -38,7 +38,7 @@ router.get("/:id", async function (req, res, next) {
     const survey = await Survey_Info.findByPk(req.params.id);
     if (survey) {
 
-      if (survey.isCore && survey.survey_id != 1) {
+      if (survey.isCore) { // CHANGE THIS BACK TO 1 FOR KC LATER CHANGE DEPLOY
         res.redirect("/home/?msg=editcore");
         return;
       }

@@ -26,4 +26,12 @@ const sequelize = new Sequelize(database, username, password, {
     }
 });
 
+// const sequelize = new Sequelize('new_database', 'root', 'Password123#@!', {
+//     host: 'localhost',
+//     dialect: 'mysql',
+//     define: {
+//         timestamps: false
+//     }
+// })
+
 module.exports = sequelize;
