@@ -112,7 +112,7 @@ async function setup() {
   const admin5 = await User.create({ firstname: "Mark", lastname: "Zackary", unit: "5th",  email: "mark.zackary@army.mil", rank: "MAJ", password: '1234', isAdmin: true, state: "TX" })
 
   // ALL UNIT LEADERS 
-  const ul1 = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st",    email: "jane.doe@army.mil", rank: "SSG", password: '1234', isUnitLeader: true, state: "VA" })
+  const ul1 = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st",   email: "jane.doe@army.mil" , isUnitLeader: true, rank: "1SG", state: "VA", password: "1234" });
   const ul2 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd",  email: "amy.wilson@army.mil", isUnitLeader: true, rank: "MSG", state: "NC", password: "1234" });
   const ul3 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd",   email: "andrew.wu@army.mil", isUnitLeader: true, rank: "1SG", state: "PA", password: "1234" });
   const ul4 = await User.create({ firstname: "John", lastname: "Smith", unit: "4th",  email: "john.smith@army.mil", rank: "CSM", password: "1234", isUnitLeader: true, state: "VA" })
@@ -150,7 +150,7 @@ async function setup() {
   const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd",      email: "steven.liu@army.mil", rank: "SGT", state: "PA" });
 
   // All Units 
-  const unit1 = await Unit.create({ uic: "1st", state: "VA", leader: "brian.adams@army.mil" })
+  const unit1 = await Unit.create({ uic: "1st", state: "VA", leader: "jane.doe@army.mil" })
   const unit2 = await Unit.create({ uic: "2nd", state: "NC", leader: "amy.wilson@army.mil"})
   const unit3 = await Unit.create({ uic: "3rd", state: "PA", leader: "andrew.wu@army.mil"})
   const unit4 = await Unit.create({ uic: "4th", state: "VA", leader: "john.smith@army.mil" })
