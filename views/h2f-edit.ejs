@@ -1,487 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/images/ARNG.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>H2F Edit Assessment</title>
+    <style>
+      .form-group {
+        margin: 10px;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="/images/ARNG.png" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-  <title>H2F Edit Assessment</title>
-  <style>
-    .form-group {
-      margin: 10px;
-    }
+      .content {
+        max-width: 1000px;
+        margin: auto;
+        margin-top: 20px;
+      }
 
-    .content {
-      max-width: 1000px;
-      margin: auto;
-      margin-top: 20px;
-    }
+      .question-title-space {
+        margin-top: 60px;
+      }
 
-    .question-title-space {
-      margin-top: 60px;
-    }
+      .textbox-space {
+        margin-top: 20px;
+      }
 
-    .textbox-space {
-      margin-top: 20px;
-    }
+      .button-right {
+        float: right;
+      }
 
-    .button-right {
-      float: right;
-    }
+      .button-space {
+        margin-top: 20px;
+      }
 
-    .button-space {
-      margin-top: 20px;
-    }
+      .option-container {
+        display: flex;
+        align-items: center; /* Align items vertically */
+        margin-bottom: 0.5rem; /* Space between option containers */
+      }
 
-    body {
-      padding-bottom: 20px;
-    }
-  </style>
-  <link rel="stylesheet" href="/stylesheets/style.css" />
-</head>
+      .option-container .form-control {
+        margin-left: 0.5rem; /* Space between radio button and text input */
+        flex-grow: 1; /* Allow the text input to fill the space */
+      }
 
-<body>
-  <%- include('header') %> 
-    <%- include("appmsg") %>
+      body {
+        padding-bottom: 20px;
+      }
+    </style>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
 
-      <div class="content">
-        <div class="row mb-3" style="padding-top: 10px">
-          <div class="col-12 text-center">
-            <h1 style="text-decoration: underline">Edit Assessment Information</h1>
+  <body>
+    <%- include('header') %> <%- include("appmsg") %>
+
+    <div class="content">
+      <div class="row mb-3" style="padding-top: 10px">
+        <div class="col-12 text-center">
+          <h1 style="text-decoration: underline">
+            Edit Assessment Information
+          </h1>
+        </div>
+      </div>
+
+      <form method="post" action="/edit/h2f/knowledgecheck">
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            value="<%= survey.title %>"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea
+            class="form-control"
+            id="description"
+            name="description"
+            rows="3"
+          >
+<%= survey.description %></textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <% if (survey.secure) { %>
+          <label for="secure">Change Password:</label>
+          <% } else { %>
+          <label for="secure">Add Password:</label>
+          <% } %>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="secure"
+            name="secure"
+            onchange="togglePasswordInput()"
+          />
+          <div id="passwordFields" style="display: none">
+            <% if (survey.secure) { %>
+            <div class="form-group">
+              <label for="oldPassword">Old Password:</label>
+              <input
+                type="password"
+                class="form-control"
+                id="oldPassword"
+                name="oldPassword"
+                disabled
+              />
+            </div>
+            <% } %>
+            <div class="form-group">
+              <label for="newPassword">New Password:</label>
+              <input
+                type="password"
+                class="form-control"
+                id="newPassword"
+                name="newPassword"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="confirmNewPassword">Confirm New Password:</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmNewPassword"
+                name="confirmNewPassword"
+                disabled
+              />
+            </div>
           </div>
         </div>
 
-        <form method="post" action="/edit/<%= survey.survey_id %>">
-          <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title" name="title" value="<%= survey.title %>" required />
-          </div>
-          <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea class="form-control" id="description" name="description"
-              rows="3"><%= survey.description %></textarea>
-          </div>
-          
-          <div class="form-group">
-            <% if (survey.secure) { %>
-              <label for="secure">Change Password:</label>
-            <% } else { %>
-            <label for="secure">Add Password:</label>
-            <% } %>
-            <input type="checkbox" class="form-check-input" id="secure" name="secure" onchange="togglePasswordInput()" />
-            <div id="passwordFields" style="display: none;">
-              <% if (survey.secure) { %>
-                <div class="form-group">
-                  <label for="oldPassword">Old Password:</label>
-                  <input type="password" class="form-control" id="oldPassword" name="oldPassword" disabled />
-                </div>
-              <% } %>
-              <div class="form-group">
-                <label for="newPassword">New Password:</label>
-                <input type="password" class="form-control" id="newPassword" name="newPassword" disabled />
-              </div>
-              <div class="form-group">
-                <label for="confirmNewPassword">Confirm New Password:</label>
-                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" disabled />
-              </div>
-            </div>
-          </div>
+        <div id="questions">
+          <!-- Question fields will be dynamically generated here -->
+        </div>
 
-          <div id="questions">
-            <!-- Question fields will be dynamically generated here -->
-          </div>
+        <div class="form-group button-space">
+          <button type="button" class="btn btn-primary" onclick="addQuestion()">
+            Add Question
+          </button>
+        </div>
 
-          <div class="form-group button-space">
-            <button type="button" class="btn btn-primary" onclick="addQuestion()">
-              Add Question
+        <input
+          type="hidden"
+          id="num_questions"
+          name="num_questions"
+          value="0"
+        />
+
+        <div class="form-group row mb-3" style="padding-top: 10px">
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-success">
+              Save Assessment
             </button>
           </div>
+        </div>
+      </form>
+    </div>
+  </body>
 
-          <input type="hidden" id="num_questions" name="num_questions" value="0" />
+  <script>
+            let questionCount = 0;
 
-          <div class="form-group row mb-3" style="padding-top: 10px">
-            <div class="col-12 text-center">
-              <button type="submit" class="btn btn-success">Save Assessment</button>
-            </div>
-          </div>
-        </form>
-      </div>
-</body>
-
-      <script>
-        let questionCount = 0;
-
-        let current_survey_questions = <%- JSON.stringify(questions_data) %>; // AUTO FORMATTING WILL BREAK THE - IN THE EJS TAG
-        current_survey_questions.forEach((question, index) => { // repopulate the questions for the first time
-          addQuestion(question, index)
-        });
-
-        function repopulateQuestions() {
-          // delete everything in the questions div
-          questionCount = 0
-          const questionsDiv = document.getElementById('questions');
-          questionsDiv.innerHTML = "";
-          current_survey_questions.forEach((question, index) => {
-            addQuestion(question, index)
-          });
-          if (current_survey_questions.length === 0) {
-            questionCount = 0;
-            document.getElementById('num_questions').value = questionCount;
-          }
-        }
-
-        function deleteQuestion(questionNumber) {
-          // delete from current_survey_questions
-          saveQuestionsState();
-          current_survey_questions.splice(questionNumber - 1, 1);
-        }
-
-        function changeQuestionType(questionNumber) {
-          // change question type in current_survey_questions
-          const questionTypeSelect = document.querySelector(`select[name="question_${questionNumber}_type"]`);
-          const questionType = questionTypeSelect.value;
-          current_survey_questions[questionNumber - 1].type = questionType;
-          saveQuestionsState();
-          repopulateQuestions();
-        }
-
-        function saveQuestionsState() {
-          // clear the current_survey_questions array
-          current_survey_questions = [];
-
-          const questionsDiv = document.getElementById('questions');
-          const questionDivs = questionsDiv.children;
-
-          // iterate through the question divs and save the state into current_survey_questions
-          for (let i = 0; i < questionDivs.length; i += 2) {
-            const questionTypeFormGroup = questionDivs[i];
-            const questionFieldsDiv = questionDivs[i + 1];
-          
-            const questionTitle = questionTypeFormGroup.querySelector('input[type="text"]');
-            const questionTypeSelect = questionTypeFormGroup.querySelector('select');
-            const questionType = questionTypeSelect.value;
-            const questionTitleValue = questionTitle.value;
-          
-            // create a new question object
-            const question = {
-              prompt: questionTitleValue,
-              type: questionType,
-              answers: []
-            };
-          
-            if (questionType === "checkbox" || questionType === "multiple_choice") {
-              // get all the options
-              const options = questionFieldsDiv.querySelectorAll('input[type="text"]');
-              options.forEach(option => {
-                const optionValue = option.value;
-                const optionObj = {
-                  text: optionValue
-                };
-                question.answers.push(optionObj);
-              });
-            } else if (questionType === "number_range") {
-              const topRangeInput = questionFieldsDiv.querySelector('input[name*="top"]');
-              const bottomRangeInput = questionFieldsDiv.querySelector('input[name*="bottom"]');
-              const topRangeValue = topRangeInput.value;
-              const bottomRangeValue = bottomRangeInput.value;
-              question.top_range = topRangeValue;
-              question.bottom_range = bottomRangeValue;
-            }
-          
-            // push the question into current_survey_questions
-            current_survey_questions.push(question);
-            console.log(current_survey_questions);
-          }
-        }       
-
-        function addQuestion(question = null, index = null) { // handles the question input fields
-          questionCount++;
-
-          // creates the dropdown
-          const questionTypeSelect = document.createElement("select");
-          questionTypeSelect.classList.add("form-control", "textbox-space");
-          questionTypeSelect.setAttribute(
-            "name",
-            `question_${questionCount}_type`
-          );
-          questionTypeSelect.setAttribute(
-            "onchange",
-            `toggleQuestionFields(${null}, ${questionCount}, ${questionTypeSelect})`
-          );
-
-          const checkboxOption = document.createElement("option");
-          checkboxOption.setAttribute("value", "checkbox");
-          checkboxOption.textContent = "Checkbox";
-          questionTypeSelect.appendChild(checkboxOption);
-
-          const multipleChoiceOption = document.createElement("option");
-          multipleChoiceOption.setAttribute("value", "multiple_choice");
-          multipleChoiceOption.textContent = "Multiple Choice";
-          questionTypeSelect.appendChild(multipleChoiceOption);
-
-          const textOption = document.createElement("option");
-          textOption.setAttribute("value", "text");
-          textOption.textContent = "Text";
-          questionTypeSelect.appendChild(textOption);
-
-          const numberRangeOption = document.createElement("option");
-          numberRangeOption.setAttribute("value", "number_range");
-          numberRangeOption.textContent = "Number Range";
-          questionTypeSelect.appendChild(numberRangeOption);
-
-          const questionTypeFormGroup = document.createElement("div");
-          questionTypeFormGroup.classList.add("form-group");
-
-          const questionFieldsDiv = document.createElement("div");
-          questionFieldsDiv.setAttribute(
-            "id",
-            `question_${questionCount}_fields`
-          );
-
-          const questionTitle = document.createElement("input");
-          questionTitle.setAttribute("type", "text");
-          questionTitle.classList.add("form-control", "question-title-space");
-          questionTitle.setAttribute(
-            "name",
-            `question_${questionCount}_title`
-          );
-          questionTitle.setAttribute(
-            "placeholder",
-            `Question ${questionCount} Title`
-          );
-          questionTitle.required = true
-          questionTypeFormGroup.appendChild(questionTitle)
-
-          const deleteButton = document.createElement("button");
-          deleteButton.setAttribute("type", "button");
-          deleteButton.classList.add("btn", "btn-danger", "ml-2", "button-space");
-          deleteButton.textContent = "Delete Question";
-          deleteButton.addEventListener("click", function () {
-            // get the question number from the id of the questionTypeFormGroup
-            const questionNumber = questionTypeFormGroup.firstChild.name.split("_")[1]
-            console.log("Deleting question " + questionNumber)
-            deleteQuestion(questionNumber);
-            repopulateQuestions();
-          });
-
-          const questionsDiv = document.getElementById("questions");
-          questionTypeFormGroup.append(questionTypeSelect, deleteButton)
-          questionsDiv.appendChild(questionTypeFormGroup);
-          questionsDiv.appendChild(questionFieldsDiv);
-
-          questionTypeSelect.addEventListener("change", function () {
-            console.log("in change: " + questionTypeSelect.value)
-            const questionTypeNumber = questionTypeFormGroup.firstChild.name.split("_")[1]
-            toggleQuestionFields(null, questionTypeNumber, questionTypeSelect);
-          });
-
-          if (question !== null) {
-
-            questionTitle.value = question.prompt;
-            questionTypeSelect.value = question.type;
-            toggleQuestionFields(question, questionCount, questionTypeSelect)
-          }
-          else {
-            questionTypeSelect.value = "checkbox";
-            toggleQuestionFields(null, questionCount, questionTypeSelect);
-          }
-          document.getElementById('num_questions').value = questionCount;
-          console.log(questionTypeSelect)
-        }
-
-
-        function toggleQuestionFields(question = null, questionNumber, questionTypeSelect) {
-          const questionType = questionTypeSelect.value;
-
-          const questionFieldsDiv = document.getElementById(
-            `question_${questionNumber}_fields`
-          );
-          questionFieldsDiv.innerHTML = ""
-
-          if (questionType === "checkbox" || questionType == "multiple_choice") {
-
-            const selectOptionsFormGroup = document.createElement("div");
-            selectOptionsFormGroup.classList.add("form-group");
-
-            const checkboxOptionsLabel = document.createElement("label");
-            checkboxOptionsLabel.setAttribute("for", `question_${questionNumber}_options`);
-            checkboxOptionsLabel.textContent = questionType === "checkbox" ? "Checkbox Options:" : "Multiple Choice Options:";
-
-
-            const addOptionButton = document.createElement("button");
-            addOptionButton.setAttribute("type", "button");
-            addOptionButton.classList.add("btn", "btn-primary", "button-space");
-            addOptionButton.textContent = "Add Option";
-            addOptionButton.addEventListener("click", () => {
-              optionIndex++;  // Increment the index
-              const newOptionInput = document.createElement("input");
-              newOptionInput.setAttribute("type", "text");
-              newOptionInput.classList.add("form-control", "textbox-space");
-              newOptionInput.setAttribute("name", `question_${questionNumber}_option_${optionIndex}`);
-              newOptionInput.setAttribute("id", `question_${questionNumber}_option_${optionIndex}`);
-              newOptionInput.setAttribute("placeholder", `Option ${optionIndex}`)
-              selectOptionsFormGroup.insertBefore(newOptionInput, addOptionButton);
+            let current_survey_questions = <%- JSON.stringify(questions_data) %>; // AUTO FORMATTING WILL BREAK THE - IN THE EJS TAG
+            current_survey_questions.forEach((question, index) => { // repopulate the questions for the first time
+              addQuestion(question, index)
             });
 
-            const removeOptionButton = document.createElement("button");
-            removeOptionButton.setAttribute("type", "button");
-            removeOptionButton.classList.add("btn", "btn-danger", "button-right", "button-space");
-            removeOptionButton.textContent = "Remove Option";
-            removeOptionButton.addEventListener("click", () => {
-              if (optionIndex > 2) {  // Ensure first 2 options are not removable
-                // Find the last input in the selectOptionsFormGroup
-                let lastOptionInput = null;
-                for (let i = selectOptionsFormGroup.children.length - 1; i >= 0; i--) {
-                  if (selectOptionsFormGroup.children[i].tagName.toLowerCase() === 'input' &&
-                    selectOptionsFormGroup.children[i].type === 'text') {
-                    lastOptionInput = selectOptionsFormGroup.children[i];
-                    break;
-                  } lastOptionInput
-                }
-                if (lastOptionInput) {
-                  selectOptionsFormGroup.removeChild(lastOptionInput);
-                }
-                optionIndex--;  // Decrement the index
+            function repopulateQuestions() {
+              // delete everything in the questions div
+              questionCount = 0
+              const questionsDiv = document.getElementById('questions');
+              questionsDiv.innerHTML = "";
+              current_survey_questions.forEach((question, index) => {
+                addQuestion(question, index)
+              });
+              if (current_survey_questions.length === 0) {
+                questionCount = 0;
+                document.getElementById('num_questions').value = questionCount;
               }
-            });
+            }
 
-            selectOptionsFormGroup.appendChild(checkboxOptionsLabel);
+            function deleteQuestion(questionNumber) {
+              // delete from current_survey_questions
+              saveQuestionsState();
+              current_survey_questions.splice(questionNumber - 1, 1);
+            }
 
-            let optionIndex = 2;
+            function changeQuestionType(questionNumber) {
+              // change question type in current_survey_questions
+              const questionTypeSelect = document.querySelector(`select[name="question_${questionNumber}_type"]`);
+              const questionType = questionTypeSelect.value;
+              current_survey_questions[questionNumber - 1].type = questionType;
+              saveQuestionsState();
+              repopulateQuestions();
+            }
 
-            if (question !== null) {
+            function saveQuestionsState() {
+              // Clear the current_survey_questions array
+              current_survey_questions = [];
 
-              question.answers.forEach((answer, idx) => {
-                const optionInput = document.createElement("input");
-                optionInput.setAttribute("type", "text");
-                optionInput.classList.add("form-control", "textbox-space");
-                optionInput.setAttribute("name", `question_${questionNumber}_option_${idx + 1}`);
-                optionInput.setAttribute("id", `question_${questionNumber}_option_${idx + 1}`);
-                optionInput.setAttribute("placeholder", `Option ${idx + 1}`);
-                optionInput.value = answer.text;  // Set the value from the question.answers array
-                optionInput.required = true;
-                selectOptionsFormGroup.appendChild(optionInput);
-                optionIndex = idx + 1;
+              const questionsDiv = document.getElementById('questions');
+              const questionDivs = questionsDiv.children;
+
+              // Iterate through the question divs and save the state into current_survey_questions
+              for (let i = 0; i < questionDivs.length; i += 2) {
+                const questionTypeFormGroup = questionDivs[i];
+                const questionFieldsDiv = questionDivs[i + 1];
+              
+                const questionTitle = questionTypeFormGroup.querySelector('input[type="text"]');
+                const questionTypeSelect = questionTypeFormGroup.querySelector('select');
+                const questionType = questionTypeSelect.value;
+                const questionTitleValue = questionTitle.value;
+              
+                // Create a new question object
+                const question = {
+                  prompt: questionTitleValue,
+                  core_category: questionType,
+                  answers: []
+                };
+              
+                // Get all the option containers
+                const optionContainers = questionFieldsDiv.querySelectorAll('.option-container');
+                optionContainers.forEach(container => {
+                  const optionInput = container.querySelector('input[type="text"]');
+                  const optionRadio = container.querySelector('input[type="radio"]');
+                  const optionValue = optionInput.value;
+                
+                  // Create an answer object
+                  const optionObj = {
+                    text: optionValue,
+                    is_correct: optionRadio.checked  // Determine if this option is marked as correct
+                  };
+                  question.answers.push(optionObj);
+                });
+              
+                // Push the question into current_survey_questions
+                current_survey_questions.push(question);
+              }
+            }
+
+
+            function addQuestion(question = null, index = null) { // handles the question input fields
+              questionCount++;
+
+              // creates the dropdown
+              const questionTypeSelect = document.createElement("select");
+              questionTypeSelect.classList.add("form-control", "textbox-space");
+              questionTypeSelect.setAttribute(
+                "name",
+                `question_${questionCount}_type`
+              );
+              questionTypeSelect.setAttribute(
+                "onchange",
+                `toggleQuestionFields(${null}, ${questionCount}, ${questionTypeSelect})`
+              );
+
+              const physicalOption = document.createElement("option");
+              physicalOption.setAttribute("value", "Physical");
+              physicalOption.textContent = "Physical";
+              questionTypeSelect.appendChild(physicalOption);
+
+              const nutritionOption = document.createElement("option");
+              nutritionOption.setAttribute("value", "Nutrition");
+              nutritionOption.textContent = "Nutrition";
+              questionTypeSelect.appendChild(nutritionOption);
+
+              const mentalOption = document.createElement("option");
+              mentalOption.setAttribute("value", "Mental");
+              mentalOption.textContent = "Mental";
+              questionTypeSelect.appendChild(mentalOption);
+
+              const spiritualOption = document.createElement("option");
+              spiritualOption.setAttribute("value", "Spiritual");
+              spiritualOption.textContent = "Spiritual";
+              questionTypeSelect.appendChild(spiritualOption);
+
+              const sleepOption = document.createElement("option");
+              sleepOption.setAttribute("value", "Sleep");
+              sleepOption.textContent = "Sleep";
+              questionTypeSelect.appendChild(sleepOption);
+
+              const questionTypeFormGroup = document.createElement("div");
+              questionTypeFormGroup.classList.add("form-group");
+
+              const questionFieldsDiv = document.createElement("div");
+              questionFieldsDiv.setAttribute(
+                "id",
+                `question_${questionCount}_fields`
+              );
+
+              const questionTitle = document.createElement("input");
+              questionTitle.setAttribute("type", "text");
+              questionTitle.classList.add("form-control", "question-title-space");
+              questionTitle.setAttribute(
+                "name",
+                `question_${questionCount}_title`
+              );
+              questionTitle.setAttribute(
+                "placeholder",
+                `Question ${questionCount} Title`
+              );
+              questionTitle.required = true
+              questionTypeFormGroup.appendChild(questionTitle)
+
+              const deleteButton = document.createElement("button");
+              deleteButton.setAttribute("type", "button");
+              deleteButton.classList.add("btn", "btn-danger", "ml-2", "button-space");
+              deleteButton.textContent = "Delete Question";
+              deleteButton.addEventListener("click", function () {
+                // get the question number from the id of the questionTypeFormGroup
+                const questionNumber = questionTypeFormGroup.firstChild.name.split("_")[1]
+                console.log("Deleting question " + questionNumber)
+                deleteQuestion(questionNumber);
+                repopulateQuestions();
               });
-            }
-            else {
-              const defaultOption1 = document.createElement("input");
-              defaultOption1.setAttribute("type", "text");
-              defaultOption1.classList.add("form-control", "textbox-space");
-              defaultOption1.setAttribute("name", `question_${questionNumber}_option_1`);
-              defaultOption1.setAttribute("id", `question_${questionNumber}_option_1`);
-              defaultOption1.setAttribute("placeholder", "Option 1")
-              defaultOption1.required = true
 
-              const defaultOption2 = document.createElement("input");
-              defaultOption2.setAttribute("type", "text");
-              defaultOption2.classList.add("form-control", "textbox-space");
-              defaultOption2.setAttribute("name", `question_${questionNumber}_option_2`);
-              defaultOption2.setAttribute("id", `question_${questionNumber}_option_2`);
-              defaultOption2.setAttribute("placeholder", "Option 2")
-              selectOptionsFormGroup.appendChild(defaultOption1);
-              selectOptionsFormGroup.appendChild(defaultOption2);
+              const questionsDiv = document.getElementById("questions");
+              questionTypeFormGroup.append(questionTypeSelect, deleteButton)
+              questionsDiv.appendChild(questionTypeFormGroup);
+              questionsDiv.appendChild(questionFieldsDiv);
 
-            }
-            selectOptionsFormGroup.appendChild(addOptionButton);
-            selectOptionsFormGroup.appendChild(removeOptionButton);
+              questionTypeSelect.addEventListener("change", function () {
+                console.log("in change: " + questionTypeSelect.value)
+                const questionTypeNumber = questionTypeFormGroup.firstChild.name.split("_")[1]
+                toggleQuestionFields(null, questionTypeNumber, questionTypeSelect);
+              });
 
-            questionFieldsDiv.appendChild(selectOptionsFormGroup);
+              if (question !== null) {
 
-          } else if (questionType === "number_range") {
-            const numberRangeQuestionFormGroup = document.createElement("div");
-            numberRangeQuestionFormGroup.classList.add("form-group");
-
-            const numberRangeQuestionLabel = document.createElement("label");
-            numberRangeQuestionLabel.setAttribute(
-              "for",
-              `question_${questionNumber}_number_range_question`
-            );
-            numberRangeQuestionLabel.textContent = "Number Range Question:";
-
-            const numberRangeTopInput = document.createElement("input");
-            numberRangeTopInput.setAttribute("type", "number");
-            numberRangeTopInput.classList.add("form-control", "textbox-space");
-            numberRangeTopInput.setAttribute(
-              "name",
-              `question_${questionNumber}_number_range_top`
-            );
-            numberRangeTopInput.setAttribute(
-              "id",
-              `question_${questionNumber}_number_range_top`
-            );
-            numberRangeTopInput.setAttribute("placeholder", "Top Range Number");
-            numberRangeTopInput.required = true
-
-            const numberRangeBottomInput = document.createElement("input");
-            numberRangeBottomInput.setAttribute("type", "number");
-            numberRangeBottomInput.classList.add("form-control", "textbox-space");
-            numberRangeBottomInput.setAttribute(
-              "name",
-              `question_${questionNumber}_number_range_bottom`
-            );
-            numberRangeBottomInput.setAttribute(
-              "id",
-              `question_${questionNumber}_number_range_bottom`
-            );
-            numberRangeBottomInput.setAttribute("placeholder", "Bottom Range Number");
-            numberRangeBottomInput.required = true
-
-            numberRangeTopInput.addEventListener("input", function () {
-              validateNumberRange(numberRangeTopInput, numberRangeBottomInput, questionNumber);
-            });
-
-            numberRangeBottomInput.addEventListener("input", function () {
-              validateNumberRange(numberRangeTopInput, numberRangeBottomInput, questionNumber);
-            });
-
-            if (question !== null) {
-              numberRangeBottomInput.value = question.bottom_range;
-              numberRangeTopInput.value = question.top_range;
+                questionTitle.value = question.prompt;
+                questionTypeSelect.value = question.core_category;
+                toggleQuestionFields(question, questionCount, questionTypeSelect)
+              }
+              else {
+                questionTypeSelect.value = "Physical";
+                toggleQuestionFields(null, questionCount, questionTypeSelect);
+              }
+              document.getElementById('num_questions').value = questionCount;
+              console.log(questionTypeSelect)
             }
 
-            numberRangeQuestionFormGroup.appendChild(numberRangeQuestionLabel);
-            numberRangeQuestionFormGroup.appendChild(numberRangeTopInput);
-            numberRangeQuestionFormGroup.appendChild(numberRangeBottomInput);
+
+            function toggleQuestionFields(question = null, questionNumber, questionTypeSelect) {
+              const questionType = questionTypeSelect.value;
+
+              const questionFieldsDiv = document.getElementById(
+                `question_${questionNumber}_fields`
+              );
+              questionFieldsDiv.innerHTML = ""
+
+              if (true) {
+
+                const selectOptionsFormGroup = document.createElement("div");
+                selectOptionsFormGroup.classList.add("form-group");
+
+                const multipleChoiceOptionsLabel = document.createElement("label");
+                multipleChoiceOptionsLabel.setAttribute("for", `question_${questionNumber}_options`);
+                multipleChoiceOptionsLabel.textContent = "Multiple Choice Options:";
 
 
-            questionFieldsDiv.appendChild(numberRangeQuestionFormGroup);
-          }
-        }
+                const addOptionButton = document.createElement("button");
+                addOptionButton.setAttribute("type", "button");
+                addOptionButton.classList.add("btn", "btn-primary", "button-space");
+                addOptionButton.textContent = "Add Option";
+                addOptionButton.addEventListener("click", () => {
+                  optionIndex++;  // Increment the index
 
-        function validateNumberRange(topInput, bottomInput, questionNumber) {
-          const topValue = parseFloat(topInput.value);
-          const bottomValue = parseFloat(bottomInput.value);
+                  // Create the container div
+                  const optionContainer = document.createElement("div");
+                  optionContainer.classList.add("option-container");
 
-          if (!isNaN(topValue) && !isNaN(bottomValue) && topValue <= bottomValue) {
-            alert(`Top range must be greater than bottom range for Question ${questionNumber}`);
-            topInput.value = "";
-            bottomInput.value = "";
-          }
-        }
+                  // Create the radio button
+                  const correctAnswerRadio = document.createElement("input");
+                  correctAnswerRadio.setAttribute("type", "radio");
+                  correctAnswerRadio.setAttribute("name", `question_${questionNumber}_correct_answer`);
+                  correctAnswerRadio.setAttribute("value", optionIndex);
+                  optionContainer.appendChild(correctAnswerRadio);
 
-        function togglePasswordInput() {
-          const passwordFields = document.getElementById('passwordFields');
-          const inputs = passwordFields.getElementsByTagName('input');
-          if (document.getElementById('secure').checked) {
-            passwordFields.style.display = 'block';
-            for (let i = 0; i < inputs.length; i++) {
-              inputs[i].disabled = false;
+                  // Create the option input
+                  const newOptionInput = document.createElement("input");
+                  newOptionInput.setAttribute("type", "text");
+                  newOptionInput.classList.add("form-control", "textbox-space");
+                  newOptionInput.setAttribute("name", `question_${questionNumber}_option_${optionIndex}`);
+                  newOptionInput.setAttribute("id", `question_${questionNumber}_option_${optionIndex}`);
+                  newOptionInput.setAttribute("placeholder", `Option ${optionIndex}`);
+                  newOptionInput.required = true;
+                  optionContainer.appendChild(newOptionInput);
+                  // Insert the new option container before the addOptionButton
+
+                  selectOptionsFormGroup.insertBefore(optionContainer, addOptionButton);
+                });
+
+                const removeOptionButton = document.createElement("button");
+                removeOptionButton.setAttribute("type", "button");
+                removeOptionButton.classList.add("btn", "btn-danger", "button-right", "button-space");
+                removeOptionButton.textContent = "Remove Option";
+                removeOptionButton.addEventListener("click", () => {
+                  if (optionIndex > 2) {  // Ensure first 2 options are not removable
+                    // Find the last option container div and remove it
+                    let lastOptionContainer = null;
+                    for (let i = selectOptionsFormGroup.children.length - 1; i >= 0; i--) {
+                      if (selectOptionsFormGroup.children[i].classList.contains('option-container')) {
+                        lastOptionContainer = selectOptionsFormGroup.children[i];
+                        break;
+                      }
+                    }
+                    if (lastOptionContainer) {
+                      selectOptionsFormGroup.removeChild(lastOptionContainer);
+                      optionIndex--;  // Decrement the index
+                    }
+                  }
+                });
+
+                selectOptionsFormGroup.appendChild(multipleChoiceOptionsLabel);
+
+                let optionIndex = 2;
+
+                if (question !== null) {
+
+                  question.answers.forEach((answer, idx) => {
+                    // Create the container div
+                    const optionContainer = document.createElement("div");
+                    optionContainer.classList.add("option-container");
+                    // Create the text input
+                    const optionInput = document.createElement("input");
+                    optionInput.setAttribute("type", "text");
+                    optionInput.classList.add("form-control", "textbox-space");
+                    optionInput.setAttribute("name", `question_${questionNumber}_option_${idx + 1}`);
+                    optionInput.setAttribute("id", `question_${questionNumber}_option_${idx + 1}`);
+                    optionInput.setAttribute("placeholder", `Option ${idx + 1}`);
+                    optionInput.value = answer.text;
+                    optionInput.required = true;
+                    optionContainer.appendChild(optionInput);  // Append to the container div
+                    // Create the radio button
+                    const correctAnswerRadio = document.createElement("input");
+                    correctAnswerRadio.setAttribute("type", "radio");
+                    correctAnswerRadio.setAttribute("name", `question_${questionNumber}_correct_answer`);
+                    correctAnswerRadio.setAttribute("value", idx + 1);
+                    correctAnswerRadio.checked = answer.is_correct;
+                    optionContainer.insertBefore(correctAnswerRadio, optionInput);  // Insert radio before the text input
+                    selectOptionsFormGroup.appendChild(optionContainer);  // Append the container div instead
+                    optionIndex = idx + 1;
+                  });
+                }
+                else {
+                  for (let i = 1; i <= 2; i++) { // For default 2 options
+                    const optionContainer = document.createElement("div");
+                    optionContainer.classList.add("option-container");
+
+                    // Create the radio button
+                    const correctAnswerRadio = document.createElement("input");
+                    correctAnswerRadio.setAttribute("type", "radio");
+                    correctAnswerRadio.setAttribute("name", `question_${questionNumber}_correct_answer`);
+                    correctAnswerRadio.setAttribute("value", i);
+                    correctAnswerRadio.checked = i === 1; // Check the first option by default
+                    optionContainer.appendChild(correctAnswerRadio);
+
+                    // Create the text input
+                    const optionInput = document.createElement("input");
+                    optionInput.setAttribute("type", "text");
+                    optionInput.classList.add("form-control", "textbox-space");
+                    optionInput.setAttribute("name", `question_${questionNumber}_option_${i}`);
+                    optionInput.setAttribute("id", `question_${questionNumber}_option_${i}`);
+                    optionInput.setAttribute("placeholder", `Option ${i}`);
+                    optionInput.required = true;
+                    optionContainer.appendChild(optionInput);
+
+                    // Append the option container to the form group
+                    selectOptionsFormGroup.appendChild(optionContainer);
+                  }
+                }
+                selectOptionsFormGroup.appendChild(addOptionButton);
+                selectOptionsFormGroup.appendChild(removeOptionButton);
+
+                questionFieldsDiv.appendChild(selectOptionsFormGroup);
+
+              }
             }
-          } else {
-            passwordFields.style.display = 'none';
-            for (let i = 0; i < inputs.length; i++) {
-              inputs[i].disabled = true;
+
+            function togglePasswordInput() {
+              const passwordFields = document.getElementById('passwordFields');
+              const inputs = passwordFields.getElementsByTagName('input');
+              if (document.getElementById('secure').checked) {
+                passwordFields.style.display = 'block';
+                for (let i = 0; i < inputs.length; i++) {
+                  inputs[i].disabled = false;
+                }
+              } else {
+                passwordFields.style.display = 'none';
+                for (let i = 0; i < inputs.length; i++) {
+                  inputs[i].disabled = true;
+                }
+              }
             }
-          }
-        }
+  </script>
 
-      </script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </html>

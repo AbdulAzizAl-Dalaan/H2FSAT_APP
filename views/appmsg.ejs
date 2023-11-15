@@ -38,6 +38,17 @@
     aria-label="Close"
   ></button>
 </div>
+<% break; case "editsuccess": %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Assessment has been successfully edited</strong>
+  <p class="mb-0">Please note that any changes to the Assessment's password will require you to re-enter the new password to access the Assessment</p>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
 <% break; case "editpass": %>
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
   <strong>The Assessment's original password is incorrect or new passwords do not match</strong>
@@ -163,7 +174,7 @@
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong><%= category_dict[key][0] %></strong>
             <% if (category_dict[key][1]) { %> <!-- mailto email -->
-              Please email <a href="mailto:<%= category_dict[key][1] %>"><%= category_dict[key][1] %></a> about your issue
+              <p class="mb-0">Please email <a href="mailto:<%= category_dict[key][1] %>"><%= category_dict[key][1] %></a> about your issue</p>
             <% } %>
             <button
               type="button"

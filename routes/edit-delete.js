@@ -8,6 +8,7 @@ const Survey_R = require("../models/Survey/Survey_R");
 const Survey_V = require("../models/Survey/Survey_V");
 const Survey_D = require("../models/Survey/Survey_D");
 const { Op } = require("sequelize");
+const { route } = require(".");
 
 const sessionChecker = (req, res, next) => {
   if (req.session.user) {
@@ -206,7 +207,7 @@ router.post("/:id", async function (req, res, next) {
           }
         }
       }
-      res.redirect("/home");
+      res.redirect("/home/?msg=editsuccess");
     } else {
       res.redirect("/home/?msg=notfound");
     }
@@ -214,6 +215,15 @@ router.post("/:id", async function (req, res, next) {
     res.redirect("/home/?msg=noaccess");
   }
 });
+
+router.post("/h2f/knowledgecheck", async function (req, res, next) {
+  console.log("BODY CONTENTS:");
+  console.log(req.body);
+
+  res.redirect("/home/?msg=editsuccess");
+
+});
+
 
 // Might need to go back later for Survey_D Instances deletions
 router.post("/delete/:id", async function (req, res, next) {
