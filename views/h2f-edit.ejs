@@ -49,7 +49,7 @@
         margin-left: 0.5rem; /* Space between radio button and text input */
         flex-grow: 1; /* Allow the text input to fill the space */
       }
-
+      
       body {
         padding-bottom: 20px;
       }
@@ -159,13 +159,20 @@
           value="0"
         />
 
+
+
         <div class="form-group row mb-3" style="padding-top: 10px">
           <div class="col-12 text-center">
+            <button type="button" class="btn btn-primary mr-2" style="margin-right: 5%;" onclick="sortByCategory()">
+              Sort By Category
+            </button>
             <button type="submit" class="btn btn-success">
               Save Assessment
             </button>
           </div>
         </div>
+        
+
       </form>
     </div>
   </body>
@@ -177,6 +184,16 @@
             current_survey_questions.forEach((question, index) => { // repopulate the questions for the first time
               addQuestion(question, index)
             });
+
+            function sortByCategory() {
+              // sort the questions by category
+              saveQuestionsState();
+              const category_order = ["Physical", "Nutrition", "Mental", "Spiritual", "Sleep"];
+              current_survey_questions.sort((a, b) => {
+                return category_order.indexOf(a.core_category) - category_order.indexOf(b.core_category);
+              });
+              repopulateQuestions();
+            }
 
             function repopulateQuestions() {
               // delete everything in the questions div
@@ -409,7 +426,7 @@
                 removeOptionButton.textContent = "Remove Option";
                 removeOptionButton.addEventListener("click", () => {
                   if (optionIndex > 2) {  // Ensure first 2 options are not removable
-                    // Find the last option container div and remove it
+                    // Find the last option container div and determine if it's the selected correct option
                     let lastOptionContainer = null;
                     for (let i = selectOptionsFormGroup.children.length - 1; i >= 0; i--) {
                       if (selectOptionsFormGroup.children[i].classList.contains('option-container')) {
@@ -417,9 +434,22 @@
                         break;
                       }
                     }
+
                     if (lastOptionContainer) {
+                      const wasCorrectSelected = lastOptionContainer.querySelector('input[type="radio"]').checked;
                       selectOptionsFormGroup.removeChild(lastOptionContainer);
                       optionIndex--;  // Decrement the index
+                    
+                      // If the removed option was the correct one, find the first option and mark it as correct
+                      if (wasCorrectSelected) {
+                        const firstOptionContainer = selectOptionsFormGroup.querySelector('.option-container');
+                        if (firstOptionContainer) {
+                          const firstOptionRadio = firstOptionContainer.querySelector('input[type="radio"]');
+                          if (firstOptionRadio) {
+                            firstOptionRadio.checked = true;
+                          }
+                        }
+                      }
                     }
                   }
                 });
