@@ -38,7 +38,6 @@ router.get("/:id", async function (req, res, next) {
 
     const survey = await Survey_Info.findByPk(req.params.id);
     if (survey) {
-
       if (survey.isCore && survey.survey_id != 1) {
         res.redirect("/home/?msg=editcore");
         return;
@@ -74,7 +73,6 @@ router.get("/:id", async function (req, res, next) {
       // });
       if (survey.isCore && survey.survey_id == 1) {
         res.render("h2f-edit", { survey, questions_data });
-        
       } else {
         res.render("edit", { survey, questions_data });
       }
@@ -105,8 +103,13 @@ router.post("/:id", async function (req, res, next) {
         return;
       }
 
-      dubplicateSurvey = await Survey_Info.findAll({where : {title : req.body.title}});
-      if (dubplicateSurvey.length > 0 && dubplicateSurvey[0].survey_id != req.params.id) {
+      dubplicateSurvey = await Survey_Info.findAll({
+        where: { title: req.body.title },
+      });
+      if (
+        dubplicateSurvey.length > 0 &&
+        dubplicateSurvey[0].survey_id != req.params.id
+      ) {
         res.redirect("/edit/" + req.params.id + "/?msg=samename");
         return;
       }
@@ -152,13 +155,21 @@ router.post("/:id", async function (req, res, next) {
         { where: { survey_id: survey.survey_id } }
       );
 
-      const questions = await Survey_Q.findAll({ where: { survey_id: surveyID } });
+      // ADD SURVEY_D IS OUTDATED UPDATE INSTANTCES HERE
+
+      const questions = await Survey_Q.findAll({
+        where: { survey_id: surveyID },
+      });
 
       for (let i = 0; i < questions.length; i++) {
         oldVersionQuestions[questions[i].question_id] = questions[i].prompt;
       }
 
-      await Survey_V.create({ survey_id: surveyID, version: survey.version, questions: oldVersionQuestions });
+      await Survey_V.create({
+        survey_id: surveyID,
+        version: survey.version,
+        questions: oldVersionQuestions,
+      });
 
       await Survey_A.destroy({ where: { survey_id: survey.survey_id } });
 
@@ -220,10 +231,105 @@ router.post("/h2f/knowledgecheck", async function (req, res, next) {
   console.log("BODY CONTENTS:");
   console.log(req.body);
 
+  let oldVersionQuestions = {};
+
+  if (res.locals.email && res.locals.isAdmin) {
+    // PUT ADMIN CHECK BACK IN LATER
+    const survey = await Survey_Info.findByPk(1);
+    if (survey) {
+      if (req.body.num_questions == 0) {
+        res.redirect("/edit/1/?msg=zeroquestions");
+        return;
+      }
+
+      dubplicateSurvey = await Survey_Info.findAll({
+        where: { title: req.body.title },
+      });
+      if (
+        dubplicateSurvey.length > 0 &&
+        dubplicateSurvey[0].survey_id != 1 // assuming that the knowledge check is always survey_id 1
+      ) {
+        res.redirect("/edit/1/?msg=samename");
+        return;
+      }
+
+      const surveyID = survey.survey_id;
+
+      await Survey_R.update(
+        { isOutdated: true },
+        { where: { survey_id: survey.survey_id } }
+      );
+
+      // ADD SURVEY_D IS OUTDATED UPDATE INSTANTCES HERE
+
+      const questions = await Survey_Q.findAll({
+        where: { survey_id: surveyID },
+      });
+
+      for (let i = 0; i < questions.length; i++) {
+        oldVersionQuestions[questions[i].question_id] = questions[i].prompt;
+      }
+
+      await Survey_V.create({
+        survey_id: surveyID,
+        version: survey.version,
+        questions: oldVersionQuestions,
+      });
+
+      await Survey_A.destroy({ where: { survey_id: survey.survey_id } });
+
+      await Survey_Q.destroy({ where: { survey_id: survey.survey_id } });
+
+      await Survey_Info.update(
+        {
+          title: req.body.title,
+          author: req.session.user.email,
+          description: req.body.description,
+          version: survey.version + 1,
+          secure: req.body.secure === "on" ? true : false,
+          password: req.body.secure === "on" ? req.body.newPassword : null,
+        },
+        { where: { survey_id: survey.survey_id } }
+      );
+
+      // ADD CODE TO CREATE SURVEY QUESTIONS AND ANSWERS HERE
+
+      const num_questions = req.body.num_questions;
+
+      for (let i = 1; i <= num_questions; i++) {
+        console.log(req.body["question_" + i + "_title"]);
+        console.log(req.body["question_" + i + "_type"]);
+        const question = await Survey_Q.create({
+          survey_id: surveyID,
+          question_id: i,
+          prompt: req.body["question_" + i + "_title"],
+          type: "multiple_choice",
+          core_category: req.body["question_" + i + "_type"],
+          top_range: req.body["question_" + i + "_number_range_top"],
+          bottom_range: req.body["question_" + i + "_number_range_bottom"],
+          point_value: req.body["question_" + i + "_point_value"],
+        });
+        if (true) {
+          let j = 1;
+          while (req.body["question_" + i + "_option_" + j] !== undefined) {
+            await Survey_A.create({
+              survey_id: surveyID,
+              question_id: question.question_id,
+              answer_id: j,
+              text: req.body["question_" + i + "_option_" + j],
+              is_correct:
+                j == req.body["question_" + i + "_correct_answer"]
+                  ? true
+                  : null,
+            });
+            j++;
+          }
+        }
+      }
+    }
+  }
   res.redirect("/home/?msg=editsuccess");
-
 });
-
 
 // Might need to go back later for Survey_D Instances deletions
 router.post("/delete/:id", async function (req, res, next) {
@@ -234,20 +340,19 @@ router.post("/delete/:id", async function (req, res, next) {
     const survey = await Survey_Info.findByPk(req.params.id);
     if (survey) {
       if (!survey.isCore) {
+        await Survey_D.destroy({ where: { survey_id: survey.survey_id } });
 
-      await Survey_D.destroy({ where: { survey_id: survey.survey_id } });
+        await Survey_V.destroy({ where: { survey_id: survey.survey_id } });
 
-      await Survey_V.destroy({ where: { survey_id: survey.survey_id } });
+        await Survey_R.destroy({ where: { survey_id: survey.survey_id } });
 
-      await Survey_R.destroy({ where: { survey_id: survey.survey_id } });
+        await Survey_A.destroy({ where: { survey_id: survey.survey_id } });
 
-      await Survey_A.destroy({ where: { survey_id: survey.survey_id } });
+        await Survey_Q.destroy({ where: { survey_id: survey.survey_id } });
 
-      await Survey_Q.destroy({ where: { survey_id: survey.survey_id } });
+        await survey.destroy();
 
-      await survey.destroy();
-
-      res.redirect("/home/?msg=delete");
+        res.redirect("/home/?msg=delete");
       } else {
         res.redirect("/home/?msg=delcore");
       }
