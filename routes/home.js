@@ -143,7 +143,12 @@ router.post('/:id/submit', async function(req, res, next) {
               });
 
               categories.forEach(category => { // NEED TO CHANGE TO ACCOUNT FOR NUMBER OF QUESTIONS FOR EACH CATEGORY ASSUMING 2 FOR NOW
-                category_scores[category] = category_scores[category] / 2 * 100
+                const category_questions_num = questions.filter(question => question.core_category === category).length
+                console.log("CATEGORY: " + category)
+                console.log("CATEGORY QUESTIONS NUM: " + category_questions_num)
+                console.log("CATEGORY SCORES: " + category_scores[category])
+                console.log("CATEGORY SCORES DIVIDED: " + category_scores[category] / category_questions_num * 100)
+                category_scores[category] = Math.round(( (category_scores[category] / category_questions_num * 100) + Number.EPSILON) * 100) / 100;
                 if (category_scores[category] < 50 && h2f_flag === "PASSED") {
                   h2f_flag = category
                 }

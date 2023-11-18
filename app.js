@@ -223,7 +223,7 @@ async function setup() {
   const h2f_q10_a2 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 2, text: "False"})
 
 
-  const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cognitive Performance Assessment", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
+  const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cognitive Performance", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
   isCore: true, card_img: "/images/default_imgs/img1.png", version: 1})
   
   const cpa_q1    = await Survey_Q.create({survey_id: 2, question_id: 1, header: "Motivation to live a healthy lifestyle in each category", prompt: "Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1, core_category: "Motivation"})
@@ -259,7 +259,7 @@ async function setup() {
   const cpa_q15    = await Survey_Q.create({survey_id: 2, question_id: 15, prompt: "Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1, core_category: "Current"})
   const cpa_q15_a1 = await Survey_A.create({survey_id: 2, question_id: 15, answer_id: 1, text: "number"})
 
-  const fms_info = await Survey_Info.create({survey_id: 3, author: "brian.harder@army.mil", title: "Movement Screening Assessment", description: "The  Movement Screening is an assessment\
+  const fms_info = await Survey_Info.create({survey_id: 3, author: "brian.harder@army.mil", title: "Movement Screening", description: "The  Movement Screening is an assessment\
    tool used by the Army National Guard to evaluate the fundamental movement patterns of its service members. It is designed to identify functional limitations and asymmetries in the body which can increase\
     the risk of injury. The FMS consists of a series of specific exercises that challenge an individual's ability to perform basic movement patterns without compensation. Each exercise is scored on a scale, and\
      the results provide valuable feedback about an individual's movement quality. The scores can then guide targeted training and corrective exercises, helping to reduce the potential for injury and improve overall\

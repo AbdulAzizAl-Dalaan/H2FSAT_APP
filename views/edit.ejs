@@ -67,28 +67,44 @@
           
           <div class="form-group">
             <% if (survey.secure) { %>
-              <label for="secure">Change Password:</label>
+              <label for="changePasswordCheckbox">Change Password:</label>
+              <input type="checkbox" class="form-check-input" id="changePasswordCheckbox" name="changePassword" onchange="togglePasswordChangeFields()" />
             <% } else { %>
-            <label for="secure">Add Password:</label>
-            <% } %>
-            <input type="checkbox" class="form-check-input" id="secure" name="secure" onchange="togglePasswordInput()" />
-            <div id="passwordFields" style="display: none;">
-              <% if (survey.secure) { %>
+              <div id="addPasswordFields">
+                <label>Add Password:</label>
                 <div class="form-group">
-                  <label for="oldPassword">Old Password:</label>
-                  <input type="password" class="form-control" id="oldPassword" name="oldPassword" disabled />
+                  <label for="newPassword">New Password:</label>
+                  <input type="password" class="form-control" id="newPassword" name="newPassword" />
                 </div>
-              <% } %>
+                <div class="form-group">
+                  <label for="confirmNewPassword">Confirm New Password:</label>
+                  <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" />
+                </div>
+              </div>
+            <% } %>
+            <div id="changePasswordFields" style="display: none;">
               <div class="form-group">
-                <label for="newPassword">New Password:</label>
-                <input type="password" class="form-control" id="newPassword" name="newPassword" disabled />
+                <label for="oldPassword">Old Password:</label>
+                <input type="password" class="form-control" id="oldPassword" name="oldPassword" />
               </div>
               <div class="form-group">
-                <label for="confirmNewPassword">Confirm New Password:</label>
-                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" disabled />
+                <label for="newPasswordChange">New Password:</label>
+                <input type="password" class="form-control" id="newPasswordChange" name="newPasswordChange" />
+              </div>
+              <div class="form-group">
+                <label for="confirmNewPasswordChange">Confirm New Password:</label>
+                <input type="password" class="form-control" id="confirmNewPasswordChange" name="confirmNewPasswordChange" />
               </div>
             </div>
           </div>
+          
+          <% if (survey.secure) { %>
+            <div class="form-group">
+              <label for="removePasswordCheckbox">Remove Password:</label>
+              <input type="checkbox" class="form-check-input" id="removePasswordCheckbox" name="removePassword" onchange="toggleRemovePassword()" />
+            </div>
+          <% } %>
+          
 
           <div id="questions">
             <!-- Question fields will be dynamically generated here -->
@@ -115,22 +131,34 @@
 
         let current_survey_questions = <%- JSON.stringify(questions_data) %>; // AUTO FORMATTING WILL BREAK THE - IN THE EJS TAG
 
-        function togglePasswordInput() {
-          const passwordFields = document.getElementById('passwordFields');
-          const inputs = passwordFields.getElementsByTagName('input');
-          if (document.getElementById('secure').checked) {
-            passwordFields.style.display = 'block';
-            for (let i = 0; i < inputs.length; i++) {
-              inputs[i].disabled = false;
-            }
+        const secure = <%- survey.secure %>
+
+
+        function togglePasswordChangeFields() {
+          const changePasswordCheckbox = document.getElementById('changePasswordCheckbox');
+          const changePasswordFields = document.getElementById('changePasswordFields');
+          const removePasswordCheckbox = document.getElementById('removePasswordCheckbox');
+
+          if (changePasswordCheckbox.checked) {
+            changePasswordFields.style.display = 'block';
+            removePasswordCheckbox.checked = false;
           } else {
-            passwordFields.style.display = 'none';
-            for (let i = 0; i < inputs.length; i++) {
-              inputs[i].disabled = true;
-            }
+            changePasswordFields.style.display = 'none';
           }
         }
-      </script>
+
+        function toggleRemovePassword() {
+          const removePasswordCheckbox = document.getElementById('removePasswordCheckbox');
+          const changePasswordCheckbox = document.getElementById('changePasswordCheckbox');
+          const changePasswordFields = document.getElementById('changePasswordFields');
+        
+          if (removePasswordCheckbox.checked) {
+            changePasswordCheckbox.checked = false;
+            changePasswordFields.style.display = 'none';
+          }
+        }
+</script>
+
 
 <script src="/engine.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

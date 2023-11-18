@@ -122,33 +122,45 @@ router.post("/:id", async function (req, res, next) {
       // console.log(req.body.newPassword)
       // console.log(req.body.confirmNewPassword)
 
-      // NOT FULLY COMPLETED YET
-      if (req.body.secure !== undefined) {
-        //  user has changed change password or added one
-        if (
-          req.body.secure === "on" &&
-          req.body.oldPassword !== undefined &&
-          survey.secure === true &&
-          req.body.oldPassword === survey.password &&
-          req.body.newPassword !== undefined &&
-          req.body.newPassword === req.body.confirmNewPassword
-        ) {
+      // Password checks
+      if (survey.secure) {
+        if (req.body.removePassword === "on") {
+          passFlag = false;
+          newPassword = null;
+        }
+        else if (req.body.changePassword === "on") {
+          if (req.body.oldPassword !== survey.password) {
+            res.redirect("/edit/" + req.params.id + "/?msg=editpass");
+            return;
+          } else if (req.body.newPasswordChange !== req.body.confirmNewPasswordChange 
+            || req.body.newPasswordChange === "" || req.body.confirmNewPasswordChange === "") {
+            res.redirect("/edit/" + req.params.id + "/?msg=passmatch");
+            return;
+          } else {
+            newPassword = req.body.newPasswordChange;
+            passFlag = true;
+          }
+        }
+        else {
           passFlag = true;
-        } else if (
-          req.body.secure !== undefined &&
-          req.body.secure === "on" &&
-          req.body.newPassword !== undefined &&
-          survey.secure === false &&
-          req.body.newPassword === req.body.confirmNewPassword
-        ) {
-          passFlag = true;
-        } else {
-          res.redirect("/edit/" + req.params.id + "/?msg=editpass");
-          return;
+          newPassword = survey.password;
         }
       } else {
-        passFlag = true;
+        if (req.body.newPassword !== "" || req.body.confirmNewPassword !== "") {
+          if (req.body.newPassword !== req.body.confirmNewPassword) {
+            res.redirect("/edit/" + req.params.id + "/?msg=passmatch");
+            return;
+          } else {
+            newPassword = req.body.newPassword;
+            passFlag = true;
+          }
+        }
       }
+
+      await Survey_D.update(
+        { isOutdated: true },
+        { where: { survey_id: survey.survey_id } }
+      );
 
       await Survey_R.update(
         { isOutdated: true },
@@ -175,14 +187,15 @@ router.post("/:id", async function (req, res, next) {
 
       await Survey_Q.destroy({ where: { survey_id: survey.survey_id } });
 
+
       await Survey_Info.update(
         {
           title: req.body.title,
           author: req.session.user.email,
           description: req.body.description,
           version: survey.version + 1,
-          secure: req.body.secure === "on" ? true : false,
-          password: req.body.secure === "on" ? req.body.newPassword : null,
+          secure: passFlag ? true : false,
+          password: passFlag ? newPassword : null,
         },
         { where: { survey_id: survey.survey_id } }
       );
@@ -232,6 +245,8 @@ router.post("/h2f/knowledgecheck", async function (req, res, next) {
   console.log(req.body);
 
   let oldVersionQuestions = {};
+  let passFlag = false;
+  let newPassword = null;
 
   if (res.locals.email && res.locals.isAdmin) {
     // PUT ADMIN CHECK BACK IN LATER
@@ -254,6 +269,45 @@ router.post("/h2f/knowledgecheck", async function (req, res, next) {
       }
 
       const surveyID = survey.survey_id;
+
+      if (survey.secure) {
+        if (req.body.removePassword === "on") {
+          passFlag = false;
+          newPassword = null;
+        }
+        else if (req.body.changePassword === "on") {
+          if (req.body.oldPassword !== survey.password) {
+            res.redirect("/edit/" + "1" + "/?msg=editpass");
+            return;
+          } else if (req.body.newPasswordChange !== req.body.confirmNewPasswordChange 
+            || req.body.newPasswordChange === "" || req.body.confirmNewPasswordChange === "") {
+            res.redirect("/edit/" + "1" + "/?msg=passmatch");
+            return;
+          } else {
+            newPassword = req.body.newPasswordChange;
+            passFlag = true;
+          }
+        }
+        else {
+          passFlag = true;
+          newPassword = survey.password;
+        }
+      } else {
+        if (req.body.newPassword !== "" || req.body.confirmNewPassword !== "") {
+          if (req.body.newPassword !== req.body.confirmNewPassword) {
+            res.redirect("/edit/" + "1" + "/?msg=passmatch");
+            return;
+          } else {
+            newPassword = req.body.newPassword;
+            passFlag = true;
+          }
+        }
+      }
+
+      await Survey_D.update(
+        { isOutdated: true },
+        { where: { survey_id: survey.survey_id } }
+      );
 
       await Survey_R.update(
         { isOutdated: true },
@@ -286,8 +340,8 @@ router.post("/h2f/knowledgecheck", async function (req, res, next) {
           author: req.session.user.email,
           description: req.body.description,
           version: survey.version + 1,
-          secure: req.body.secure === "on" ? true : false,
-          password: req.body.secure === "on" ? req.body.newPassword : null,
+          secure: passFlag ? true : false,
+          password: passFlag ? newPassword : null,
         },
         { where: { survey_id: survey.survey_id } }
       );
@@ -295,7 +349,7 @@ router.post("/h2f/knowledgecheck", async function (req, res, next) {
       // ADD CODE TO CREATE SURVEY QUESTIONS AND ANSWERS HERE
 
       const num_questions = req.body.num_questions;
-
+      let headerCheck = "None";
       for (let i = 1; i <= num_questions; i++) {
         console.log(req.body["question_" + i + "_title"]);
         console.log(req.body["question_" + i + "_type"]);
@@ -304,11 +358,13 @@ router.post("/h2f/knowledgecheck", async function (req, res, next) {
           question_id: i,
           prompt: req.body["question_" + i + "_title"],
           type: "multiple_choice",
+          header: headerCheck !== req.body["question_" + i + "_type"] ? req.body["question_" + i + "_type"] : null,
           core_category: req.body["question_" + i + "_type"],
           top_range: req.body["question_" + i + "_number_range_top"],
           bottom_range: req.body["question_" + i + "_number_range_bottom"],
           point_value: req.body["question_" + i + "_point_value"],
         });
+        headerCheck = req.body["question_" + i + "_type"];
         if (true) {
           let j = 1;
           while (req.body["question_" + i + "_option_" + j] !== undefined) {
