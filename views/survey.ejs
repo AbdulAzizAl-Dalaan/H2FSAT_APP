@@ -64,8 +64,8 @@
         method="post"
         action="/home/<%= survey.survey_id %>/submit"
         class="row g-3"
-        onsubmit="return validateForm()"
-      >
+        id="myForm"
+        onsubmit="return validateForm()">
         <div class="row mb-3" style="padding-top: 10px">
           <div class="col-12 text-center">
             <h1 style="text-decoration: underline;"><%= survey.title %></h1>
@@ -76,7 +76,7 @@
         <% questions.forEach(question=> { %>
         <div class="question-container col-12">
           <% if (question.header !==null) { %>
-          <h2 style="padding-bottom: 4%; padding-top: 9%;"><u><%= question.header %></u></h2>
+          <h2 style="padding-bottom: 4%; padding-top: 6%;"><u><%= question.header %></u></h2>
           <% } %>
 
           <h4>
@@ -156,11 +156,12 @@
           <% break; default: break; } %>
         </div>
         <% }) %>
-        <div class="row mb-3" style="padding-top: 10px">
-          <div class="col-12 text-center">
-            <input type="submit" value="Submit" class="btn btn-warning" />
+
+        <nav class="navbar fixed-bottom navbar-light" style="background-color: #ffffff;">
+          <div class="container-fluid justify-content-center">
+            <input type="submit" value="Submit" class="btn btn-warning" form="myForm" />
           </div>
-        </div>
+        </nav>
       </form>
 
       <script

@@ -138,7 +138,7 @@
           <!-- Question fields will be dynamically generated here -->
         </div>
 
-        <div class="form-group button-space">
+        <div class="form-group button-space" style="padding-bottom: 7%;">
           <button type="button" class="btn btn-primary" onclick="addQuestion()">
             Add Question
           </button>
@@ -153,16 +153,13 @@
 
 
 
-        <div class="form-group row mb-3" style="padding-top: 10px">
-          <div class="col-12 text-center">
-            <button type="button" class="btn btn-primary mr-2" style="margin-right: 5%;" onclick="sortByCategory()">
-              Sort By Category
-            </button>
-            <button type="submit" class="btn btn-success">
-              Save Assessment
-            </button>
+        <nav class="navbar fixed-bottom navbar-light" style="background-color: #ffffff;">
+          <div class="container-fluid justify-content-center">
+            <input type="button" value="Sort By Category" class="btn btn-warning mr-2" style="margin-right: 5%;" onclick="sortByCategory()">
+            <input type="submit" value="Save Assessment" class="btn btn-warning" form="kcForm" />
+
           </div>
-        </div>
+        </nav>       
         
 
       </form>

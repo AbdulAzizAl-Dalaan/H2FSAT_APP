@@ -54,7 +54,7 @@
           </div>
         </div>
 
-        <form method="post" action="/edit/<%= survey.survey_id %>">
+        <form method="post" action="/edit/<%= survey.survey_id %>" id="myForm">
           <div class="form-group">
             <label for="title">Title:</label>
             <input type="text" class="form-control" id="title" name="title" value="<%= survey.title %>" required />
@@ -110,7 +110,7 @@
             <!-- Question fields will be dynamically generated here -->
           </div>
 
-          <div class="form-group button-space">
+          <div class="form-group button-space" style="padding-bottom: 7%;">
             <button type="button" class="btn btn-primary" onclick="addQuestion()">
               Add Question
             </button>
@@ -118,11 +118,11 @@
 
           <input type="hidden" id="num_questions" name="num_questions" value="0" />
 
-          <div class="form-group row mb-3" style="padding-top: 10px">
-            <div class="col-12 text-center">
-              <button type="submit" class="btn btn-success">Save Assessment</button>
+          <nav class="navbar fixed-bottom navbar-light" style="background-color: #ffffff;">
+            <div class="container-fluid justify-content-center">
+              <input type="submit" value="Save Assessment" class="btn btn-warning" form="myForm" />
             </div>
-          </div>
+          </nav>
         </form>
       </div>
 </body>
