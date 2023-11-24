@@ -4,6 +4,7 @@ const User = require('../User');
 
 class Survey_Info extends Model { }
 
+
 Survey_Info.init({
     survey_id:
     {

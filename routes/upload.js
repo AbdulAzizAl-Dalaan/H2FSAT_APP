@@ -122,18 +122,50 @@ async function createQuestions(headers, emailHeader, surveyId) {
 async function saveResponses(xlData, headers, emailHeader, surveyId, questionIdMapping) {
     for (let i = 0; i < xlData.length; i++) {
         const row = xlData[i];
-        const email = row[emailHeader];
+        const email = row[emailHeader] || 'Unknown';
         let results = {};
+
+        const existingUser = await User.findOne({ where: { email: email } });
+        if (!existingUser) {
+            
+            const firstName = 'N/A'; 
+            const lastName = 'N/A'; 
+
+            if (firstName && lastName) {
+                await User.create({
+                    firstname: firstName,
+                    lastname: lastName,
+                    email: email,
+                    
+                });
+            }
+        }
+
+
+
+
 
         headers.filter(header => header !== emailHeader && header.toLowerCase() !== 'timestamp').forEach(header => {
             const questionId = questionIdMapping[header];
-            results[questionId] = row[header];
+            let value = row[header];
+
+            //looking to see if it should be an array
+            if (Array.isArray(value) || (typeof value === 'string' && value.includes(';'))) {
+                value = Array.isArray(value) ? value : value.split(';');
+            } else {
+                //for the case that the value is a number
+                value = value.toString();
+            }
+
+            results[questionId] = value;
         });
+
+        let timestamp = row['Timestamp'] || new Date().toISOString(); 
 
         const existingResponse = await Survey_D.findOne({ where: { survey_id: surveyId, email: email } });
         if (existingResponse) {
             existingResponse.results = { ...existingResponse.results, ...results };
-            if(row['Timestamp']) existingResponse.timestamp = row['Timestamp'];  //saving timestamp
+            existingResponse.timestamp = timestamp; 
             await existingResponse.save();
         } else {
             const survey = await Survey_Info.findOne({ where: { survey_id: surveyId } });
@@ -142,12 +174,15 @@ async function saveResponses(xlData, headers, emailHeader, surveyId, questionIdM
                 email: email,
                 results: results,
                 version: survey.version,
-                timestamp: row['Timestamp']  //saving timestamp
+                timestamp: timestamp,
+                isOutdated: false
             };
             await Survey_D.create(responseData);
         }
     }
 }
+
+
 
 module.exports = router;
 
