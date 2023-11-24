@@ -4,6 +4,7 @@ const Survey_Info = require('./Survey_Q');
 
 class Survey_D extends Model {}
 
+
 Survey_D.init({
     survey_id:
     {
@@ -33,6 +34,12 @@ Survey_D.init({
         type: DataTypes.DATE,
         allowNull: true
 
+    },
+    isOutdated:
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 
 }, {

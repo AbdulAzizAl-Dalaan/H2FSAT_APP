@@ -48,7 +48,15 @@ router.get('/:id', async function (req, res, next) {
 
   const surveyResultsR = await Survey_R.findAll({ where: { survey_id: req.params.id } });
   const surveyResultsD = await Survey_D.findAll({ where: { survey_id: req.params.id } });
-  const survey_results = [...surveyResultsR, ...surveyResultsD];
+  
+  // const survey_results = [...surveyResultsR, ...surveyResultsD];
+  // console.log('Survey Results:', survey_results);
+
+  const surveyResultsRPlain = surveyResultsR.map(result => result.toJSON());
+  const surveyResultsDPlain = surveyResultsD.map(result => result.toJSON());
+
+  const survey_results = [...surveyResultsRPlain, ...surveyResultsDPlain];
+  //console.log("Survey results:*****", survey_results);
 
 
   const survey_questions = await Survey_Q.findAll({ where: { survey_id: req.params.id } });
@@ -63,6 +71,7 @@ router.get('/:id', async function (req, res, next) {
 
   
   res.render("results_survey", {survey, survey_results, survey_questions, core_results, version_results, user_results})
+  
 
 });
 
