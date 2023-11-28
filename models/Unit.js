@@ -2,6 +2,7 @@ const sequelize = require('../db');
 const { Model, DataTypes } = require('sequelize');
 const User = require('./User');
 
+
 class Unit extends Model { }
 
 Unit.init({
