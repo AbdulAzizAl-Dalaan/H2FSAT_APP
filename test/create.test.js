@@ -73,26 +73,6 @@ it('should allow toggling of password input', async function() {
     expect(isDisabled).to.equal('true'); //password should not be enabled for the next tests
 });
 
-// it('should allow addition of a question', async function() {
-//     this.timeout(10000);
-    
-//     console.log("1");
-//     // Finding and clicking the 'Add Question' button
-//     const addQuestionButton = await driver.wait(until.elementLocated(By.xpath("//button[normalize-space()='Add Question']")), 10000);
-//     await driver.executeScript("document.querySelector('button.btn.btn-primary').click();");
-
-//     // Wait for a new question field to appear
-//     // Assuming 'questionCount' is available or can be determined in the test context
-//     const expectedQuestionId = `question_${questionCount}_fields`;
-//     await driver.wait(until.elementLocated(By.id(expectedQuestionId)), 10000);
-
-//     // Check if the new question field is present
-//     const questionFields = await driver.findElements(By.css('#questions .form-group'));
-//     expect(questionFields.length).to.be.above(0);
-
-//     console.log("2");
-// });
-
 
 
 it('should allow addition of a question', async function() {
@@ -103,73 +83,139 @@ it('should allow addition of a question', async function() {
     const addQuestionButton = await driver.wait(until.elementLocated(By.xpath("//button[normalize-space()='Add Question']")), 10000);
     await driver.executeScript("document.querySelector('button.btn.btn-primary').click();");
     
-    
-    
     //making sure the options are in view
     const questionFields = await driver.findElements(By.css('#questions .form-group'));
     expect(questionFields.length).to.be.above(0); 
 });
 
 
-it('should submit the form with valid inputs', async function() {
+
+it('should allow addition of questions of different forms', async function() {
     this.timeout(20000);
-  
-    //filling out the assessment information
+
+    //assigning assessment title
     const titleInput = await driver.findElement(By.id('title'));
     await titleInput.sendKeys('Test Assessment');
   
     const descriptionTextArea = await driver.findElement(By.id('description'));
     await descriptionTextArea.sendKeys('This is a test assessment.');
-  
-    
+
+    //adding the first question
     const firstQuestionTitle = await driver.findElement(By.name('question_1_title'));
     await firstQuestionTitle.sendKeys('First Question');
     
     const firstQuestionType = await driver.findElement(By.name('question_1_type'));
     await firstQuestionType.sendKeys('checkbox');
     
-  
     const option1Input = await driver.findElement(By.name('question_1_option_1'));
-    
     await option1Input.sendKeys('Option 1 Text');
-    let value = await option1Input.getAttribute('value');  //making sure the option value has been set
     
-    
-    //adding the second option
     const option2Input = await driver.findElement(By.name('question_1_option_2'));
-    
     await option2Input.sendKeys('Option 2 Text');
-    value = await option2Input.getAttribute('value'); 
 
-
-    //adding a third option 
     const addOptionButton = await driver.findElement(By.xpath("//button[contains(text(),'Add Option')]"));
     await driver.executeScript("arguments[0].scrollIntoView(true);", addOptionButton);
     await driver.wait(until.elementIsEnabled(addOptionButton), 10000);
     await driver.wait(until.elementIsVisible(addOptionButton), 10000);
     await driver.executeScript("arguments[0].click();", addOptionButton);
 
-    
     await driver.wait(until.elementLocated(By.name(`question_1_option_3`)), 10000);
-
-    //adding the third option content
     const option3Input = await driver.findElement(By.name('question_1_option_3'));
     await option3Input.sendKeys('Option 3 Text');
-    value = await option3Input.getAttribute('value');  
+
+    //adding the second question
+    const addQuestionButton = await driver.wait(until.elementLocated(By.xpath("//button[normalize-space()='Add Question']")), 10000);
+    await driver.executeScript("arguments[0].click();", addQuestionButton);
+
+    const secondQuestionTitle = await driver.findElement(By.name('question_2_title'));
+    await secondQuestionTitle.sendKeys('Second Multiple Choice Question');
+
+    const secondQuestionType = await driver.findElement(By.name('question_2_type'));
+    await secondQuestionType.sendKeys('multiple choice'); 
+
+    for (let i = 1; i <= 2; i++) {
+        const optionInput = await driver.findElement(By.name(`question_2_option_${i}`));
+        await optionInput.sendKeys(`Multiple Choice ${i}`);
+    }
+
+    const secondQuestionFieldsDiv = await driver.findElement(By.id('question_2_fields'));
+    const addOptionButtonq2 = await secondQuestionFieldsDiv.findElement(By.xpath(".//button[contains(text(),'Add Option')]"));
+
+    await driver.executeScript("arguments[0].scrollIntoView(true);", addOptionButtonq2);
+    await driver.wait(until.elementIsEnabled(addOptionButtonq2), 10000);
+    await driver.wait(until.elementIsVisible(addOptionButtonq2), 10000);
+    await driver.executeScript("arguments[0].click();", addOptionButtonq2);
+
+
+    const optionInputq23 = await driver.findElement(By.name(`question_2_option_3`));
+    await optionInputq23.sendKeys(`Multiple Choice 3`);
+
+
+    //adding a thrid question that is of type text
+    const addQuestionButtonForThird = await driver.wait(until.elementLocated(By.xpath("//button[normalize-space()='Add Question']")), 10000);
+    await driver.executeScript("arguments[0].click();", addQuestionButtonForThird);
+
+    const thirdQuestionTitle = await driver.findElement(By.name('question_3_title'));
+    await thirdQuestionTitle.sendKeys('Third Text Question');
+    const thirdQuestionTitleValue = await thirdQuestionTitle.getAttribute('value');
+    expect(thirdQuestionTitleValue).to.equal('Third Text Question');
 
     
-    // Correctly locating the submit button
+    const thirdQuestionType = await driver.findElement(By.name('question_3_type'));
+    await thirdQuestionType.sendKeys('text');
+    const thirdQuestionTypeValue = await thirdQuestionType.getAttribute('value');
+    expect(thirdQuestionTypeValue).to.equal('text');  
+    
+
+
+    //adding the fourth question of type number range
+    const addQuestionButtonForFourth = await driver.wait(until.elementLocated(By.xpath("//button[normalize-space()='Add Question']")), 10000);
+    await driver.executeScript("arguments[0].click();", addQuestionButtonForFourth);
+    
+    const fourthQuestionTitle = await driver.findElement(By.name('question_4_title'));
+    await fourthQuestionTitle.sendKeys('Fourth Number Range Question');
+    const fourthQuestionTitleValue = await fourthQuestionTitle.getAttribute('value');
+    expect(fourthQuestionTitleValue).to.equal('Fourth Number Range Question');
+    
+    const fourthQuestionType = await driver.findElement(By.name('question_4_type'));
+    await fourthQuestionType.sendKeys('number range');
+    
+    const numberInputs = await driver.findElements(By.css('input[type="number"]'));
+    const topRangeInput = numberInputs[0];  
+    const bottomRangeInput = numberInputs[1];  
+    
+
+    await topRangeInput.sendKeys('10');  
+    await bottomRangeInput.sendKeys('1');  
+
+    const topRangeValue = await topRangeInput.getAttribute('value');
+    expect(topRangeValue).to.equal('10');
+    const bottomRangeValue = await bottomRangeInput.getAttribute('value');
+    expect(bottomRangeValue).to.equal('1');
+    
+
+
+});
+
+
+
+
+
+it('should submit the form with valid inputs', async function() {
+    this.timeout(20000);
+
     const submitButton = await driver.findElement(By.css('.btn-warning'));
     await driver.executeScript("arguments[0].scrollIntoView(true);", submitButton);
     await driver.wait(until.elementIsEnabled(submitButton), 10000);
     await driver.wait(until.elementIsVisible(submitButton), 10000);
     await driver.executeScript("arguments[0].click();", submitButton);
-  
-    
+
     await driver.wait(until.urlContains('home'), 100000); 
     const currentUrl = await driver.getCurrentUrl();
     expect(currentUrl).to.include('/home');
 });
+
+
 
 
 it('should navigate to the Edit Assessment page when Edit button is clicked', async function() {
@@ -196,7 +242,6 @@ it('should navigate to the Edit Assessment page when Edit button is clicked', as
 
 it('should allow editing of an existing assessment', async function() {
     this.timeout(20000);
-    
 
 
     //changing title
@@ -219,28 +264,87 @@ it('should allow editing of an existing assessment', async function() {
     await option1Input.clear();
     await option1Input.sendKeys('OP1 Edited');
 
+    //changing option 2
     const option2Input = await driver.findElement(By.name('question_1_option_2'));
     await option2Input.clear();
     await option2Input.sendKeys('OP2 Edited');
 
+    //changing option 3
     const option3Input = await driver.findElement(By.name('question_1_option_3'));
     await option3Input.clear();
     await option3Input.sendKeys('OP3 Edited');
+    
 
-    console.log("1");
-    // Correctly locating the 'Save Assessment' submit input
+
+    //editing the second question
+    const secondQuestionTitle = await driver.findElement(By.name('question_2_title'));
+    await secondQuestionTitle.clear();
+    await secondQuestionTitle.sendKeys('Second Question Edited');
+
+    //changing options
+    for (let i = 1; i <= 3; i++) {
+        const optionInput = await driver.findElement(By.name(`question_2_option_${i}`));
+        await optionInput.clear();
+        await optionInput.sendKeys(`Option ${i} Edited`);
+    }
+
+    //editing the third question
+    const thirdQuestionTitle = await driver.findElement(By.name('question_3_title'));
+    await thirdQuestionTitle.clear();
+    await thirdQuestionTitle.sendKeys('Third Question Edited');
+
+    //edit the fourth question (Number Range type)
+    const fourthQuestionTitle = await driver.findElement(By.name('question_4_title'));
+    await fourthQuestionTitle.clear();
+    await fourthQuestionTitle.sendKeys('Fourth Question Edited');
+
+    const numberInputs = await driver.findElements(By.css('input[type="number"]'));
+    const fourthTopRangeInput = numberInputs[0];  
+    const fourthBottomRangeInput = numberInputs[1];  
+    await fourthTopRangeInput.clear();
+    await fourthTopRangeInput.sendKeys('9');
+    await fourthBottomRangeInput.clear();
+    await fourthBottomRangeInput.sendKeys('2');
+
+
+
+    
+});
+
+
+it('should allow deletion of the fourth question', async function() {
+    this.timeout(20000);
+
+    const deleteButtons = await driver.findElements(By.xpath("//button[contains(text(), 'Delete Question')]"));
+    const deleteButtonForFourth = deleteButtons[3]; // Index is zero-based; 3 would refer to the fourth button
+    await driver.executeScript("arguments[0].click();", deleteButtonForFourth);
+
+
+    
+    await driver.sleep(10000);
+});
+
+
+
+it('should submit the edited assessment', async function() {
+    this.timeout(20000);
+
+    
     const saveButton = await driver.findElement(By.css("input[type='submit'][value='Save Assessment']"));
     await driver.executeScript("arguments[0].scrollIntoView(true);", saveButton);
     await driver.wait(until.elementIsEnabled(saveButton), 10000);
     await driver.wait(until.elementIsVisible(saveButton), 10000);
-    await driver.executeScript("arguments[0].click();", saveButton);
-    console.log("2");
+    await saveButton.click();
 
-
+    //checking to see if at home
     await driver.wait(until.urlContains('home'), 100000); 
     const currentUrl = await driver.getCurrentUrl();
     expect(currentUrl).to.include('/home'); 
+
+    
 });
+
+
 
 
 it('should delete an existing assessment', async function() {
