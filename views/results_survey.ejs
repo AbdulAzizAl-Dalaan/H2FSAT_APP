@@ -490,7 +490,7 @@
             if (!allResponses[prompt]) {
               allResponses[prompt] = {};
             }
-            allResponses[prompt][response] = (allResponses[prompt][response] || 0) + 1;
+            allResponses[prompt][response] = (allResponses[prompt][response] || 0)+1;
           }
         });
 
@@ -555,7 +555,7 @@
 
         versionSelector.selectAll("option").remove();
 
-        if (![1, 2, 3].includes(surveyID)) {
+        if (![2, 3].includes(surveyID)) {
           relevantVersionData.forEach(version => {
             versionSelector
               .append("option")
@@ -800,7 +800,7 @@ const getUserData = (userEmail) => {
     return user_data.find(user => user.email === userEmail);
 };
 
-const fixedColumns = ["Date", "Unit", "State", "Rank", "Email"];
+const fixedColumns = ["Delete", "Date", "Unit", "State", "Rank", "Age", "Gender", "Email"];
 
 
 let headerData;
@@ -837,7 +837,7 @@ switch (surveyID) {
 
 }
 
-headerData = ["Date", "Unit", "State", "Rank"].concat(headerData);
+headerData = ["Delete", "Date", "Unit", "State", "Rank", "Age", "Gender"].concat(headerData);
 
 
 
@@ -862,6 +862,23 @@ const thead = table.append("thead");
 
 }
 
+function calculateAge(dob) {
+    if (!dob || isNaN(Date.parse(dob))) {
+        return "N/A";
+    }
+
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+
 
 
 
@@ -873,40 +890,109 @@ function formatDate(isoString) {
 
 const tbody = table.append("tbody");
 
-function rowTable(selectedVersion, currentSurveyId) {
-if ([1, 2, 3].includes(surveyID)) {
-    core_data.forEach((entry, idx) => { 
-        const row = tbody.append("tr");
-    
-        const userData = getUserData(entry.user_email || entry.email);
-    
-    
-        const timestamp = raw_data[idx] ? formatDate(raw_data[idx].timestamp) : "N/A";
+function getLatestVersionNumber() {
+    // Extract all version numbers from raw_data and find the maximum
+    return Math.max(...raw_data.map(entry => entry.version || 0));
+}
 
-        row.append("td").text(timestamp);
-        row.append("td").text(userData.unit);
-        row.append("td").text(userData.state);
-        row.append("td").text(userData.rank);
-        row.append("td").text(entry.user_email || entry.email);
+function deleteRow(email, surveyId) {
+    $.ajax({
+        url: '/results/delete-entry',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ email: email, survey_id: surveyId }),
+        success: function(response) {
+            // Find the row with the matching email and remove it
+            $('.table').DataTable().rows(function(idx, data, node) {
+                return data.some(cell => cell === email); 
+            }).remove().draw();
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+        }
+    });
+}
+
+
+
+
+
+function rowTable(selectedVersion, currentSurveyId) {
+    // Clear existing rows to prevent duplication
+    
+    tbody.selectAll("tr").remove();
+    let emailToSurveyIdMap = new Map();
+
+    raw_data.forEach(entry => {
+    if (entry.email && entry.survey_id) {
+        emailToSurveyIdMap.set(entry.email, entry.survey_id);
+    }
+    });
+
+    let dataToUse = core_data;
+
+    // Check if the current surveyID is 1, 2, or 3
+    if ([1, 2, 3].includes(surveyID)) {
+        if (surveyID === 1) {
+            if (selectedVersion === 'latest') {
+                let latestVersionNumber = getLatestVersionNumber().toString();
+                let emailsForLatestVersion = raw_data
+                    .filter(entry => entry.version && entry.version.toString() === latestVersionNumber)
+                    .map(entry => entry.email);
+                dataToUse = core_data.filter(entry => emailsForLatestVersion.includes(entry.user_email || entry.email));
+            } else {
+                let emailsForSelectedVersion = raw_data
+                    .filter(entry => entry.version && entry.version.toString() === selectedVersion)
+                    .map(entry => entry.email);
+                dataToUse = core_data.filter(entry => emailsForSelectedVersion.includes(entry.user_email || entry.email));
+            }
+        }
+        dataToUse.forEach((entry, idx) => {
+            const row = tbody.append("tr");
         
-        const checkValue = (value) => (value === null) ? "N/A" : value;
-        
-        switch (surveyID) {
-            case 1:
-                if (entry.h2f_results) {
-                    Object.values(entry.h2f_results).forEach(value => row.append("td").text(checkValue(value)));
-                    row.append("td").text(checkValue(entry.h2f_flag));
-                } else {
-                    headerData.slice(5).forEach(() => row.append("td").text("N/A"));
-                }
-                break;
+            const userData = getUserData(entry.user_email || entry.email);
+            const timestamp = raw_data[idx] ? formatDate(raw_data[idx].timestamp) : "N/A";
+            let surveyId = emailToSurveyIdMap.get(entry.user_email || entry.email);
+    row.append("td")
+       .append("button")
+       .attr("class", "delete-btn")
+       .attr("data-email", entry.user_email || entry.email)
+       .attr("data-survey-id", surveyId)
+       .text("Delete")
+       .on("click", function() {
+           const email = $(this).data('email');
+           const surveyId = $(this).data('survey-id');
+           if (confirm(`Are you sure you want to delete the entry for ${email}?`)) {
+               deleteRow(email, surveyId);
+           }
+           
+          });
+            row.append("td").text(timestamp);
+            row.append("td").text(userData.unit);
+            row.append("td").text(userData.state);
+            row.append("td").text(userData.rank);
+            row.append("td").text(calculateAge(userData.dob));
+            row.append("td").text(userData.gender && userData.gender !== 'None' ? userData.gender : "N/A");
+            row.append("td").text(entry.user_email || entry.email);
+
+            const checkValue = (value) => (value === null) ? "N/A" : value;
+
+            switch (surveyID) {
+                case 1:
+                    if (entry.h2f_results) {
+                        Object.values(entry.h2f_results).forEach(value => row.append("td").text(checkValue(value)));
+                        row.append("td").text(checkValue(entry.h2f_flag));
+                    } else {
+                        headerData.slice(8).forEach(() => row.append("td").text("N/A"));
+                    }
+                    break;
 
             case 2:
                 if (entry.cpa_results) {
                     Object.values(entry.cpa_results).forEach(value => row.append("td").text(checkValue(value)));
                     row.append("td").text(checkValue(entry.cpa_flag));
                 } else {
-                    headerData.slice(5).forEach(() => row.append("td").text("N/A"));
+                    headerData.slice(8).forEach(() => row.append("td").text("N/A"));
                 }
                 break;
 
@@ -962,17 +1048,30 @@ if ([1, 2, 3].includes(surveyID)) {
       const $row = $('<tr></tr>');
 
       const userData = getUserData(entry.email);
-      //console.log("User Data for Email:", entry.email, userData);//delete later
+      const deleteButtonHtml = $("<button>")
+                                .attr("class", "delete-btn")
+                                .attr("data-email", entry.email) // Use email from entry
+                                .attr("data-survey-id", entry.survey_id) // Use survey_id from entry
+                                .text("Delete")
+                                .on("click", function() {
+                                    const email = $(this).data('email');
+                                    const surveyId = $(this).data('survey-id');
+                                    if (confirm(`Are you sure you want to delete the entry for ${email}?`)) {
+                                        deleteRow(email, surveyId);
+                                    }
+                                });
 
+      $row.append($("<td></td>").append(deleteButtonHtml));
       $row.append($("<td></td>").text(formatDate(entry.timestamp) || "N/A"));
       $row.append($("<td></td>").text(userData.unit || "N/A"));
       $row.append($("<td></td>").text(userData.state || "N/A"));
       $row.append($("<td></td>").text(userData.rank || "N/A"));
+      $row.append($("<td></td>").text(calculateAge(userData.dob))); // Calculate and append age
+      $row.append($("<td></td>").text((userData.gender && userData.gender !== 'None' ? userData.gender : "N/A"))); // Append gender
       $row.append($("<td></td>").text(entry.email || "N/A"));
 
       Object.entries(versionInfo.questions).forEach(([key, _]) => {
         let answer = entry.results[key];
-        //console.log(`Answer for question ${key}:`, answer);//delete later
         if (Array.isArray(answer)) {
           answer = answer.join(", ");
         }
@@ -1083,23 +1182,25 @@ $("#version-selector").change(function() {
 
 function updateHeaderData(selectedVersion) {
   let questionColumns;
-  if (selectedVersion === "latest") {
-    selectedVersion = version_data[0].version;
-  }
-
-  const versionInfo = version_data.find(v => v.version.toString() === selectedVersion);
-
-  if (versionInfo) {
-    questionColumns = Object.values(versionInfo.questions);
+if(surveyID != 1) {
+  const latestVersionNumber = getLatestVersionNumber(raw_data).toString();
+  if (selectedVersion === "latest" || selectedVersion === latestVersionNumber) {
+    questionColumns = question_data.map(q => q.prompt);
   } else {
-    let questionHeaders = question_data.map(q => q.prompt);
-    questionColumns = questionHeaders;
+    const versionInfo = version_data.find(v => v.version.toString() === selectedVersion);
+    if (versionInfo) {
+      questionColumns = Object.values(versionInfo.questions);
+    } else {
+      console.error("Version information not found for selected version:", selectedVersion);
+      questionColumns = [];
+    }
   }
-
+}else{
+  questionColumns = ["Sleep","Mental","Physical","Nutrition","Spiritual", "h2f_flag"]
+}
   headerData = fixedColumns.concat(questionColumns);
-
   renderTableHeaders();
-  rowTable();
+  rowTable(selectedVersion, surveyID); // Make sure to pass the selected version
 }
 
 
@@ -1117,10 +1218,6 @@ function renderTableHeaders() {
   });
 
   $thead.append($tr);
-}
-
-function getLatestVersionNumber(rawData) {
-  return Math.max(...rawData.map(entry => entry.version));
 }
 
 $(document).ready(function() {
