@@ -7,6 +7,7 @@ const Survey_A = require('../models/Survey/Survey_A')
 const Survey_R = require('../models/Survey/Survey_R');
 const Core_Result = require('../models/Core_Result');
 const Notification = require('../models/Notification');
+const e = require('express');
 
 const sessionChecker = (req, res, next) => {
   if(req.session.user)
@@ -66,15 +67,42 @@ router.get('/', async function(req, res, next) {
 
 router.get('/:id', async function(req, res, next) {
   console.log("REQ URL: " + req.url)
+  let mv_flag = true
   const survey = await Survey_Info.findByPk(req.params.id)
   if (survey !== null)
   {
     const results = await Survey_R.findAll({where: {email: req.session.user.email, survey_id: survey.survey_id, version: survey.version}})
-    if (results.length === 0)
+    if (results.length === 0 && req.params.id !== '3')
     {
+      console.log("IN SURVEY SCREEN")
       const questions = await Survey_Q.findAll({where: {survey_id: survey.survey_id}})
       const answers = await Survey_A.findAll({where: {survey_id: survey.survey_id}})
       res.render('survey', {survey, questions, answers});
+    }
+    else if (req.params.id === '3') {
+      console.log("IN MOVEMENT SCREEN")
+      const questions = await Survey_Q.findAll({where: {survey_id: survey.survey_id}})
+      // split the first question from the rest of the questions
+      const first_question = questions[0]
+      questions.shift()
+      if (results.length === 0) {
+        mv_res = null
+        console.log(mv_res)
+        res.render('move_screen', {survey, first_question, questions, mv_res});
+      }
+      else {
+        const mv_results = await Survey_R.findOne({where: {email: req.session.user.email, survey_id: survey.survey_id, version: survey.version}})
+        for (const [key, value] of Object.entries(mv_results.results)) {
+          if (value === '') {
+            mv_flag = false
+          }
+        }
+        if (mv_flag) {
+          res.redirect('/home/?msg=already')
+        }
+        mv_res = mv_results.results
+        res.render('move_screen', {survey, first_question, questions, mv_res});
+      }
     }
     else
     {
@@ -89,6 +117,7 @@ router.get('/:id', async function(req, res, next) {
 });
 
 router.post('/:id/submit', async function(req, res, next) {
+  let result = null
   if (req.query.msg)
   {
     res.locals.msg = req.query.msg
@@ -101,7 +130,7 @@ router.post('/:id/submit', async function(req, res, next) {
     console.log("USER: " + user)
     console.log("SURVEY: " + survey)
     const results = await Survey_R.findAll({where: {email: user.email, survey_id: survey.survey_id, version: survey.version}})
-    if (results.length === 0)
+    if (results.length === 0 || req.params.id === '3')
     {
       let result_dict = {}
       const questions = await Survey_Q.findAll({where: {survey_id: req.params.id}})
@@ -114,7 +143,29 @@ router.post('/:id/submit', async function(req, res, next) {
           }
         });
         console.log("RESULT DICT: " + JSON.stringify(result_dict))
-        const result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, version: survey.version, results: result_dict })
+        const mv_results = await Survey_R.findOne({where: {email: req.session.user.email, survey_id: survey.survey_id, version: survey.version}})
+
+        if (mv_results && req.params.id === '3') {
+          console.log("MV RESULTS EXISTS")
+          // combine the two result dicts together
+          for (const [key, value] of Object.entries(mv_results.results)) {
+            if (value !== '' && key !== '1') {
+              result_dict[key] = value
+            }
+          }
+          // print out the combined result dict
+          for (const [key, value] of Object.entries(result_dict)) {
+            console.log(`IN SURVEY ROUTE ${key}: ${value}`)
+            console.log(typeof(key)) 
+            console.log(typeof(value))
+            console.log(value === '')
+          }
+          await Survey_R.update({results: result_dict}, {where: {email: user.email, survey_id: survey.survey_id, version: survey.version}})
+          result = await Survey_R.findOne({where: {email: user.email, survey_id: survey.survey_id, version: survey.version}})
+
+        } else {
+          result = await Survey_R.create({email: user.email, survey_id: survey.survey_id, version: survey.version, results: result_dict })
+        }
 
 
         if (survey.isCore) {
@@ -238,9 +289,9 @@ router.post('/:id/submit', async function(req, res, next) {
                 }
                 break;
               case 3: // FMS
-                if (survey_core_result.fms_flag === null) {
-                  await survey_core_result.update({fms_flag: core_res})
-                  await survey_core_result.save()
+                if (survey_core_result.fms_flag === null || survey_core_result.fms_flag !== core_res) {
+                    await survey_core_result.update({fms_flag: core_res})
+                    await survey_core_result.save()
                 }
                 break;
               default:
