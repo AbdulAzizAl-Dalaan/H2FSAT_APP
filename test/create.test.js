@@ -73,12 +73,37 @@ it('should allow toggling of password input', async function() {
     expect(isDisabled).to.equal('true'); //password should not be enabled for the next tests
 });
 
+// it('should allow addition of a question', async function() {
+//     this.timeout(10000);
+    
+//     console.log("1");
+//     // Finding and clicking the 'Add Question' button
+//     const addQuestionButton = await driver.wait(until.elementLocated(By.xpath("//button[normalize-space()='Add Question']")), 10000);
+//     await driver.executeScript("document.querySelector('button.btn.btn-primary').click();");
+
+//     // Wait for a new question field to appear
+//     // Assuming 'questionCount' is available or can be determined in the test context
+//     const expectedQuestionId = `question_${questionCount}_fields`;
+//     await driver.wait(until.elementLocated(By.id(expectedQuestionId)), 10000);
+
+//     // Check if the new question field is present
+//     const questionFields = await driver.findElements(By.css('#questions .form-group'));
+//     expect(questionFields.length).to.be.above(0);
+
+//     console.log("2");
+// });
+
+
+
 it('should allow addition of a question', async function() {
     this.timeout(10000);
     
+    
     //finding the add question button
     const addQuestionButton = await driver.wait(until.elementLocated(By.xpath("//button[normalize-space()='Add Question']")), 10000);
-    await addQuestionButton.click();
+    await driver.executeScript("document.querySelector('button.btn.btn-primary').click();");
+    
+    
     
     //making sure the options are in view
     const questionFields = await driver.findElements(By.css('#questions .form-group'));
@@ -106,14 +131,14 @@ it('should submit the form with valid inputs', async function() {
   
     const option1Input = await driver.findElement(By.name('question_1_option_1'));
     
-    await option1Input.sendKeys('Option 1 Text hello');
+    await option1Input.sendKeys('Option 1 Text');
     let value = await option1Input.getAttribute('value');  //making sure the option value has been set
     
     
     //adding the second option
     const option2Input = await driver.findElement(By.name('question_1_option_2'));
     
-    await option2Input.sendKeys('Option 2 Text good');
+    await option2Input.sendKeys('Option 2 Text');
     value = await option2Input.getAttribute('value'); 
 
 
@@ -129,10 +154,15 @@ it('should submit the form with valid inputs', async function() {
 
     //adding the third option content
     const option3Input = await driver.findElement(By.name('question_1_option_3'));
-    await option3Input.sendKeys('Option 3 Text example');
+    await option3Input.sendKeys('Option 3 Text');
     value = await option3Input.getAttribute('value');  
 
-    const submitButton = await driver.findElement(By.css('.btn-success'));
+    
+    // Correctly locating the submit button
+    const submitButton = await driver.findElement(By.css('.btn-warning'));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", submitButton);
+    await driver.wait(until.elementIsEnabled(submitButton), 10000);
+    await driver.wait(until.elementIsVisible(submitButton), 10000);
     await driver.executeScript("arguments[0].click();", submitButton);
   
     
@@ -197,12 +227,15 @@ it('should allow editing of an existing assessment', async function() {
     await option3Input.clear();
     await option3Input.sendKeys('OP3 Edited');
 
-    //saving the changes
-    const saveButton = await driver.findElement(By.xpath("//button[contains(text(),'Save Assessment')]"));
+    console.log("1");
+    // Correctly locating the 'Save Assessment' submit input
+    const saveButton = await driver.findElement(By.css("input[type='submit'][value='Save Assessment']"));
     await driver.executeScript("arguments[0].scrollIntoView(true);", saveButton);
     await driver.wait(until.elementIsEnabled(saveButton), 10000);
     await driver.wait(until.elementIsVisible(saveButton), 10000);
     await driver.executeScript("arguments[0].click();", saveButton);
+    console.log("2");
+
 
     await driver.wait(until.urlContains('home'), 100000); 
     const currentUrl = await driver.getCurrentUrl();
