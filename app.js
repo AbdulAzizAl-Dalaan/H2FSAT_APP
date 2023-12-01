@@ -103,20 +103,20 @@ app.use(function (err, req, res, next) {
 
 async function setup() {
   // Test Admin User
-  const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "CPT", password: '1', gender: 'male', isAdmin: true, state: "WA" })
+  const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "CPT", password: '1', gender: 'male', isAdmin: true, state: "WA", dob: "2001-03-22", gender: "Female" })
 
   // SUBU TEST USERS
-  const adminSubu = await User.create({ firstname: "Brian", lastname: "Adams", unit: "1st", email: "brian.adams@army.mil", rank: "CPT", password: '1234', gender: 'male', isAdmin: true, state: "VA" })
-  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "SGT", gender: 'male', state: "VA" })
-  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "SGT", gender: 'male', state: "VA" })
+  const adminSubu = await User.create({ firstname: "Brian", lastname: "Adams", unit: "1st", email: "brian.adams@army.mil", rank: "CPT", password: '1234', gender: 'male', isAdmin: true, state: "VA", dob: "1993-06-25", gender: "Male" })
+  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "SGT", gender: 'male', state: "VA", dob: "1990-05-20", gender: "Male" })
+  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "SGT", gender: 'male', state: "VA", dob: "1987-03-15", gender: "Male" })
   
-  const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "SGT", state: "VA" })
-  const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "SGT", state: "VA" })
-  const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSG", password: '1234', isUnitLeader: true, state: "VA" })
-  const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "CPT", password: '1234', isAdmin: true, state: "VA" })
-  const ul1 = await User.create({ firstname: "John", lastname: "Smith", unit: "4th", email: "ul1", rank: "SGT", password: "1234", isUnitLeader: true, state: "VA" })
+  const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "john.doe@army.mil", rank: "SGT", state: "VA", dob: "1989-09-08", gender: "Male" })
+  const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "SGT", state: "VA", dob: "1995-07-13", gender:"Male"})
+  const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSG", password: '1234', isUnitLeader: true, state: "VA", dob: "1991-02-14", gender:"Female" })
+  const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "CPT", password: '1234', isAdmin: true, state: "VA", dob: "1985-09-25", gender:"Male" })
+  const ul1 = await User.create({ firstname: "John", lastname: "Smith", unit: "4th", email: "arthur.williams@army.mil", rank: "SGT", password: "1234", isUnitLeader: true, state: "VA", dob: "1997-08-13", gender:"Male" })
 
-  const unit4 = await Unit.create({ uic: "4th", state: "VA", leader: "ul1" })
+  const unit4 = await Unit.create({ uic: "4th", state: "VA", leader: "arthur.williams@army.mil" })
   const unit1 = await Unit.create({ uic: "1st", state: "VA", leader: "jane.doe@army.mil" })
   const tuser = await User.create({ firstname: "Jim", lastname: "Milton", email: "jim.milton@army.mil" })
 
@@ -124,36 +124,36 @@ async function setup() {
   // Users for the 1st unit
   const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "PVT", state: "VA", dob: "2001-03-22", gender: "Female" });
   const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "SGT", state: "VA", dob: "2000-07-11", gender: "Male" });
-  const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl", state: "VA" });
-  const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "PVT", state: "VA" });
-  const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "SGT", state: "VA" });
-  const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "PVT", state: "VA" });
-  const user8 = await User.create({ firstname: "Emily", lastname: "Jones", unit: "1st", email: "emily.jones@army.mil", rank: "PVT", state: "VA" });
-  const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "SGT", state: "VA" });
+  const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl", state: "VA", dob: "2001-08-11", gender:"Male" });
+  const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "PVT", state: "VA", dob: "2002-05-05", gender:"Male" });
+  const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "SGT", state: "VA", dob: "1992-11-05", gender:"Female" });
+  const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "PVT", state: "VA", dob: "2003-01-13", gender:"Male" });
+  const user8 = await User.create({ firstname: "Emily", lastname: "Jones", unit: "1st", email: "emily.jones@army.mil", rank: "PVT", state: "VA", dob: "2002-01-01", gender:"Female" });
+  const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "SGT", state: "VA", dob: "1996-09-19", gender:"Male" });
 
   // Users for the 2nd unit
-  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", isUnitLeader: true, rank: "PVT", state: "NC" });
-  const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "2nd", email: "mark.taylor@army.mil", rank: "PVT", state: "NC" });
-  const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "2nd", email: "karen.anderson@army.mil", rank: "SGT", state: "NC" });
-  const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "2nd", email: "chris.lee@army.mil", rank: "PVT", state: "NC" });
-  const user14 = await User.create({ firstname: "Lisa", lastname: "Kim", unit: "2nd", email: "lisa.kim@army.mil", rank: "PVT", state: "NC" });
-  const user15 = await User.create({ firstname: "Brian", lastname: "Chen", unit: "2nd", email: "brian.chen@army.mil", rank: "SGT", state: "NC" });
-  const user16 = await User.create({ firstname: "Jessica", lastname: "Wang", unit: "2nd", email: "jessica.wang@army.mil", rank: "PVT", state: "NC" });
-  const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "2nd", email: "kevin.zhang@army.mil", rank: "PVT", state: "NC" });
-  const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "2nd", email: "michelle.li@army.mil", rank: "SGT", state: "NC" });
+  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", isUnitLeader: true, rank: "SSG", state: "NC", dob: "1993-03-13", gender:"Female" });
+  const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "2nd", email: "mark.taylor@army.mil", rank: "PVT", state: "NC", dob: "1995-02-13", gender:"Male" });
+  const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "2nd", email: "karen.anderson@army.mil", rank: "SGT", state: "NC", dob: "1999-04-19", gender:"Female" });
+  const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "2nd", email: "chris.lee@army.mil", rank: "PVT", state: "NC", dob: "2000-07-05", gender:"Male" });
+  const user14 = await User.create({ firstname: "Lisa", lastname: "Kim", unit: "2nd", email: "lisa.kim@army.mil", rank: "PVT", state: "NC", dob: "2003-06-10", gender:"Female" });
+  const user15 = await User.create({ firstname: "Brian", lastname: "Chen", unit: "2nd", email: "brian.chen@army.mil", rank: "SGT", state: "NC", dob: "1998-07-25", gender:"Male" });
+  const user16 = await User.create({ firstname: "Jessica", lastname: "Wang", unit: "2nd", email: "jessica.wang@army.mil", rank: "PVT", state: "NC", dob: "2000-01-27", gender:"Female" });
+  const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "2nd", email: "kevin.zhang@army.mil", rank: "PVT", state: "NC", dob: "2002-02-26", gender:"Male" });
+  const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "2nd", email: "michelle.li@army.mil", rank: "SGT", state: "NC", dob: "1998-03-01", gender:"Female" });
 
   const unit2 = await Unit.create({ uic: "2nd", state: "NC", leader: "amy.wilson@army.mil"})
 
   // Users for the 3rd unit
-  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", isUnitLeader: true, rank: "PVT", state: "PA" });
-  const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "3rd", email: "stephanie.chang@army.mil", rank: "PVT", state: "PA" });
-  const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "3rd", email: "jason.chen@army.mil", rank: "SGT", state: "PA" });
-  const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "3rd", email: "rachel.liu@army.mil", rank: "PVT", state: "PA" });
-  const user23 = await User.create({ firstname: "Eric", lastname: "Wang", unit: "3rd", email: "eric.wang@army.mil", rank: "PVT", state: "PA" });
-  const user24 = await User.create({ firstname: "Catherine", lastname: "Zhang", unit: "3rd", email: "catherine.zhang@army.mil", rank: "SGT", state: "PA" });
-  const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "PVT", state: "PA" });
-  const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "PVT", state: "PA" });
-  const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "SGT", state: "PA" });
+  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", isUnitLeader: true, rank: "CPT", state: "PA", dob: "1993-10-25", gender:"Male" });
+  const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "3rd", email: "stephanie.chang@army.mil", rank: "PVT", state: "PA", dob: "2004-08-29", gender:"Female" });
+  const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "3rd", email: "jason.chen@army.mil", rank: "SGT", state: "PA", dob: "2000-11-05", gender:"Male" });
+  const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "3rd", email: "rachel.liu@army.mil", rank: "PVT", state: "PA", dob: "2000-12-20", gender:"Female" });
+  const user23 = await User.create({ firstname: "Eric", lastname: "Wang", unit: "3rd", email: "eric.wang@army.mil", rank: "PVT", state: "PA", dob: "2001-03-20", gender:"Male" });
+  const user24 = await User.create({ firstname: "Catherine", lastname: "Zhang", unit: "3rd", email: "catherine.zhang@army.mil", rank: "SGT", state: "PA", dob: "1994-12-01", gender:"Female" });
+  const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "PVT", state: "PA", dob: "2005-03-10", gender:"Male" });
+  const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "PVT", state: "PA", dob: "1997-02-05", gender:"Female" });
+  const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "SGT", state: "PA", dob: "2004-06-16", gender:"Male" });
 
   const unit3 = await Unit.create({ uic: "3rd", state: "PA", leader: "andrew.wu@army.mil"})
 
@@ -302,7 +302,7 @@ async function setup() {
   const survey_one_q6_a1 = await Survey_A.create({survey_id: 4, question_id: 5, answer_id: 1, text: "Yes"})
   const survey_one_q6_a2 = await Survey_A.create({survey_id: 4, question_id: 5, answer_id: 2, text: "No"})
 
-  const res1  = await Survey_R.create({survey_id: 4, version: 1, email: "user", results: {"1": "Seattle", "2": "de", "3": "10", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}, timestamp: "2023-01-12T08:20:30.000Z"})
+  const res1  = await Survey_R.create({survey_id: 4, version: 1, email: "john.doe@army.mil", results: {"1": "Seattle", "2": "de", "3": "10", "4": ["CPT_S 302", "CPT_S 350"], "5": "Yes"}, timestamp: "2023-01-12T08:20:30.000Z"})
   const res2  = await Survey_R.create({survey_id: 4, version: 1, email: "jill.shawn@army.mil", results: {"1": "Pullman", "2": "Jill Shawn", "3": "7", "4": ["CPT_S 350", "CPT_S 360"], "5": "No"}, timestamp: "2023-01-12T10:15:45.000Z"})
   const res3  = await Survey_R.create({survey_id: 4, version: 1, email: "joe.johnson@army.mil", results: {"1": "Olympia", "2": "Joe Johnson", "3": "5", "4": ["CPT_S 302", "CPT_S 360"], "5": "No"}, timestamp: "2023-02-18T13:00:00.000Z"})
   const res4  = await Survey_R.create({survey_id: 4, version: 1, email: "adam.smith@army.mil", results: {"1": "Vancouver", "2": "Adam Smith", "3": "8", "4": ["CPT_S 302"], "5": "No"}, timestamp: "2023-03-22T18:30:00.000Z"})
@@ -334,7 +334,7 @@ async function setup() {
 
 
 
-  const h2f_res1  = await Survey_R.create({survey_id: 1, version: 1, email: "user", results: {"1": "150 minutes", "2": "Slowly reducing heart rate", "3": "Rice", "4": "White Bread", "5": "Empathy", "6": "Attention", "7": "Mindfulness", "8": "Reconciliation", "9": "7-8 Hours", "10": "True"}, timestamp: "2023-01-12T08:20:30.000Z"})
+  const h2f_res1  = await Survey_R.create({survey_id: 1, version: 1, email: "john.doe@army.mil", results: {"1": "150 minutes", "2": "Slowly reducing heart rate", "3": "Rice", "4": "White Bread", "5": "Empathy", "6": "Attention", "7": "Mindfulness", "8": "Reconciliation", "9": "7-8 Hours", "10": "True"}, timestamp: "2023-01-12T08:20:30.000Z"})
   const h2f_res2  = await Survey_R.create({survey_id: 1, version: 1, email: "jill.shawn@army.mil", results: {"1": "30 minutes", "2": "Preventing blood pooling in the extremities", "3": "Fruits", "4": "Brown Rice", "5": "Sympathy", "6": "Centralizing", "7": "Inner Peace", "8": "Engagement", "9": "6-7 Hours", "10": "False"}, timestamp: "2023-01-12T10:15:45.000Z"})
   const h2f_res3  = await Survey_R.create({survey_id: 1, version: 1, email: "joe.johnson@army.mil", results: {"1": "75 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Grains", "4": "Popcorn", "5": "Mind Reading", "6": "Details", "7": "Serenity", "8": "Compatibility", "9": "5-6 Hours", "10": "True"}, timestamp: "2023-02-18T13:00:00.000Z"})
   const h2f_res4  = await Survey_R.create({survey_id: 1, version: 1, email: "adam.smith@army.mil", results: {"1": "30 minutes", "2": "Enhancing Flexibility and range of motion", "3": "Fruits", "4": "Oatmeal", "5": "Kinesis", "6": "Processing", "7": "Inner Peace", "8": "Compatibility", "9": "4-5 Hours", "10": "False"}, timestamp: "2023-03-22T18:30:00.000Z"})
@@ -364,7 +364,7 @@ async function setup() {
   
 
 
-  const survey_res1  = await Survey_R.create({survey_id: 2, version: 1, email: "user", results: {"1": 7, "2": 6, "3": 8, "4": 5, "5": 7, "6": 6, "7": 8, "8": 5, "9": 7, "10": 6, "11": 8, "12": 5, "13": 7, "14": 6, "15": 8}, timestamp: "2023-01-12T08:20:30.000Z"})
+  const survey_res1  = await Survey_R.create({survey_id: 2, version: 1, email: "john.doe@army.mil", results: {"1": 7, "2": 6, "3": 8, "4": 5, "5": 7, "6": 6, "7": 8, "8": 5, "9": 7, "10": 6, "11": 8, "12": 5, "13": 7, "14": 6, "15": 8}, timestamp: "2023-01-12T08:20:30.000Z"})
   const survey_res2  = await Survey_R.create({survey_id: 2, version: 1, email: "jill.shawn@army.mil", results: {"1": 9, "2": 7, "3": 8, "4": 6, "5": 8, "6": 7, "7": 5, "8": 7, "9": 8, "10": 6, "11": 4, "12": 6, "13": 7, "14": 8, "15": 9}, timestamp: "2023-01-12T10:15:45.000Z"})
   const survey_res3  = await Survey_R.create({survey_id: 2, version: 1, email: "joe.johnson@army.mil", results: {"1": 6, "2": 7, "3": 5, "4": 7, "5": 6, "6": 8, "7": 9, "8": 6, "9": 4, "10": 8, "11": 7, "12": 6, "13": 5, "14": 7, "15": 8}, timestamp: "2023-02-18T13:00:00.000Z"})
   const survey_res4  = await Survey_R.create({survey_id: 2, version: 1, email: "adam.smith@army.mil", results: {"1": 8, "2": 7, "3": 6, "4": 8, "5": 7, "6": 6, "7": 5, "8": 7, "9": 8, "10": 7, "11": 6, "12": 5, "13": 7, "14": 8, "15": 9}, timestamp: "2023-03-22T18:30:00.000Z"})
@@ -395,7 +395,7 @@ async function setup() {
   
 
 
-  const fms1  = await Survey_R.create({survey_id: 3, version: 1, email: "user", results: {"1": "Alice", "2": 2, "3": 3, "4": 1, "5": 3, "6": 2, "7": 2, "8": 1}, timestamp: "2023-01-12T08:20:30.000Z"})
+  const fms1  = await Survey_R.create({survey_id: 3, version: 1, email: "john.doe@army.mil", results: {"1": "Alice", "2": 2, "3": 3, "4": 1, "5": 3, "6": 2, "7": 2, "8": 1}, timestamp: "2023-01-12T08:20:30.000Z"})
   const fms2  = await Survey_R.create({survey_id: 3, version: 1, email: "jill.shawn@army.mil", results: {"1": "Brandon", "2": 3, "3": 2, "4": 2, "5": 2, "6": 3, "7": 3, "8": 2}, timestamp: "2023-01-12T10:15:45.000Z"})
   const fms3  = await Survey_R.create({survey_id: 3, version: 1, email: "joe.johnson@army.mil", results: {"1": "Cameron", "2": 1, "3": 2, "4": 3, "5": 0, "6": 1, "7": 2, "8": 3}, timestamp: "2023-02-18T13:00:00.000Z"})
   const fms4  = await Survey_R.create({survey_id: 3, version: 1, email: "adam.smith@army.mil", results: {"1": "Diana", "2": 2, "3": 2, "4": 2, "5": 3, "6": 2, "7": 2, "8": 2}, timestamp: "2023-03-22T18:30:00.000Z"})
@@ -423,7 +423,7 @@ async function setup() {
   const fms26 = await Survey_R.create({survey_id: 3, version: 1, email: "grace.wu@army.mil", results: {"1": "Zachary", "2": 3, "3": 2, "4": 1, "5": 3, "6": 2, "7": 2, "8": 2}, timestamp: "2024-12-31T23:59:59.000Z"})
   const fms27 = await Survey_R.create({survey_id: 3, version: 1, email: "steven.liu@army.mil", results: {"1": "Alex", "2": 2, "3": 3, "4": 2, "5": 2, "6": 2, "7": 3, "8": 2}, timestamp: "2024-12-31T23:59:59.000Z"})  
 
-  const core_res   = await Core_Result.create({user_email: "user", h2f_results: {"Sleep": 100, "Mental": 50, "Physical": 50, "Nutrition": 100, "Spiritual": 100}, cpa_results: {"Ability": 33, "Current": 32, "Motivation": 34}, h2f_flag: "PASSED", cpa_flag: "PASSED", fms_flag: "MFT" })
+  const core_res   = await Core_Result.create({user_email: "john.doe@army.mil", h2f_results: {"Sleep": 100, "Mental": 50, "Physical": 50, "Nutrition": 100, "Spiritual": 100}, cpa_results: {"Ability": 33, "Current": 32, "Motivation": 34}, h2f_flag: "PASSED", cpa_flag: "PASSED", fms_flag: "MFT" })
   const core_res1  = await Core_Result.create({user_email: "jill.shawn@army.mil", h2f_results: {"Sleep": 0, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 38, "Current": 33, "Motivation": 38}, h2f_flag: "Sleep-Mental-Physical-Nutrition-Spiritual", cpa_flag: "PASSED", fms_flag: "PASSED" })
   const core_res2  = await Core_Result.create({user_email: "joe.johnson@army.mil", h2f_results: {"Sleep": 50, "Mental": 0, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 31, "Current": 35, "Motivation": 33}, h2f_flag: "Physical-Nutrition", cpa_flag: "PASSED", fms_flag: "PT" })
   const core_res3  = await Core_Result.create({user_email: "adam.smith@army.mil", h2f_results: {"Sleep": 0, "Mental": 50, "Physical": 0, "Nutrition": 0, "Spiritual": 0}, cpa_results: {"Ability": 36, "Current": 33, "Motivation": 35}, h2f_flag: "Sleep-Physical-Nutrition-Spiritual", cpa_flag: "PASSED", fms_flag: "PASSED" })
@@ -458,12 +458,12 @@ async function setup() {
   const u1notification4 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Mental",description: "You have scores significantly lower than your peers in the Mental domain of the assessment specified above. Please contact your unit's mental health specialist to schedule a consultation."})
   const u1notification5 = await Notification.create({unit: "1st", core_assessment_id: 1, core_category: "Sleep",description: "You have scores significantly lower than your peers in the Sleep domain of the assessment specified above. Please contact your unit's sleep specialist to schedule a consultation."})
 
-  const u1notification6 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Motivation",description: "You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation.", resource_email: "John.Smith@gmail.com"})
-  const u1notification7 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Ability",description: "You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
-  const u1notification8 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Current",description: "You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
+  const u1notification6 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Motivation",description: "You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's behavior therapist.", resource_email: "John.Smith@army.mil"})
+  const u1notification7 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Ability",description: "You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's behavior therapist."})
+  const u1notification8 = await Notification.create({unit: "1st", core_assessment_id: 2, core_category: "Current",description: "You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's behavior therapist."})
 
-  const u1notification9 = await Notification.create({unit: "1st", core_assessment_id: 3,  core_category: "PT", description: "You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation.", resource_email: "John.Smith@gmail.com", resource_phone: "555-555-5555"})
-  const u1notification10 = await Notification.create({unit:"1st", core_assessment_id: 3, core_category: "MFT", description: "You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer at john.smith@army.mil to schedule a consultation.", resource_email: "Jane.Doe@gmail.com", resource_phone: "333-333-3333" })
+  const u1notification9 = await Notification.create({unit: "1st", core_assessment_id: 3,  core_category: "PT", description: "You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist to schedule a consultation.", resource_email: "John.Smith@army.mil", resource_phone: "555-555-5555"})
+  const u1notification10 = await Notification.create({unit:"1st", core_assessment_id: 3, core_category: "MFT", description: "You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer to schedule a consultation.", resource_email: "Jane.Doe@army.mil", resource_phone: "333-333-3333" })
 
   const u2notification1 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Physical", description: "2nd You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
   const u2notification2 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Nutrition",description: "2nd You have scores significantly lower than your peers in the Nutrition domain of the assessment specified above. Please contact your unit's nutritionist to schedule a consultation."})
@@ -471,12 +471,12 @@ async function setup() {
   const u2notification4 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Mental",description: "2nd You have scores significantly lower than your peers in the Mental domain of the assessment specified above. Please contact your unit's mental health specialist to schedule a consultation."})
   const u2notification5 = await Notification.create({unit: "2nd", core_assessment_id: 1, core_category: "Sleep",description: "2nd You have scores significantly lower than your peers in the Sleep domain of the assessment specified above. Please contact your unit's sleep specialist to schedule a consultation."})
 
-  const u2notification6 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Motivation",description: "2nd You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation.", resource_email: "John.Smith@gmail.com"})
-  const u2notification7 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Ability",description: "2nd You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
-  const u2notification8 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Current",description: "2nd You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
+  const u2notification6 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Motivation",description: "2nd You have scores significantly lower than your peers in the Motivation domain of the assessment specified above. Please contact your unit's behavior therapist.", resource_email: "John.Smith@army.mil"})
+  const u2notification7 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Ability",description: "2nd You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's behavior therapist."})
+  const u2notification8 = await Notification.create({unit: "2nd", core_assessment_id: 2, core_category: "Current",description: "2nd You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's behavior therapist."})
 
-  const u2notification9 = await Notification.create({unit:  "2nd", core_assessment_id: 3,  core_category: "PT", description: "2nd You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation.", resource_email: "John.Smith@gmail.com", resource_phone: "555-555-5555"})
-  const u2notification10 = await Notification.create({unit: "2nd", core_assessment_id: 3, core_category: "MFT", description: "2nd You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer at john.smith@army.mil to schedule a consultation.", resource_email: "Jane.Doe@gmail.com", resource_phone: "333-333-3333" })
+  const u2notification9 = await Notification.create({unit:  "2nd", core_assessment_id: 3,  core_category: "PT", description: "2nd You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist to schedule a consultation.", resource_email: "John.Smith@army.mil", resource_phone: "555-555-5555"})
+  const u2notification10 = await Notification.create({unit: "2nd", core_assessment_id: 3, core_category: "MFT", description: "2nd You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer to schedule a consultation.", resource_email: "Jane.Doe@army.mil", resource_phone: "333-333-3333" })
 
 
   const u4notification1 = await Notification.create({unit: "4th", core_assessment_id: 1, core_category: "Physical", description: "4th You have scores significantly lower than your peers in the Physical domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
@@ -489,8 +489,8 @@ async function setup() {
   const u4notification7 = await Notification.create({unit: "4th", core_assessment_id: 2, core_category: "Ability",description: "4th You have scores significantly lower than your peers in the Ability domain of the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."})
   const u4notification8 = await Notification.create({unit: "4th", core_assessment_id: 2, core_category: "Current",description: "4th You have scores significantly lower than your peers in the Current domain of the assessment specified above. Please contact your unit's therapist to schedule a consultation."})
 
-  const u4notification9 = await Notification.create({unit: "4th", core_assessment_id: 3,  core_category: "PT", description: "4th You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist at jane.doe@army.mil to schedule a consultation."} )
-  const u4notification10 = await Notification.create({unit: "4th", core_assessment_id: 3, core_category: "MFT", description: "4th You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer" })
+  const u4notification9 = await Notification.create({unit: "4th", core_assessment_id: 3,  core_category: "PT", description: "4th You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist to schedule a consultation."} )
+  const u4notification10 = await Notification.create({unit: "4th", core_assessment_id: 3, core_category: "MFT", description: "4th You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer to schedule a consultation." })
 
 
   console.log("Data Entered")
