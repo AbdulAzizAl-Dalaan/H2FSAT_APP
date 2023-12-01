@@ -103,56 +103,57 @@ app.use(function (err, req, res, next) {
 
 async function setup() {
   // Test Admin User
-  const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "Cpt", password: '1', gender: 'male', isAdmin: true, state: "WA" })
+  const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "CPT", password: '1', gender: 'male', isAdmin: true, state: "WA" })
 
   // SUBU TEST USERS
-  const adminSubu = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "kandaswamy", rank: "Cpt", password: '1234', gender: 'male', isAdmin: true, state: "VA" })
-  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "Sgt", gender: 'male', state: "VA" })
-  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "Sgt", gender: 'male', state: "VA" })
+  const adminSubu = await User.create({ firstname: "Brian", lastname: "Adams", unit: "1st", email: "brian.adams@army.mil", rank: "CPT", password: '1234', gender: 'male', isAdmin: true, state: "VA" })
+  const subu1 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu1", rank: "SGT", gender: 'male', state: "VA" })
+  const subu2 = await User.create({ firstname: "subu", lastname: "kandaswamy", unit: "1st", email: "subu2", rank: "SGT", gender: 'male', state: "VA" })
   
-  const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "Sgt", state: "VA" })
-  const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "Sgt", state: "VA" })
-  const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSgt", password: '1234', isUnitLeader: true, state: "VA" })
-  const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "Cpt", password: '1234', isAdmin: true, state: "VA" })
-  const ul1 = await User.create({ firstname: "John", lastname: "Smith", unit: "4th", email: "ul1", rank: "Sgt", password: "1234", isUnitLeader: true, state: "VA" })
+  const user = await User.create({ firstname: "John", lastname: "Doe", unit: "1st", email: "user", rank: "SGT", state: "VA" })
+  const user1 = await User.create({ firstname: "Jack", lastname: "Dawson", unit: "1st", email: "user1", rank: "SGT", state: "VA" })
+  const unitleader = await User.create({ firstname: "Jane", lastname: "Doe", unit: "1st", email: "jane.doe@army.mil", rank: "SSG", password: '1234', isUnitLeader: true, state: "VA" })
+  const admin = await User.create({ firstname: "Brian", lastname: "Harder", unit: "1st", email: "brian.harder@army.mil", rank: "CPT", password: '1234', isAdmin: true, state: "VA" })
+  const ul1 = await User.create({ firstname: "John", lastname: "Smith", unit: "4th", email: "ul1", rank: "SGT", password: "1234", isUnitLeader: true, state: "VA" })
 
   const unit4 = await Unit.create({ uic: "4th", state: "VA", leader: "ul1" })
-  const unit1 = await Unit.create({ uic: "1st", state: "VA", leader: "brian.harder@army.mil" })
+  const unit1 = await Unit.create({ uic: "1st", state: "VA", leader: "jane.doe@army.mil" })
+  const tuser = await User.create({ firstname: "Jim", lastname: "Milton", email: "jim.milton@army.mil" })
 
 
   // Users for the 1st unit
-  const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "Pvt", state: "VA", dob: "2001-03-22", gender: "Female" });
-  const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "Sgt", state: "VA", dob: "2000-07-11", gender: "Male" });
+  const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "PVT", state: "VA", dob: "2001-03-22", gender: "Female" });
+  const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "SGT", state: "VA", dob: "2000-07-11", gender: "Male" });
   const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl", state: "VA" });
-  const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "Pvt", state: "VA" });
-  const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "Sgt", state: "VA" });
-  const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "Pvt", state: "VA" });
-  const user8 = await User.create({ firstname: "Emily", lastname: "Jones", unit: "1st", email: "emily.jones@army.mil", rank: "Pvt", state: "VA" });
-  const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "Sgt", state: "VA" });
+  const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "PVT", state: "VA" });
+  const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "SGT", state: "VA" });
+  const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "PVT", state: "VA" });
+  const user8 = await User.create({ firstname: "Emily", lastname: "Jones", unit: "1st", email: "emily.jones@army.mil", rank: "PVT", state: "VA" });
+  const user9 = await User.create({ firstname: "David", lastname: "Brown", unit: "1st", email: "david.brown@army.mil", rank: "SGT", state: "VA" });
 
   // Users for the 2nd unit
-  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", isUnitLeader: true, rank: "Pvt", state: "NC" });
-  const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "2nd", email: "mark.taylor@army.mil", rank: "Pvt", state: "NC" });
-  const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "2nd", email: "karen.anderson@army.mil", rank: "Sgt", state: "NC" });
-  const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "2nd", email: "chris.lee@army.mil", rank: "Pvt", state: "NC" });
-  const user14 = await User.create({ firstname: "Lisa", lastname: "Kim", unit: "2nd", email: "lisa.kim@army.mil", rank: "Pvt", state: "NC" });
-  const user15 = await User.create({ firstname: "Brian", lastname: "Chen", unit: "2nd", email: "brian.chen@army.mil", rank: "Sgt", state: "NC" });
-  const user16 = await User.create({ firstname: "Jessica", lastname: "Wang", unit: "2nd", email: "jessica.wang@army.mil", rank: "Pvt", state: "NC" });
-  const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "2nd", email: "kevin.zhang@army.mil", rank: "Pvt", state: "NC" });
-  const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "2nd", email: "michelle.li@army.mil", rank: "Sgt", state: "NC" });
+  const user10 = await User.create({ firstname: "Amy", lastname: "Wilson", unit: "2nd", email: "amy.wilson@army.mil", isUnitLeader: true, rank: "PVT", state: "NC" });
+  const user11 = await User.create({ firstname: "Mark", lastname: "Taylor", unit: "2nd", email: "mark.taylor@army.mil", rank: "PVT", state: "NC" });
+  const user12 = await User.create({ firstname: "Karen", lastname: "Anderson", unit: "2nd", email: "karen.anderson@army.mil", rank: "SGT", state: "NC" });
+  const user13 = await User.create({ firstname: "Chris", lastname: "Lee", unit: "2nd", email: "chris.lee@army.mil", rank: "PVT", state: "NC" });
+  const user14 = await User.create({ firstname: "Lisa", lastname: "Kim", unit: "2nd", email: "lisa.kim@army.mil", rank: "PVT", state: "NC" });
+  const user15 = await User.create({ firstname: "Brian", lastname: "Chen", unit: "2nd", email: "brian.chen@army.mil", rank: "SGT", state: "NC" });
+  const user16 = await User.create({ firstname: "Jessica", lastname: "Wang", unit: "2nd", email: "jessica.wang@army.mil", rank: "PVT", state: "NC" });
+  const user17 = await User.create({ firstname: "Kevin", lastname: "Zhang", unit: "2nd", email: "kevin.zhang@army.mil", rank: "PVT", state: "NC" });
+  const user18 = await User.create({ firstname: "Michelle", lastname: "Li", unit: "2nd", email: "michelle.li@army.mil", rank: "SGT", state: "NC" });
 
   const unit2 = await Unit.create({ uic: "2nd", state: "NC", leader: "amy.wilson@army.mil"})
 
   // Users for the 3rd unit
-  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", isUnitLeader: true, rank: "Pvt", state: "PA" });
-  const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "3rd", email: "stephanie.chang@army.mil", rank: "Pvt", state: "PA" });
-  const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "3rd", email: "jason.chen@army.mil", rank: "Sgt", state: "PA" });
-  const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "3rd", email: "rachel.liu@army.mil", rank: "Pvt", state: "PA" });
-  const user23 = await User.create({ firstname: "Eric", lastname: "Wang", unit: "3rd", email: "eric.wang@army.mil", rank: "Pvt", state: "PA" });
-  const user24 = await User.create({ firstname: "Catherine", lastname: "Zhang", unit: "3rd", email: "catherine.zhang@army.mil", rank: "Sgt", state: "PA" });
-  const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "Pvt", state: "PA" });
-  const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "Pvt", state: "PA" });
-  const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "Sgt", state: "PA" });
+  const user19 = await User.create({ firstname: "Andrew", lastname: "Wu", unit: "3rd", email: "andrew.wu@army.mil", isUnitLeader: true, rank: "PVT", state: "PA" });
+  const user20 = await User.create({ firstname: "Stephanie", lastname: "Chang", unit: "3rd", email: "stephanie.chang@army.mil", rank: "PVT", state: "PA" });
+  const user21 = await User.create({ firstname: "Jason", lastname: "Chen", unit: "3rd", email: "jason.chen@army.mil", rank: "SGT", state: "PA" });
+  const user22 = await User.create({ firstname: "Rachel", lastname: "Liu", unit: "3rd", email: "rachel.liu@army.mil", rank: "PVT", state: "PA" });
+  const user23 = await User.create({ firstname: "Eric", lastname: "Wang", unit: "3rd", email: "eric.wang@army.mil", rank: "PVT", state: "PA" });
+  const user24 = await User.create({ firstname: "Catherine", lastname: "Zhang", unit: "3rd", email: "catherine.zhang@army.mil", rank: "SGT", state: "PA" });
+  const user25 = await User.create({ firstname: "Justin", lastname: "Chen", unit: "3rd", email: "justin.chen@army.mil", rank: "PVT", state: "PA" });
+  const user26 = await User.create({ firstname: "Grace", lastname: "Wu", unit: "3rd", email: "grace.wu@army.mil", rank: "PVT", state: "PA" });
+  const user27 = await User.create({ firstname: "Steven", lastname: "Liu", unit: "3rd", email: "steven.liu@army.mil", rank: "SGT", state: "PA" });
 
   const unit3 = await Unit.create({ uic: "3rd", state: "PA", leader: "andrew.wu@army.mil"})
 
