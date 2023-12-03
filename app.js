@@ -165,6 +165,9 @@ async function setup() {
   reduce injury rates, improve rehabilitation after injury, and increase the overall effectiveness of the Total Army. These assessment tools are designed to help you identify your strengths\
    and weaknesses in the areas of Holistic Health and Fitness and must be completed by all members of the Army National Guard along with the PHA.", isCore: true, version: 1,  card_img: "/images/default_imgs/img3.png"})
 
+  // KNOWLEDGE CHECK QUESTIONS 
+  
+  // Physical
   const h2f_q1    = await Survey_Q.create({survey_id: 1, question_id: 1, prompt: "How long should you cool down after a workout?", type: "multiple_choice", core_category: "Physical", header: "Physical"})
   const h2f_q1_a1 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 1, text: "30 minutes"})
   const h2f_q1_a2 = await Survey_A.create({survey_id: 1, question_id: 1, answer_id: 2, text: "75 minutes"})
@@ -177,51 +180,163 @@ async function setup() {
   const h2f_q2_a3 = await Survey_A.create({survey_id: 1, question_id: 2, answer_id: 3, text: "Increase the body's ability to burn fat", is_correct: true}) // correct
   const h2f_q2_a4 = await Survey_A.create({survey_id: 1, question_id: 2, answer_id: 4, text: "Enhancing Flexibility and range of motion"})
 
-  const h2f_q3    = await Survey_Q.create({survey_id: 1, question_id: 3, prompt: "Which of the following is not a food group:", type: "multiple_choice", core_category: "Nutrition", header: "Nutrition"})
-  const h2f_q3_a1 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 1, text: "Fruits"})
-  const h2f_q3_a2 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 2, text: "Rice", is_correct: true}) // correct
-  const h2f_q3_a3 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 3, text: "Grains"})
-  const h2f_q3_a4 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 4, text: "Protein"})
+  const h2f_q3    = await Survey_Q.create({survey_id: 1, question_id: 3, prompt: "Body composition and Body Mass Index (BMI) are the same thing.", type: "multiple_choice", core_category: "Physical"})
+  const h2f_q3_a1 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 1, text: "True"})
+  const h2f_q3_a2 = await Survey_A.create({survey_id: 1, question_id: 3, answer_id: 2, text: "False", is_correct: true}) // correct
 
-  const h2f_q4    = await Survey_Q.create({survey_id: 1, question_id: 4, prompt: "All of the following are examples of whole grains except:", type: "multiple_choice", core_category: "Nutrition"})
-  const h2f_q4_a1 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 1, text: "Brown Rice"})
-  const h2f_q4_a2 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 2, text: "White Bread", is_correct: true}) // correct
-  const h2f_q4_a3 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 3, text: "Popcorn"})
-  const h2f_q4_a4 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 4, text: "Oatmeal"})
+  const h2f_q4    = await Survey_Q.create({survey_id: 1, question_id: 4, prompt: "Static stretching should be done before a workout.", type: "multiple_choice", core_category: "Physical"})
+  const h2f_q4_a1 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 1, text: "True"})
+  const h2f_q4_a2 = await Survey_A.create({survey_id: 1, question_id: 4, answer_id: 2, text: "False", is_correct: true}) // correct
 
-  const h2f_q5    = await Survey_Q.create({survey_id: 1, question_id: 5, prompt: "The ability to sense other people's emotions is known as:", type: "multiple_choice", core_category: "Mental", header: "Mental"})
-  const h2f_q5_a1 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 1, text: "Empathy", is_correct: true}) // correct
-  const h2f_q5_a2 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 2, text: "Kinesis"})
-  const h2f_q5_a3 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 3, text: "Mind Reading"})
-  const h2f_q5_a4 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 4, text: "Sympathy"})
+  const h2f_q5    = await Survey_Q.create({survey_id: 1, question_id: 5, prompt: "What is muscular endurance?", type: "multiple_choice", core_category: "Physical"})
+  const h2f_q5_a1 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 1, text: "The ability of a muscle or muscle group to repetitively perform work for an extended period of time", is_correct: true}) // correct"
+  const h2f_q5_a2 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 2, text: "Performing a greater number of repetitions and a variety of speeds when lifting"})
+  const h2f_q5_a3 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 3, text: "The amount of force a muscle or group of muscles can generate"})
+  const h2f_q5_a4 = await Survey_A.create({survey_id: 1, question_id: 5, answer_id: 4, text: "The ability to move quickly and easily"})
 
-  const h2f_q6    = await Survey_Q.create({survey_id: 1, question_id: 6, prompt: "The ability to sort through irrelevant information and thoughts to concentrate and focus on a specific task is known as:", type: "multiple_choice", core_category: "Mental"})
-  const h2f_q6_a1 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 1, text: "Attention"})
-  const h2f_q6_a2 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 2, text: "Centralizing"})
-  const h2f_q6_a3 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 3, text: "Processing", is_correct: true}) // correct
-  const h2f_q6_a4 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 4, text: "Details"})
+  const h2f_q6    = await Survey_Q.create({survey_id: 1, question_id: 6, prompt: "What is hypertrophy?", type: "multiple_choice", core_category: "Physical"})
+  const h2f_q6_a1 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 1, text: "The ability of the skeletal system to bear weight"})
+  const h2f_q6_a2 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 2, text: "A lift that requires the movement of at least 150 lbs."})
+  const h2f_q6_a3 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 3, text: "Increase in muscle size", is_correct: true}) // correct
+  const h2f_q6_a4 = await Survey_A.create({survey_id: 1, question_id: 6, answer_id: 4, text: "Lifting a greater number of repetitions at low weight"})
 
-  const h2f_q7    = await Survey_Q.create({survey_id: 1, question_id: 7, prompt: "The idea of learning how to be fully present and engaged in moment and aware of your thoughts and feelings without distraction or judgment is:", type: "multiple_choice", core_category: "Spiritual", header: "Spiritual"})
-  const h2f_q7_a1 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 1, text: "Inner Peace"})
-  const h2f_q7_a2 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 2, text: "Serenity"})
-  const h2f_q7_a3 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 3, text: "Empathy"})
-  const h2f_q7_a4 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 4, text: "Mindfulness", is_correct: true}) // correct
+  const h2f_q7    = await Survey_Q.create({survey_id: 1, question_id: 7, prompt: "Small muscle, or single joint exercises should be performed before large muscle, or multi-joint exercises", type: "multiple_choice", core_category: "Physical"})
+  const h2f_q7_a1 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 1, text: "True"})
+  const h2f_q7_a2 = await Survey_A.create({survey_id: 1, question_id: 7, answer_id: 2, text: "False", is_correct: true}) // correct
 
-  const h2f_q8    = await Survey_Q.create({survey_id: 1, question_id: 8, prompt: "The process of two people or groups in a conflict agreeing to make amends or come to a truce is known as:", type: "multiple_choice", core_category: "Spiritual"})
-  const h2f_q8_a1 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 1, text: "Compatibility"})
-  const h2f_q8_a2 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 2, text: "Engagement"})
-  const h2f_q8_a3 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 3, text: "Reconciliation", is_correct: true}) // correct
-  const h2f_q8_a4 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 4, text: "Empathy"})
+  const h2f_q8    = await Survey_Q.create({survey_id: 1, question_id: 8, prompt: "All of the following are true about a dynamic warm up EXCEPT?", type: "multiple_choice", core_category: "Physical"})
+  const h2f_q8_a1 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 1, text: "A dynamic warm up should be done after exercise", is_correct: true}) // correct
+  const h2f_q8_a2 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 2, text: "A dynamic warm up should take 5-10 minutes"})
+  const h2f_q8_a3 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 3, text: "A dynamic warm up should increase your heart rate"})
+  const h2f_q8_a4 = await Survey_A.create({survey_id: 1, question_id: 8, answer_id: 4, text: "A dynamic warm up can decrease risk of injury"})
 
-  const h2f_q9    = await Survey_Q.create({survey_id: 1, question_id: 9, prompt: "Adults need at least how many hours of sleep per night?", type: "multiple_choice", core_category: "Sleep", header: "Sleep"})
-  const h2f_q9_a1 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 1, text: "4-5 Hours"})
-  const h2f_q9_a2 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 2, text: "6-7 Hours"})
-  const h2f_q9_a3 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 3, text: "7-8 Hours", is_correct: true}) // correct
-  const h2f_q9_a4 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 4, text: "5-6 Hours"})
+  // Nutrition
 
-  const h2f_q10    = await Survey_Q.create({survey_id: 1, question_id: 10, prompt: "Being awake for more than 20 hours results in an impairment equal to a blood alcohol level of 0.08%.", type: "multiple_choice", core_category: "Sleep"})
-  const h2f_q10_a1 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 1, text: "True", is_correct: true}) // correct
-  const h2f_q10_a2 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 2, text: "False"})
+  const h2f_q9    = await Survey_Q.create({survey_id: 1, question_id: 9, prompt: "Which of the following is not a food group:", type: "multiple_choice", core_category: "Nutrition", header: "Nutrition"})
+  const h2f_q9_a1 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 1, text: "Fruits"})
+  const h2f_q9_a2 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 2, text: "Rice", is_correct: true}) // correct
+  const h2f_q9_a3 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 3, text: "Grains"})
+  const h2f_q9_a4 = await Survey_A.create({survey_id: 1, question_id: 9, answer_id: 4, text: "Protein"})
+
+  const h2f_q10    = await Survey_Q.create({survey_id: 1, question_id: 10, prompt: "All of the following are examples of whole grains except:", type: "multiple_choice", core_category: "Nutrition"})
+  const h2f_q10_a1 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 1, text: "Brown Rice"})
+  const h2f_q10_a2 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 2, text: "White Bread", is_correct: true}) // correct
+  const h2f_q10_a3 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 3, text: "Popcorn"})
+  const h2f_q10_a4 = await Survey_A.create({survey_id: 1, question_id: 10, answer_id: 4, text: "Oatmeal"})
+
+  const h2f_q11    = await Survey_Q.create({survey_id: 1, question_id: 11, prompt: "All of the following are macronutrients except:", type: "multiple_choice", core_category: "Nutrition"})
+  const h2f_q11_a1 = await Survey_A.create({survey_id: 1, question_id: 11, answer_id: 1, text: "Proteins"})
+  const h2f_q11_a2 = await Survey_A.create({survey_id: 1, question_id: 11, answer_id: 2, text: "Fats"})
+  const h2f_q11_a3 = await Survey_A.create({survey_id: 1, question_id: 11, answer_id: 3, text: "Vitamins", is_correct: true}) // correct
+  const h2f_q11_a4 = await Survey_A.create({survey_id: 1, question_id: 11, answer_id: 4, text: "Carbohydrates"}) 
+
+  const h2f_q12    = await Survey_Q.create({survey_id: 1, question_id: 12, prompt: "Which of the following is not true about carbohydrates?", type: "multiple_choice", core_category: "Nutrition"})
+  const h2f_q12_a1 = await Survey_A.create({survey_id: 1, question_id: 12, answer_id: 1, text: "They are our body's primary source of fuel"})
+  const h2f_q12_a2 = await Survey_A.create({survey_id: 1, question_id: 12, answer_id: 2, text: "They should be 35-45% of our total calories from food"})
+  const h2f_q12_a3 = await Survey_A.create({survey_id: 1, question_id: 12, answer_id: 3, text: "Simple carbohydrates are filled with nutrients", is_correct: true}) // correct
+  const h2f_q12_a4 = await Survey_A.create({survey_id: 1, question_id: 12, answer_id: 4, text: "Most carbs are broken down into sugar molecules"}) 
+
+  const h2f_q13    = await Survey_Q.create({survey_id: 1, question_id: 13, prompt: "Fat contains 9 calories per gram.", type: "multiple_choice", core_category: "Nutrition"})
+  const h2f_q13_a1 = await Survey_A.create({survey_id: 1, question_id: 13, answer_id: 1, text: "True", is_correct: true}) // correct
+  const h2f_q13_a2 = await Survey_A.create({survey_id: 1, question_id: 13, answer_id: 2, text: "False"})
+
+  const h2f_q14    = await Survey_Q.create({survey_id: 1, question_id: 14, prompt: "Which of the following does not contain saturated fat?", type: "multiple_choice", core_category: "Nutrition"})
+  const h2f_q14_a1 = await Survey_A.create({survey_id: 1, question_id: 14, answer_id: 1, text: "Beef"})
+  const h2f_q14_a2 = await Survey_A.create({survey_id: 1, question_id: 14, answer_id: 2, text: "Coconut Oil"})
+  const h2f_q14_a3 = await Survey_A.create({survey_id: 1, question_id: 14, answer_id: 3, text: "Salmon", is_correct: true}) // correct
+  const h2f_q14_a4 = await Survey_A.create({survey_id: 1, question_id: 14, answer_id: 4, text: "Butter"})
+
+  const h2f_q15    = await Survey_Q.create({survey_id: 1, question_id: 15, prompt: "You should drink 50-75% of your body weight in ounces of water daily", type: "multiple_choice", core_category: "Nutrition"})
+  const h2f_q15_a1 = await Survey_A.create({survey_id: 1, question_id: 15, answer_id: 1, text: "True", is_correct: true}) // correct
+  const h2f_q15_a2 = await Survey_A.create({survey_id: 1, question_id: 15, answer_id: 2, text: "False"}) 
+
+  // Mental
+
+  const h2f_q16    = await Survey_Q.create({survey_id: 1, question_id: 16, prompt: "The ability to sense other people's emotions is known as:", type: "multiple_choice", core_category: "Mental", header: "Mental"})
+  const h2f_q16_a1 = await Survey_A.create({survey_id: 1, question_id: 16, answer_id: 1, text: "Empathy", is_correct: true}) // correct
+  const h2f_q16_a2 = await Survey_A.create({survey_id: 1, question_id: 16, answer_id: 2, text: "Kinesis"})
+  const h2f_q16_a3 = await Survey_A.create({survey_id: 1, question_id: 16, answer_id: 3, text: "Mind Reading"})
+  const h2f_q16_a4 = await Survey_A.create({survey_id: 1, question_id: 16, answer_id: 4, text: "Sympathy"})
+
+  const h2f_q17    = await Survey_Q.create({survey_id: 1, question_id: 17, prompt: "The ability to sort through irrelevant information and thoughts to concentrate and focus on a specific task is known as:", type: "multiple_choice", core_category: "Mental"})
+  const h2f_q17_a1 = await Survey_A.create({survey_id: 1, question_id: 17, answer_id: 1, text: "Attention"})
+  const h2f_q17_a2 = await Survey_A.create({survey_id: 1, question_id: 17, answer_id: 2, text: "Centralizing"})
+  const h2f_q17_a3 = await Survey_A.create({survey_id: 1, question_id: 17, answer_id: 3, text: "Processing", is_correct: true}) // correct
+  const h2f_q17_a4 = await Survey_A.create({survey_id: 1, question_id: 17, answer_id: 4, text: "Details"})
+
+  const h2f_q18    = await Survey_Q.create({survey_id: 1, question_id: 18, prompt: "Stress can cause all of the following except:", type: "multiple_choice", core_category: "Mental"})
+  const h2f_q18_a1 = await Survey_A.create({survey_id: 1, question_id: 18, answer_id: 1, text: "Increased heart rate"})
+  const h2f_q18_a2 = await Survey_A.create({survey_id: 1, question_id: 18, answer_id: 2, text: "Release of cortisol and adrenaline"})
+  const h2f_q18_a3 = await Survey_A.create({survey_id: 1, question_id: 18, answer_id: 3, text: "Weight gain"})
+  const h2f_q18_a4 = await Survey_A.create({survey_id: 1, question_id: 18, answer_id: 4, text: "Increased memory retention"})
+
+  const h2f_q19    = await Survey_Q.create({survey_id: 1, question_id: 19, prompt: "Breathing can help control heart rate.", type: "multiple_choice", core_category: "Mental"})
+  const h2f_q19_a1 = await Survey_A.create({survey_id: 1, question_id: 19, answer_id: 1, text: "True", is_correct: true}) // correct
+  const h2f_q19_a2 = await Survey_A.create({survey_id: 1, question_id: 19, answer_id: 2, text: "False"})
+
+  const h2f_q20    = await Survey_Q.create({survey_id: 1, question_id: 20, prompt: "Which of the following is not part of the SMART goal format?", type: "multiple_choice", core_category: "Mental"})
+  const h2f_q20_a1 = await Survey_A.create({survey_id: 1, question_id: 20, answer_id: 1, text: "Special", is_correct: true}) // correct
+  const h2f_q20_a2 = await Survey_A.create({survey_id: 1, question_id: 20, answer_id: 2, text: "Measurable"})
+  const h2f_q20_a3 = await Survey_A.create({survey_id: 1, question_id: 20, answer_id: 3, text: "Specific"})
+  const h2f_q20_a4 = await Survey_A.create({survey_id: 1, question_id: 20, answer_id: 4, text: "Achievable"})
+
+  // Spiritual
+
+  const h2f_q21    = await Survey_Q.create({survey_id: 1, question_id: 21, prompt: "The idea of learning how to be fully present and engaged in moment and aware of your thoughts and feelings without distraction or judgment is:", type: "multiple_choice", core_category: "Spiritual", header: "Spiritual"})
+  const h2f_q21_a1 = await Survey_A.create({survey_id: 1, question_id: 21, answer_id: 1, text: "Inner Peace"})
+  const h2f_q21_a2 = await Survey_A.create({survey_id: 1, question_id: 21, answer_id: 2, text: "Serenity"})
+  const h2f_q21_a3 = await Survey_A.create({survey_id: 1, question_id: 21, answer_id: 3, text: "Empathy"})
+  const h2f_q21_a4 = await Survey_A.create({survey_id: 1, question_id: 21, answer_id: 4, text: "Mindfulness", is_correct: true}) // correct
+
+  const h2f_q22    = await Survey_Q.create({survey_id: 1, question_id: 22, prompt: "The process of two people or groups in a conflict agreeing to make amends or come to a truce is known as:", type: "multiple_choice", core_category: "Spiritual"})
+  const h2f_q22_a1 = await Survey_A.create({survey_id: 1, question_id: 22, answer_id: 1, text: "Compatibility"})
+  const h2f_q22_a2 = await Survey_A.create({survey_id: 1, question_id: 22, answer_id: 2, text: "Engagement"})
+  const h2f_q22_a3 = await Survey_A.create({survey_id: 1, question_id: 22, answer_id: 3, text: "Reconciliation", is_correct: true}) // correct
+  const h2f_q22_a4 = await Survey_A.create({survey_id: 1, question_id: 22, answer_id: 4, text: "Empathy"})
+
+  const h2f_q23    = await Survey_Q.create({survey_id: 1, question_id: 23, prompt: "One has to believe in a religion to practice Spirituality:", type: "multiple_choice", core_category: "Spiritual"})
+  const h2f_q23_a1 = await Survey_A.create({survey_id: 1, question_id: 23, answer_id: 1, text: "True"})
+  const h2f_q23_a2 = await Survey_A.create({survey_id: 1, question_id: 23, answer_id: 2, text: "False", is_correct: true}) // correct
+
+  const h2f_q24    = await Survey_Q.create({survey_id: 1, question_id: 24, prompt: "The ability to recover quickly from difficulties is known as:", type: "multiple_choice", core_category: "Spiritual"})
+  const h2f_q24_a1 = await Survey_A.create({survey_id: 1, question_id: 24, answer_id: 1, text: "Flexibility"})
+  const h2f_q24_a2 = await Survey_A.create({survey_id: 1, question_id: 24, answer_id: 2, text: "Confidence"}) 
+  const h2f_q24_a3 = await Survey_A.create({survey_id: 1, question_id: 24, answer_id: 3, text: "Coping"})
+  const h2f_q24_a4 = await Survey_A.create({survey_id: 1, question_id: 24, answer_id: 4, text: "Resilience", is_correct: true}) // correct
+
+  const h2f_q25    = await Survey_Q.create({survey_id: 1, question_id: 25, prompt: "The active process in which you make a conscious decision to let go of negative feelings is:", type: "multiple_choice", core_category: "Spiritual"})
+  const h2f_q25_a1 = await Survey_A.create({survey_id: 1, question_id: 25, answer_id: 1, text: "Forgiveness", is_correct: true}) // correct
+  const h2f_q25_a2 = await Survey_A.create({survey_id: 1, question_id: 25, answer_id: 2, text: "Resentment"})
+  const h2f_q25_a3 = await Survey_A.create({survey_id: 1, question_id: 25, answer_id: 3, text: "Hospitality"})
+  const h2f_q25_a4 = await Survey_A.create({survey_id: 1, question_id: 25, answer_id: 4, text: "Compassion"})
+
+  // Sleep
+
+  const h2f_q26    = await Survey_Q.create({survey_id: 1, question_id: 26, prompt: "Adults need at least how many hours of sleep per night?", type: "multiple_choice", core_category: "Sleep", header: "Sleep"})
+  const h2f_q26_a1 = await Survey_A.create({survey_id: 1, question_id: 26, answer_id: 1, text: "4-5 Hours"})
+  const h2f_q26_a2 = await Survey_A.create({survey_id: 1, question_id: 26, answer_id: 2, text: "6-7 Hours"})
+  const h2f_q26_a3 = await Survey_A.create({survey_id: 1, question_id: 26, answer_id: 3, text: "7-8 Hours", is_correct: true}) // correct
+  const h2f_q26_a4 = await Survey_A.create({survey_id: 1, question_id: 26, answer_id: 4, text: "5-6 Hours"})
+
+  const h2f_q27    = await Survey_Q.create({survey_id: 1, question_id: 27, prompt: "Being awake for more than 20 hours results in an impairment equal to a blood alcohol level of 0.08%.", type: "multiple_choice", core_category: "Sleep"})
+  const h2f_q27_a1 = await Survey_A.create({survey_id: 1, question_id: 27, answer_id: 1, text: "True", is_correct: true}) // correct
+  const h2f_q27_a2 = await Survey_A.create({survey_id: 1, question_id: 27, answer_id: 2, text: "False"})
+
+  const h2f_q28    = await Survey_Q.create({survey_id: 1, question_id: 28, prompt: "Good sleep hygiene practices include all of the following except:", type: "multiple_choice", core_category: "Sleep"})
+  const h2f_q28_a1 = await Survey_A.create({survey_id: 1, question_id: 28, answer_id: 1, text: "Sleep in a completely pitch black room"})
+  const h2f_q28_a2 = await Survey_A.create({survey_id: 1, question_id: 28, answer_id: 2, text: "Sleep with music on low volume", is_correct: true}) // correct
+  const h2f_q28_a3 = await Survey_A.create({survey_id: 1, question_id: 28, answer_id: 3, text: "Get a hot shower or bath one hour before laying down"})
+  const h2f_q28_a4 = await Survey_A.create({survey_id: 1, question_id: 28, answer_id: 4, text: "The temperature of room you sleep in should be between 60-67⁰"}) 
+
+  const h2f_q29    = await Survey_Q.create({survey_id: 1, question_id: 29, prompt: "If you are not asleep within the first 30 minutes of laying down you should get out of your bed.", type: "multiple_choice", core_category: "Sleep"})
+  const h2f_q29_a1 = await Survey_A.create({survey_id: 1, question_id: 29, answer_id: 1, text: "True", is_correct: true}) // correct
+  const h2f_q29_a2 = await Survey_A.create({survey_id: 1, question_id: 29, answer_id: 2, text: "False"})
+
+  const h2f_q30    = await Survey_Q.create({survey_id: 1, question_id: 30, prompt: "All are factors you should consider when optimizing sleep duration and continuity except:", type: "multiple_choice", core_category: "Sleep"})
+  const h2f_q30_a1 = await Survey_A.create({survey_id: 1, question_id: 30, answer_id: 1, text: "Sleep environment"})
+  const h2f_q30_a2 = await Survey_A.create({survey_id: 1, question_id: 30, answer_id: 2, text: "Setting a pre-sleep routine"})
+  const h2f_q30_a3 = await Survey_A.create({survey_id: 1, question_id: 30, answer_id: 3, text: "Synching sleep schedule with brain's natural circadian rhythm"}) 
+  const h2f_q30_a4 = await Survey_A.create({survey_id: 1, question_id: 30, answer_id: 4, text: "Consuming full, heavy meal 2-3 hours before bedtime", is_correct: true}) // correct
 
 
   const cpa_info = await Survey_Info.create({ author: "brian.harder@army.mil", title: "Cognitive Performance", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
