@@ -895,20 +895,27 @@ function getLatestVersionNumber() {
     return Math.max(...raw_data.map(entry => entry.version || 0));
 }
 
-function deleteRow(email, surveyId) {
+function deleteRow(email, surveyId, version) {
+    if (!version) {
+        alert('Version is not specified. Cannot delete the entry.');
+        return;
+    }
+
     $.ajax({
         url: '/results/delete-entry',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ email: email, survey_id: surveyId }),
+        data: JSON.stringify({ email: email, survey_id: surveyId, version: version }),
         success: function(response) {
-            // Find the row with the matching email and remove it
+            // Find the row with the matching email and version and remove it
             $('.table').DataTable().rows(function(idx, data, node) {
-                return data.some(cell => cell === email); 
+                return data.some(cell => cell === email && cell.version === version); 
             }).remove().draw();
+            alert('Entry deleted successfully');
         },
         error: function(xhr, status, error) {
             // Handle error
+            alert('Error deleting entry');
         }
     });
 }
@@ -953,17 +960,24 @@ function rowTable(selectedVersion, currentSurveyId) {
             const userData = getUserData(entry.user_email || entry.email);
             const timestamp = raw_data[idx] ? formatDate(raw_data[idx].timestamp) : "N/A";
             let surveyId = emailToSurveyIdMap.get(entry.user_email || entry.email);
-    row.append("td")
-       .append("button")
-       .attr("class", "delete-btn")
-       .attr("data-email", entry.user_email || entry.email)
-       .attr("data-survey-id", surveyId)
-       .text("Delete")
-       .on("click", function() {
+            let rawEntry = raw_data.find(e => e.email === (entry.user_email || entry.email) && e.version.toString() === selectedVersion);
+            console.log("This is the rawEntry: ", rawEntry);
+            let version = rawEntry ? rawEntry.version : "N/A";
+            console.log("This is the version for entry: ", version);
+            row.append("td")
+              .append("button")
+              .attr("class", "delete-btn")
+              .attr("data-email", entry.user_email || entry.email)
+              .attr("data-survey-id", surveyId)
+              .attr("data-version", version)
+              .text("Delete")
+              .on("click", function() {
            const email = $(this).data('email');
            const surveyId = $(this).data('survey-id');
+           //const version = $(this).data(version)
+
            if (confirm(`Are you sure you want to delete the entry for ${email}?`)) {
-               deleteRow(email, surveyId);
+               deleteRow(email, surveyId, version);
            }
            
           });
@@ -1049,17 +1063,19 @@ function rowTable(selectedVersion, currentSurveyId) {
 
       const userData = getUserData(entry.email);
       const deleteButtonHtml = $("<button>")
-                                .attr("class", "delete-btn")
-                                .attr("data-email", entry.email) // Use email from entry
-                                .attr("data-survey-id", entry.survey_id) // Use survey_id from entry
-                                .text("Delete")
-                                .on("click", function() {
-                                    const email = $(this).data('email');
-                                    const surveyId = $(this).data('survey-id');
-                                    if (confirm(`Are you sure you want to delete the entry for ${email}?`)) {
-                                        deleteRow(email, surveyId);
-                                    }
-                                });
+                              .attr("class", "delete-btn")
+                              .attr("data-email", entry.email) // Use email from entry
+                              .attr("data-survey-id", entry.survey_id) // Use survey_id from entry
+                              .attr("data-version", entry.version) // Include the version number here
+                              .text("Delete")
+                              .on("click", function() {
+                                  const email = $(this).data('email');
+                                  const surveyId = $(this).data('survey-id');
+                                  const version = $(this).data('version'); // Retrieve the version when the delete button is clicked
+                                  if (confirm(`Are you sure you want to delete the entry for ${email}?`)) {
+                                      deleteRow(email, surveyId, version); // Pass the version to the deleteRow function
+                                  }
+                              });
 
       $row.append($("<td></td>").append(deleteButtonHtml));
       $row.append($("<td></td>").text(formatDate(entry.timestamp) || "N/A"));
@@ -1083,7 +1099,6 @@ function rowTable(selectedVersion, currentSurveyId) {
   }
 
   }
-
 
 
 function initializeDataTable() {
