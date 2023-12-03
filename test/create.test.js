@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 let driver;
 
-describe('File Upload Test', function() {
+describe('Create, Edit, and Delete Survey Test', function() {
   this.timeout(10000);
 
   before(async function() {
@@ -316,12 +316,12 @@ it('should allow deletion of the fourth question', async function() {
     this.timeout(20000);
 
     const deleteButtons = await driver.findElements(By.xpath("//button[contains(text(), 'Delete Question')]"));
-    const deleteButtonForFourth = deleteButtons[3]; // Index is zero-based; 3 would refer to the fourth button
+    const deleteButtonForFourth = deleteButtons[3]; 
     await driver.executeScript("arguments[0].click();", deleteButtonForFourth);
 
 
     
-    await driver.sleep(10000);
+    await driver.sleep(2000);
 });
 
 
@@ -399,8 +399,5 @@ after(async function() {
     await driver.quit();
 });
 
-
-
-  
 
 });
