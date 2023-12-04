@@ -1,4 +1,4 @@
 {
-    "appService.defaultWebAppToDeploy": "undefined/subscriptions/c6038e55-9b18-4f7b-87e0-084210dee63a/resourceGroups/h2f-v2-resources/providers/Microsoft.Web/sites/h2f-app-v2",
+    "appService.defaultWebAppToDeploy": "/subscriptions/c6038e55-9b18-4f7b-87e0-084210dee63a/resourceGroups/h2f-v2-resources/providers/Microsoft.Web/sites/h2f-app-v2",
     "appService.deploySubpath": "."
 }
