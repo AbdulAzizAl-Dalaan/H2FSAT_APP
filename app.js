@@ -39,7 +39,6 @@ var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
 var createRouter = require('./routes/create');
-var unitsummaryRouter = require('./routes/unitsummary');
 var resultsRouter = require('./routes/results');
 var uploadRoutes = require('./routes/upload');
 var editDeleteRouter = require('./routes/edit-delete');
@@ -70,7 +69,6 @@ app.use('/', indexRouter);
 app.use('/home', homeRouter);
 app.use('/about', aboutRouter);
 app.use('/create', createRouter);
-app.use('/unitsummary', unitsummaryRouter);
 app.use('/results', resultsRouter);
 app.use('/edit', editDeleteRouter)
 app.use('/notification', notificationRouter)
@@ -102,11 +100,9 @@ app.use(function (err, req, res, next) {
 // question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"
 
 async function setup() {
-  // Test Admin User
 
+  /*
   
-  const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "CPT", password: '1', gender: 'male', isAdmin: true, state: "WA", dob: "2001-03-22", gender: "Female" })
-
   // ALL ADMINS 
   const admin1 = await User.create({ firstname: "Brian", lastname: "Adams", unit: "1st",   email: "brian.adams@army.mil", rank: "CPT", password: '1234', isAdmin: true, state: "VA", dob: "1990-11-15", gender:"Male" })
   const admin2 = await User.create({ firstname: "Jake", lastname: "Johnson", unit: "2nd",  email: "jake.johnson@army.mil", rank: "2LT", password: '1234', isAdmin: true, state: "NC", dob: "1991-05-05", gender:"Male"  })
@@ -627,7 +623,7 @@ async function setup() {
 
   const u5notification9 = await Notification.create({unit: "5th", core_assessment_id: 3,  core_category: "PT", description: "(UNIT 5th) You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist", resource_email: "aleksi.donahue@army.mil", resource_phone: "555-555-5555"})
   const u5notification10 = await Notification.create({unit: "5th", core_assessment_id: 3, core_category: "MFT", description: "(UNIT 5th) You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer", resource_email: "eric.wong@army.mil", resource_phone: "333-333-3333" })
-  
+  */
 
   console.log("Data Entered")
 }
