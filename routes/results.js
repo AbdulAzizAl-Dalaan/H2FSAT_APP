@@ -113,34 +113,26 @@ if (res.locals.isAdmin) {
 // Endpoint to handle deletion of a survey result
 router.post('/delete-entry', async function(req, res) {
   try {
-      const { email, survey_id } = req.body;
-      console.log(`Received deletion request for email: ${email} and survey_id: ${survey_id}`);
+      const { email, survey_id, version } = req.body;
+      console.log(`Received deletion request for email: ${email}, survey_id: ${survey_id}`);
 
-      // Delete from Survey_R
       const surveyResult = await Survey_R.destroy({ 
           where: { 
               email: email, 
-              survey_id: survey_id
+              survey_id: survey_id,
+              version: version
           } 
       });
 
       const surveyDResult = await Survey_D.destroy({ 
         where: { 
             email: email, 
-            survey_id: survey_id
+            survey_id: survey_id,
+            version: version
         } 
-    });
+      });
       console.log(`Survey_R Deletion result: ${surveyResult}`);
 
-      // If survey_id is 1, 2, or 3, also delete from Core_Result
-      if ([1, 2, 3].includes(survey_id)) {
-          const coreResult = await Core_Result.destroy({ 
-              where: { 
-                  user_email: email 
-              }
-          });
-          console.log(`Core_Result Deletion result: ${coreResult}`);
-      }
 
       res.json({ status: 'success', message: 'Entry deleted successfully' });
   } catch (error) {
