@@ -39,7 +39,6 @@ var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var aboutRouter = require('./routes/about');
 var createRouter = require('./routes/create');
-var unitsummaryRouter = require('./routes/unitsummary');
 var resultsRouter = require('./routes/results');
 var uploadRoutes = require('./routes/upload');
 var editDeleteRouter = require('./routes/edit-delete');
@@ -70,7 +69,7 @@ app.use('/', indexRouter);
 app.use('/home', homeRouter);
 app.use('/about', aboutRouter);
 app.use('/create', createRouter);
-app.use('/unitsummary', unitsummaryRouter);
+
 app.use('/results', resultsRouter);
 app.use('/edit', editDeleteRouter)
 app.use('/notification', notificationRouter)
