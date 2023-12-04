@@ -28,7 +28,7 @@ it('should navigate to passlogin and login', async function() {
     const emailInput = await driver.wait(until.elementIsVisible(driver.findElement(By.id('login'))), 10000);
     const passwordInput = await driver.wait(until.elementIsVisible(driver.findElement(By.id('password'))), 10000);
 
-    await emailInput.sendKeys('brian.harder@army.mil');
+    await emailInput.sendKeys('brian.adams@army.mil');
     await passwordInput.sendKeys('1234');
     
     const submitButton = await driver.findElement(By.css('input[type="submit"]'));
@@ -100,7 +100,7 @@ it('should add and fill out a new question in the Knowledge Check assessment', a
     await optionInputs[optionInputs.length - 1].sendKeys('Option 2');
 
     //creating a container for the 11th question
-    const eleventhQuestionContainer = await driver.wait(until.elementLocated(By.id('question_11_fields')), 10000);
+    const eleventhQuestionContainer = await driver.wait(until.elementLocated(By.id('question_31_fields')), 10000);
 
     //adding option 3
     const addOptionButtonFor11th = await eleventhQuestionContainer.findElement(By.xpath(".//button[contains(text(),'Add Option')]"));
@@ -174,7 +174,7 @@ it('should edit the 11th question in the Knowledge Check assessment', async func
     this.timeout(100000);
     
     //11th question container
-    const eleventhQuestionContainer = await driver.wait(until.elementLocated(By.id('question_11_fields')), 10000);
+    const eleventhQuestionContainer = await driver.wait(until.elementLocated(By.id('question_31_fields')), 10000);
 
     const questionTitles = await driver.findElements(By.css('input[type="text"].question-title-space'));
     const newQuestionTitle = questionTitles[questionTitles.length - 1];
@@ -212,12 +212,13 @@ it('should edit the 11th question in the Knowledge Check assessment', async func
 it('should submit the edited Knowledge Check assessment again', async function() {
     this.timeout(20000);
 
-    
+    await driver.sleep(15000);
     const saveButton = await driver.findElement(By.css("input[type='submit'][value='Save Assessment']"));
     await driver.executeScript("arguments[0].scrollIntoView(true);", saveButton);
     await driver.wait(until.elementIsEnabled(saveButton), 10000);
     await driver.wait(until.elementIsVisible(saveButton), 10000);
-    await saveButton.click();
+    await driver.executeScript("arguments[0].click();",saveButton);
+    //await saveButton.click();
     
 
     //checking to see if at home

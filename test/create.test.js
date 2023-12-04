@@ -28,7 +28,7 @@ it('should navigate to passlogin and login', async function() {
     const emailInput = await driver.wait(until.elementIsVisible(driver.findElement(By.id('login'))), 10000);
     const passwordInput = await driver.wait(until.elementIsVisible(driver.findElement(By.id('password'))), 10000);
 
-    await emailInput.sendKeys('brian.harder@army.mil');
+    await emailInput.sendKeys('brian.adams@army.mil');
     await passwordInput.sendKeys('1234');
     
     const submitButton = await driver.findElement(By.css('input[type="submit"]'));

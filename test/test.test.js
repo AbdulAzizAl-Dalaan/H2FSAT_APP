@@ -39,7 +39,7 @@ describe('File Upload Test', function() {
 
     
 
-    await emailInput.sendKeys('brian.harder@army.mil');
+    await emailInput.sendKeys('brian.adams@army.mil');
     
     await passwordInput.sendKeys('1234');
     
