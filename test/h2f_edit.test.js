@@ -212,7 +212,7 @@ it('should edit the 11th question in the Knowledge Check assessment', async func
 it('should submit the edited Knowledge Check assessment again', async function() {
     this.timeout(20000);
 
-    await driver.sleep(15000);
+    
     const saveButton = await driver.findElement(By.css("input[type='submit'][value='Save Assessment']"));
     await driver.executeScript("arguments[0].scrollIntoView(true);", saveButton);
     await driver.wait(until.elementIsEnabled(saveButton), 10000);
