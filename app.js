@@ -633,7 +633,7 @@ async function setup() {
 }
 
 
-sequelize.sync({ force: true, alter: true }).then(() => {
+sequelize.sync({ force: false, alter: true }).then(() => {
   console.log("Database synced")
   setup().then(() => console.log("Setup completed"))
 })
