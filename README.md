@@ -52,6 +52,10 @@ MySQL is an open-source relational database management system. It is required to
 
 - [MySQL](https://www.mysql.com/)
 
+MySQL Workbench **(Optional)** is a visual database design tool that integrates SQL development, administration, database design, creation, and maintenance into a single integrated development environment (IDE). It is required to create the database and tables for the application. This is optional as you can also use the MySQL CLI to create the database and tables, however, we recommend using MySQL Workbench as it is more user friendly.
+
+- [MySQL Workbench](https://www.mysql.com/products/workbench/)
+
 ---
 
 ### Software Installation Guides
@@ -99,12 +103,21 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 ### Troubleshooting
 
+### NodeJS
+
 Generally, it is recommend to install NodeJS along with NPM via NVM on all OSs. Hence if you have issues on Windows or Mac OS, you can try to install NodeJS via NVM. This guide will walk you through the process: [NodeJS Installation Guide via NVM on All OSs](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/).
 
+### MySQL
 
-## Database Setup with MySQL CLI with Dump File
+If you have issues installing MySQL on Windows, you can try to install MySQL via Chocolatey. This guide will walk you through the process: [MySQL Installation Guide via Chocolatey on Windows](https://gist.github.com/naveen521kk/fea2dc21e09933795bc71b9add4676c6).
 
 ## Application Startup
+
+Now we are ready to start the application. There are for our case we will be first setting up our database locally on our machine via loading data from our dump file, and then we will be starting the application via Github Clone or Zip Package.
+
+### Database Setup with Dump File (Artifact Submission skip step 1)
+
+1. Obtain the MySQL dump file either from the application's repository or from the artifact submission.
 
 ### Startup via Github Clone
 

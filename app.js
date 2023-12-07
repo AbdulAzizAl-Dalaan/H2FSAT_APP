@@ -95,11 +95,6 @@ app.use(function (err, req, res, next) {
 });
 
 
-
-
-// question: "How long should you cool down after a workout?"}
-// question: "All of the following can be results of doing a proper cool down after exercise EXCEPT:"
-
 async function setup() {
   // Test Admin User
 
@@ -206,7 +201,7 @@ async function setup() {
   const empty_user44 = await User.create({ firstname: "Pam", lastname: "Phillips",    email: "pam.phillips@army.mil"});
   const empty_user45 = await User.create({ firstname: "Quentin", lastname: "Evans",   email: "quentin.evans@army.mil"});
 
-
+  // Knowledge Check Assesment
 
   const h2f_info = await Survey_Info.create({author: "brian.adams@army.mil", title: "Knowledge Check", description: "H2F is designed to optimize Soldier personal readiness,\
   reduce injury rates, improve rehabilitation after injury, and increase the overall effectiveness of the Total Army. These assessment tools are designed to help you identify your strengths\
@@ -386,8 +381,12 @@ async function setup() {
   const h2f_q30_a4 = await Survey_A.create({survey_id: 1, question_id: 30, answer_id: 4, text: "Consuming full, heavy meal 2-3 hours before bedtime", is_correct: true}) // correct
 
 
+  // Cognitive Performance Assessment
+
   const cpa_info = await Survey_Info.create({ author: "brian.adams@army.mil", title: "Cognitive Performance", description: "The Cognitive Performance Assessment of the Army National Guard is a comprehensive tool designed to holistically evaluate a service member's well-being, encompassing various domains of health and fitness. ", 
   isCore: true, card_img: "/images/default_imgs/img1.png", version: 1})
+
+  // Cognitive Performance Assessment Questions
   
   const cpa_q1    = await Survey_Q.create({survey_id: 2, question_id: 1, header: "Motivation to live a healthy lifestyle in each category", prompt: "Physical Health: ", type: "number_range", top_range: 10, bottom_range: 1, core_category: "Motivation"})
   const cpa_q1_a1 = await Survey_A.create({survey_id: 2, question_id: 1, answer_id: 1, text: "number"})
@@ -422,11 +421,15 @@ async function setup() {
   const cpa_q15    = await Survey_Q.create({survey_id: 2, question_id: 15, prompt: "Sleep Health: ", type: "number_range", top_range: 10, bottom_range: 1, core_category: "Current"})
   const cpa_q15_a1 = await Survey_A.create({survey_id: 2, question_id: 15, answer_id: 1, text: "number"})
 
+  // Movement Screening Assessment
+
   const fms_info = await Survey_Info.create({survey_id: 3, author: "brian.adams@army.mil", title: "Movement Screening", description: "The  Movement Screening is an assessment\
    tool used by the Army National Guard to evaluate the fundamental movement patterns of its service members. It is designed to identify functional limitations and asymmetries in the body which can increase\
     the risk of injury. The FMS consists of a series of specific exercises that challenge an individual's ability to perform basic movement patterns without compensation. Each exercise is scored on a scale, and\
      the results provide valuable feedback about an individual's movement quality. The scores can then guide targeted training and corrective exercises, helping to reduce the potential for injury and improve overall\
      physical performance. This systematic approach is vital for ensuring the readiness and resilience of the troops in the ever-demanding physical environments they encounter.", secure: true, password: "1234", isCore: true, version: 1, card_img: "/images/default_imgs/img2.png"})
+
+  // Movement Screening Assessment Questions
 
   const fms_q1    = await Survey_Q.create({survey_id: 3, question_id: 1, prompt: "Grader Name: ", type: "text"})
   const fms_q1_a1 = await Survey_A.create({survey_id: 3, question_id: 1, answer_id: 1, text: "Name"})
@@ -444,6 +447,8 @@ async function setup() {
   const fms_q7_a1 = await Survey_A.create({survey_id: 3, question_id: 7, answer_id: 1, text: "3"})
   const fms_q8    = await Survey_Q.create({survey_id: 3, question_id: 8, prompt: "Enter Athlete's Score for Rotary Stability: ",img: "FMS/RotaryStability.png", type: "number_range", bottom_range: 0, top_range: 3})
   const fms_q8_a1 = await Survey_A.create({survey_id: 3, question_id: 8, answer_id: 1, text: "3"})
+
+  // Knowledge Check Results
 
   const h2f_res1  = await Survey_R.create({survey_id: 1, version: 1, email: "jimmy.mcgill@army.mil", results: {"1": "150 minutes", "2": "Increase the body's ability to burn fat", "3": "False", "4": "False", "5": "The ability of a muscle or muscle group to repetitively perform work for an extended period of time", "6": "Increase in muscle size", "7": "False", "8": "A dynamic warm up should be done after exercise", 
   "9": "Rice", "10": "White Bread", "11": "Vitamins", "12": "Simple carbohydrates are filled with nutrients", "13": "True", "14": "Salmon", "15": "True", "16": "Empathy", "17": "Processing", "18": "Increased memory retention", "19": "True", "20": "Special", "21": "Mindfulness", "22": "Reconciliation", "23": "False", "24": "Resilience", "25": "Forgiveness", "26": "7-8 Hours", "27": "True", "28": "Sleep with music on low volume", "29": "True", "30": "Consuming full, heavy meal 2-3 hours before bedtime"}, timestamp: "2023-01-12T08:20:30.000Z"})
@@ -473,7 +478,7 @@ async function setup() {
   const h2f_res26 = await Survey_R.create({survey_id: 1, version: 1, email: "grace.wu@army.mil", results:	{"1": "150 minutes", "2": "Increase the body's ability to burn fat", "3": "True", "4": "False", "5": "Performing a greater number of repetitions and a variety of speeds when lifting", "6": "A lift that requires the movement of at least 150 lbs.", "7": "True", "8": "A dynamic warm up can decrease risk of injury", "9": "Rice", "10": "White Bread", "11": "Carbohydrates", "12": "Simple carbohydrates are filled with nutrients", "13": "True", "14": "Salmon", "15": "True", "16": "Kinesis", "17": "Centralizing", "18": "Increased memory retention", "19": "True", "20": "Specific", "21": "Empathy", "22": "Reconciliation", "23": "True", "24": "Resilience", "25": "Forgiveness", "26": "7-8 Hours", "27": "True", "28": "Sleep with music on low volume", "29": "True", "30": "Consuming full, heavy meal 2-3 hours before bedtime"}, timestamp: "2024-12-31T23:59:59.000Z"})
   const h2f_res27 = await Survey_R.create({survey_id: 1, version: 1, email: "steven.liu@army.mil", results: 	{"1": "150 minutes", "2": "Enhancing Flexibility and range of motion", "3": "True", "4": "True", "5": "The ability to move quickly and easily", "6": "A lift that requires the movement of at least 150 lbs.", "7": "True", "8": "A dynamic warm up should be done after exercise", "9": "Rice", "10": "White Bread", "11": "Carbohydrates", "12": "Most carbs are broken down into sugar molecules", "13": "False", "14": "Salmon", "15": "True", "16": "Empathy", "17": "Details", "18": "Release of cortisol and adrenaline", "19": "False", "20": "Special", "21": "Serenity", "22": "Empathy", "23": "False", "24": "Coping", "25": "Compassion", "26": "7-8 Hours", "27": "True", "28": "The temperature of room you sleep in should be between 60-67⁰", "29": "False", "30": "Consuming full, heavy meal 2-3 hours before bedtime"}, timestamp: "2024-12-31T23:59:59.000Z"})
   
-
+  // Cognitive Performance Results
 
   const survey_res1  = await Survey_R.create({survey_id: 2, version: 1, email: "jimmy.mcgill@army.mil", results: {"1": 7, "2": 6, "3": 8, "4": 5, "5": 7, "6": 6, "7": 8, "8": 5, "9": 7, "10": 6, "11": 8, "12": 5, "13": 7, "14": 6, "15": 8}, timestamp: "2023-01-12T08:20:30.000Z"})
   const survey_res2  = await Survey_R.create({survey_id: 2, version: 1, email: "jill.shawn@army.mil", results: {"1": 9, "2": 7, "3": 8, "4": 6, "5": 8, "6": 7, "7": 5, "8": 7, "9": 8, "10": 6, "11": 4, "12": 6, "13": 7, "14": 8, "15": 9}, timestamp: "2023-01-12T10:15:45.000Z"})
@@ -501,8 +506,7 @@ async function setup() {
   const survey_res26 = await Survey_R.create({survey_id: 2, version: 1, email: "grace.wu@army.mil", results: {"1": 4, "2": 5, "3": 3, "4": 6, "5": 4, "6": 5, "7": 3, "8": 6, "9": 4, "10": 5, "11": 3, "12": 6, "13": 4, "14": 5, "15": 3}, timestamp: "2024-12-31T23:59:59.000Z"})
   const survey_res27 = await Survey_R.create({survey_id: 2, version: 1, email: "steven.liu@army.mil", results: {"1": 7, "2": 5, "3": 6, "4": 8, "5": 7, "6": 5, "7": 7, "8": 6, "9": 8, "10": 7, "11": 6, "12": 8, "13": 5, "14": 7, "15": 6}, timestamp: "2024-12-31T23:59:59.000Z"})
 
-  
-
+  // Movement Screening Results
 
   const fms1  = await Survey_R.create({survey_id: 3, version: 1, email: "jimmy.mcgill@army.mil", results: {"1": "Alice", "2": 2, "3": 3, "4": 1, "5": 3, "6": 2, "7": 2, "8": 1}, timestamp: "2023-01-12T08:20:30.000Z"})
   const fms2  = await Survey_R.create({survey_id: 3, version: 1, email: "jill.shawn@army.mil", results: {"1": "Brandon", "2": 3, "3": 2, "4": 2, "5": 2, "6": 3, "7": 3, "8": 2}, timestamp: "2023-01-12T10:15:45.000Z"})
@@ -529,6 +533,9 @@ async function setup() {
   const fms25 = await Survey_R.create({survey_id: 3, version: 1, email: "justin.chen@army.mil", results: {"1": "Yasmine", "2": 1, "3": 0, "4": 3, "5": 2, "6": 1, "7": 3, "8": 2}, timestamp: "2024-12-31T23:59:59.000Z"})
   const fms26 = await Survey_R.create({survey_id: 3, version: 1, email: "grace.wu@army.mil", results: {"1": "Zachary", "2": 3, "3": 2, "4": 1, "5": 3, "6": 2, "7": 2, "8": 2}, timestamp: "2024-12-31T23:59:59.000Z"})
   const fms27 = await Survey_R.create({survey_id: 3, version: 1, email: "steven.liu@army.mil", results: {"1": "Alex", "2": 2, "3": 3, "4": 2, "5": 2, "6": 2, "7": 3, "8": 2}, timestamp: "2024-12-31T23:59:59.000Z"})  
+
+
+  // Core Results for all core assessments above
 
   const core_res   = await Core_Result.create({user_email: "jimmy.mcgill@army.mil", h2f_results: {"Sleep": 100, "Mental": 100, "Physical": 100, "Nutrition": 100, "Spiritual": 100}, cpa_results: {"Ability": 33, "Current": 32, "Motivation": 34}, h2f_flag: "PASSED", cpa_flag: "PASSED", fms_flag: "MFT" })
   const core_res1  = await Core_Result.create({user_email: "jill.shawn@army.mil", h2f_results:{"Sleep": 80, "Mental": 40, "Physical": 75, "Nutrition": 57.14, "Spiritual": 40}, cpa_results: {"Ability": 38, "Current": 33, "Motivation": 38}, h2f_flag: "Sleep-Mental-Physical-Nutrition-Spiritual", cpa_flag: "PASSED", fms_flag: "PASSED" })
