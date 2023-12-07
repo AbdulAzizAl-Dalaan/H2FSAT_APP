@@ -125,7 +125,7 @@ async function setup() {
   const user = await User.create({ firstname: "Jimmy", lastname: "McGill", unit: "1st",   email: "jimmy.mcgill@army.mil", rank: "SGT", state: "VA" })
   const user2 = await User.create({ firstname: "Jill", lastname: "Shawn", unit: "1st", email: "jill.shawn@army.mil", rank: "PVT", state: "VA", dob: "2001-03-22", gender: "Female" });
   const user3 = await User.create({ firstname: "Joe", lastname: "Johnson", unit: "1st", email: "joe.johnson@army.mil", rank: "SGT", state: "VA", dob: "2000-07-11", gender: "Male" });
-  const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "Cpl", state: "VA", dob: "2001-08-11", gender:"Male" });
+  const user4 = await User.create({ firstname: "Adam", lastname: "Smith", unit: "1st", email: "adam.smith@army.mil", rank: "CPL", state: "VA", dob: "2001-08-11", gender:"Male" });
   const user5 = await User.create({ firstname: "John", lastname: "Don", unit: "1st", email: "john.don@army.mil", rank: "PVT", state: "VA", dob: "2002-05-05", gender:"Male" });
   const user6 = await User.create({ firstname: "Jane", lastname: "Jackson", unit: "1st", email: "jane.jackson@army.mil", rank: "SGT", state: "VA", dob: "1992-11-05", gender:"Female" });
   const user7 = await User.create({ firstname: "Mike", lastname: "Smith", unit: "1st", email: "mike.smith@army.mil", rank: "PVT", state: "VA", dob: "2003-01-13", gender:"Male" });
