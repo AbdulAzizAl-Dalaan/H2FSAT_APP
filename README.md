@@ -299,7 +299,7 @@ jane.doe@army.mil      -  LEADER OF UNIT 1st
 amy.wilson@army.mil    -  LEADER OF UNIT 2nd
 andrew.wu@army.mil     -  LEADER OF UNIT 3rd
 john.smith@army.mil    -  LEADER OF UNIT 4th
-john.doe@army.mil	   -  LEADER OF UNIT 5th
+john.doe@army.mil      -  LEADER OF UNIT 5th
 ```
 
 ### Admin Users
