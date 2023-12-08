@@ -13,6 +13,12 @@
     src="https://img.shields.io/badge/MySQL-00758f?style=for-the-badge&logo=MySQL&logoColor=black"
     alt="Website Badge" />
 
+## Azure Deployment Link
+The application is deployed on Microsoft Azure at the following link: 
+- https://h2f-app-v2.azurewebsites.net/
+
+Note by agreement between the Project Sponsor and H2F Team members, the Deployment link will only be active up until December 29th 2023 and the app may take a moment to load up intially.
+
 ---
 ![H2F HOME PAGE](./public/images/home.png)
 ---
