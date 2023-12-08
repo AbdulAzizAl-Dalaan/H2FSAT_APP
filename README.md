@@ -15,7 +15,7 @@
 
 ## Azure Deployment Link
 The application is deployed on Microsoft Azure at the following link: 
-- https://h2f-app-v2.azurewebsites.net/
+- [https://h2f-app-v2.azurewebsites.net/](https://h2f-app-v2.azurewebsites.net/)
 
 Note by agreement between the Project Sponsor and H2F Team members, the Deployment link will only be active up until December 29th 2023 and the app may take a moment to load up intially.
 
