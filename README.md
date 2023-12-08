@@ -143,7 +143,7 @@ Now we are ready to start the application. There are for our case we will be fir
 
 We recommend using MySQL Workbench to setup the database and tables for the application as it is more user friendly It is also really good for querying data rather than performing it within the MySQL CLI. However, if you prefer to use the MySQL CLI, you can follow the steps below to setup the database and tables for the application. We will be showing the CLI method as it is far more convenient and it is the same for all OSs. 
 
-1. Make sure you are in the project directory `H2FSAT_APP` in vscode or your preferred IDE.
+1. Make sure you are in the project directory `H2FSAT_APP` (if project was zipped then `H2FSAT_APP-main`) in vscode or your preferred IDE.
 2. Open a terminal and run `mysql -u root -p` to login to MySQL CLI. You will be prompted to enter the `root password` you set during the installation process.
 3. Once you are logged in, run `CREATE DATABASE h2f_database;` to create the database. Note that the database name is `h2f_database` and it is case sensitive.
 4. exit the MySQL CLI by running `exit;`.
@@ -168,7 +168,7 @@ We recommend using MySQL Workbench to setup the database and tables for the appl
 +------------------------+
 ```
 9. exit the MySQL CLI by running `exit;`.
-10. Now in the project directory `H2FSAT_APP`, open the file `db.js` in vscode or your preferred IDE which with look something like the following.
+10. Now in the project directory `H2FSAT_APP` (if project was zipped then `H2FSAT_APP-main`), open the file `db.js` in vscode or your preferred IDE which with look something like the following.
 ```
 const { Sequelize } = require('sequelize');
 
@@ -187,7 +187,7 @@ module.exports = sequelize;
 ### NodeJS Application Startup
 
 1. Make sure you perform the [Database Setup with Dump File in MySQL CLI](#database-setup-with-dump-file-in-mysql-cli) in MySQL CLI or MySQL Workbench before proceeding.
-2. Make sure you are in the project directory `H2FSAT_APP` in vscode or your preferred IDE.
+2. Make sure you are in the project directory `H2FSAT_APP` (if project was zipped then `H2FSAT_APP-main`) in vscode or your preferred IDE.
 3. Open a terminal and run `npm install` to install the application's dependencies.
 4. Once the dependencies are installed, run `npm start` or `nodemon` to start the application.
 5. Check that the `Setup completed` message is printed to the terminal. Which is a sign that the application is running correctly.
