@@ -98,6 +98,10 @@ app.use(function (err, req, res, next) {
 async function setup() {
   // Test Admin User
 
+  /*
+
+  THESE ARE ALL TEST DATA WHICH IS WITHIN THE h2f_dump.sql FILE
+
   
   const adminTest = await User.create({ firstname: "test", lastname: "user", unit: "1st", email: "q", rank: "CPT", password: '1', gender: 'male', isAdmin: true, state: "WA", dob: "2001-03-22", gender: "Female" })
 
@@ -634,12 +638,13 @@ async function setup() {
   const u5notification9 = await Notification.create({unit: "5th", core_assessment_id: 3,  core_category: "PT", description: "(UNIT 5th) You have scored a 0 on a specific exercise within the assessment specified above. Please contact your unit's physical therapist", resource_email: "aleksi.donahue@army.mil", resource_phone: "555-555-5555"})
   const u5notification10 = await Notification.create({unit: "5th", core_assessment_id: 3, core_category: "MFT", description: "(UNIT 5th) You have scored a 1 on a specific exercise within the assessment specified above. Please contact your unit's master fitness trainer", resource_email: "eric.wong@army.mil", resource_phone: "333-333-3333" })
   
+  */
 
   console.log("Data Entered")
 }
 
 
-sequelize.sync({ force: true, alter: true }).then(() => {
+sequelize.sync({ force: false, alter: true }).then(() => {
   console.log("Database synced")
   setup().then(() => console.log("Setup completed"))
 })
